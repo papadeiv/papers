@@ -28,7 +28,7 @@ for n in 1:Nμ
         u0[n] = stable[1]
 end
 
-# Solve the ensemble problem 
+# Solve the SDE 
 t, p, u = evolve_fixed_1d(f, g, μ0, u0, Nt=Nt, δt=1e-1)
 
 # Export the data 

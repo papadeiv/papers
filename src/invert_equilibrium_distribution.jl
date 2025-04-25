@@ -1,4 +1,4 @@
-# Derive the distribution of the stochastic realizations on the potential
+# Derive the stationary distribution of a timeseries based on topological equivalence with OUP
 function invert_equilibrium_distribution(bins, distribution, noise::Float64; N = nothing)
         # Compute the diffusion coefficient
         D = (noise^2)/2
@@ -11,7 +11,7 @@ function invert_equilibrium_distribution(bins, distribution, noise::Float64; N =
         # Define the normalisation constant based on user input
         if N == nothing
                 # Assumption of a stationary OUP
-                N=1/sqrt(4*pi*D)
+                N=1/sqrt(2*pi*D)
         end
 
         # Compute the distribution on the potential using the stationarity assumption

@@ -1,4 +1,3 @@
-include("../src/get_coefficients.jl")
 include("../src/fit_distribution.jl")
 include("../src/fit_potential.jl")
 include("../src/estimate_error.jl")

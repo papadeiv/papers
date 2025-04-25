@@ -75,5 +75,24 @@ To quantify the coefficients $\{c_{m}\}_{m=0,\dots,3}$ we use \eqref{eq4.2.1.1.7
      &\text{find}\;\,\{c_{0},c_{1},c_{2},c_{3}\}\;\,\text{s.t.}\;\,\sqrt{\sum_{n=1}^{N_{\text{data}}}\big(p(x_{n}) - y_{n}\big)^{2}}\;\,\text{is minimal}\,, \label{eq4.2.1.1.8} \\ 
      &p(x_{n}) =: p_{n} = \Bigg(\int_{-\frac{1}{3c_{3}}\Big(\sqrt{c_{2}^{2}-3 c_{3}c_{1}}+c_{2}\Big)}^{+\infty}e^{-\frac{U(x)}{D}}dx\Bigg)^{-1}e^{-\frac{U(x)}{D}}\,,\quad -\sqrt{3c_{3}c_{1}}>c_{2}>\sqrt{3c_{3}c_{1}}\,.\nonumber
 \end{align}
+\subparagraph{Laplace's method}
+This method provides an analytical approximation of definite integrals of bounded exponential functions the form
+\begin{equation}\label{eq4.2.1.1.9}
+        \int_{a}^{b}e^{Mf(x)}dx\approx \sqrt{\frac{2\pi}{M|\pprime{f}(x_{0})|}}\,e^{M \pprime{f}(x_{0})}\,,\quad M\to+\infty\,,
+\end{equation}
+where $M>0$ is large and $f$ is at least twice-differentiable with a global maximum $x_{0}$ in $[a,b]$.
+Under these assumption the major contribution to the definite integral comes from a small region centered on $x_{0}$ as the exponential quickly decays to $0$ at $\pm\infty$ if $M\to+\infty$.
+This implies that one can expand $f$ in its Taylor series around the global maximum $x_{0}$ and truncate it to the second order.
+Extending the bounds of integration from $[a,b]$ to $(-\infty,+\infty)$ will thus have a negligible error in the computation of \eqref{eq4.2.1.1.9} and thus one can readily use the formula for a Gaussian integral to derive the approximate result.
+This method effectively fits a Gaussian function of the form $e^{Mx^{2}}$ which, for our purposes, essentially boils down on fitting a stationary OUP to our histogram.
+It should not come as a surprise in fact that the normalisation constant in \eqref{eq4.2.1.1.9} coincides with the one we computed for the stationary OUP above with the scaling $M=\frac{2\theta}{\sigma^{2}}$.
+Notice how the approximate formula in \eqref{eq4.2.1.1.9} does not depend on either the bounds of integration but only on the global maximum of $f$.
+Applying such method to compute the normalisation constant in \eqref{eq4.2.1.1.8} thus yields
+\begin{align}
+     &\text{find}\;\,\{c_{0},c_{1},c_{2},c_{3}\}\;\,\text{s.t.}\;\,\sqrt{\sum_{n=1}^{N_{\text{data}}}\big(p(x_{n}) - y_{n}\big)^{2}}\;\,\text{is minimal}\,, \label{eq4.2.1.1.10} \\
+     &p(x_{n}) =: p_{n} = \Bigg(\sqrt{\frac{2\pi D}{c_{2}^{2}-3c_{3}c_{1}}}\,e^{-\frac{U\Big(\frac{1}{3c_{3}}\big(\sqrt{c_{2}^{2}-3 c_{3}c_{1}}-c_{2}\big)\Big)}{D}}\Bigg)e^{-\frac{U(x_{n})}{D}}\,,\quad -\sqrt{3c_{3}c_{1}}>c_{2}>\sqrt{3c_{3}c_{1}}\,.\nonumber
+\end{align}
+which does not depend on $x_{u}$ but rather on $x_{s} = \frac{1}{3c_{3}}\Big(\sqrt{c_{2}^{2}-3 c_{3}c_{1}}-c_{2}\Big)$ which is taken as a local maximum in $[x_{u},+\infty)$.
+Notice that for the method to be accurate $M\to+\infty$ we must be in the low-noise regime $\sigma\to0$.
 \printbibliography
 \end{document}
