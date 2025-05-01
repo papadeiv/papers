@@ -1,24 +1,28 @@
 using DifferentialEquations
 
 # Solve the non-autonomous SDE forward in time (with non-stationary, ramped parameter) 
-function evolve_ramped_1d(f::Function, g::Function, h::Function, u0; δt=5e-2, Nt=1000::Int64, saveat=δt, μf=nothing)
+function evolve_ramped_1d(f::Function, g::Function, η::Function, u0; δt=1e-2, Nt=1000::Int64, saveat=δt, μf=nothing)
+        # Define endtime value
+        T = 0.0::Float64
+
         # Compute the temporal quantities according to the user's choice
         if μf==nothing
                 # Specify the simulation endtime according to the number of steps
-                global T = δt*Nt
+                T = δt*Nt
         else
                 # Specify the simulation endtime according to the parameter range
-                global T = (μf-u0[2])/h(0)
+                T = (μf-u0[2])/g(0)
+                Nt = T/δt
         end
 
         # Deterministic dynamics 
         function drift!(dudt, u, μ, t)
                 dudt[1] = f(u[1], u[2])
-                dudt[2] = h(u[2])
+                dudt[2] = g(u[2])
         end
         # Stochastic dynamics
         function diffusion!(dudt, u, μ, t)
-                dudt[1] = g(u[1])
+                dudt[1] = η(u[1])
                 dudt[2] = 0 
         end
         
