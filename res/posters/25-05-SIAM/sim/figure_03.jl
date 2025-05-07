@@ -34,7 +34,7 @@ writeout(u, "../data/figure_03/R-tipping/u.csv")
 #############
 
 # Define the noise level in the system 
-σ = 0.550::Float64
+σ = 0.750::Float64
 η(x) = σ
 
 # Define the normal form

@@ -2,7 +2,7 @@ include("./get_equilibria.jl")
 
 # Solve the ensemble problem
 using DifferentialEquations
-function evolve_ensemble(f::Function, g::Function, μ::Float64; IC=nothing, δt=5e-2, Nt=1000::Int64, Ne=1000::Int64)
+function evolve_ensemble(f::Function, g::Function, μ::Float64; IC=nothing, δt=1e-2, Nt=1000::Int64, Ne=1000::Int64)
         # Compute the total time 
         T = δt*Nt
 
@@ -38,6 +38,7 @@ function evolve_ensemble(f::Function, g::Function, μ::Float64; IC=nothing, δt=
 
         # Extract the timepoints for plotting purposes
         time = sol[1].t
+        Nt = length(time)
 
         # Extract the timeseries
         states = Matrix{Float64}(undef, Ne, Nt) 

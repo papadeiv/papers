@@ -34,6 +34,7 @@ printstyled("Generating figures for R-tipping\n"; bold=true, underline=true, col
 @showprogress for n in 1:length(idx)
         # Create and customise the phase space figure
         fig, ax = mkfig(size = [1000,1000],
+                    border = 15.0,
                     pad = 30, # Equal amount of "whitespace" in all four directions 
                     limits = ((x_inf, x_sup), (y_inf, y_sup)),
                     toggle_lab = [false,false],
@@ -41,9 +42,9 @@ printstyled("Generating figures for R-tipping\n"; bold=true, underline=true, col
                     toggle_ticks_lab = [false,false],
                    )
         # Plot the scalar potential (landscape)
-        lines!(ax, domain, [V(x,μ[idx[n]]) for x in domain], color = :darkgoldenrod2, linewidth = 4.5)
+        lines!(ax, domain, [V(x,μ[idx[n]]) for x in domain], color = :darkgoldenrod2, linewidth = 10)
         # Plot the state (ball in the landscape)
-        scatter!(ax, u[idx[n]], V(u[idx[n]],μ[idx[n]]), color = (:teal, 1.0), markersize = 45, strokewidth = 3)
+        scatter!(ax, u[idx[n]], V(u[idx[n]],μ[idx[n]]), color = (:teal, 1.0), markersize = 75, strokewidth = 3)
  
         # Export the phase plane figure 
         save("../fig/fig3.1.$n.png", fig)
@@ -73,13 +74,15 @@ V(x, p) = x*p + x^2 - x^3 + (1/5)*(x^4)
 μ0 = 1.0::Float64
 
 # Indices to export the figures
-idx = [1, 340 ,1117]
+idx = [20, 117, 340]
+M = 10
 
 # Loop over the parameter values
 printstyled("Generating figures for N-tipping\n"; bold=true, underline=true, color=:darkgreen)
-@showprogress for n in 1:length(time)
+@showprogress for n in 1:length(idx)
         # Create and customise the phase space figure
         fig, ax = mkfig(size = [1000,1000],
+                    border = 15.0,
                     pad = 30, # Equal amount of "whitespace" in all four directions 
                     limits = ((x_inf, x_sup), (y_inf, y_sup)),
                     toggle_lab = [false,false],
@@ -87,10 +90,18 @@ printstyled("Generating figures for N-tipping\n"; bold=true, underline=true, col
                     toggle_ticks_lab = [false,false],
                    )
         # Plot the scalar potential (landscape)
-        lines!(ax, domain, [V(x,μ0) for x in domain], color = :darkgoldenrod2, linewidth = 4.5)
-        # Plot the state (ball in the landscape)
-        scatter!(ax, u[idx[n]], V(u[idx[n]],μ0), color = (:teal, 1.0), markersize = 45, strokewidth = 3)
- 
+        lines!(ax, domain, [V(x,μ0) for x in domain], color = :darkgoldenrod2, linewidth = 10)
+        # Plot the previous states from the current timesteps
+        for m in 1:M
+                scatter!(ax, u[idx[n]-m], V(u[idx[n]-m],μ0), color = (:teal, 0.15), markersize = 70, strokewidth = 0)
+        end
+        # Plot the future states from the current timesteps
+        for m in 1:M
+                scatter!(ax, u[idx[n]+m], V(u[idx[n]+m],μ0), color = (:teal, 0.15), markersize = 70, strokewidth = 0)
+        end
+         # Plot the state (ball in the landscape)
+        scatter!(ax, u[idx[n]], V(u[idx[n]],μ0), color = (:teal, 1.0), markersize = 70, strokewidth = 3)
+
         # Export the phase plane figure 
         save("../fig/fig3.2.$n.png", fig)
 end

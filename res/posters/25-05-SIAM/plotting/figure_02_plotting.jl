@@ -15,7 +15,9 @@ fig, ax = mkfig(size = [1200,600],
                 pad = (30,60,30,30), # Order is: left, right, bottom, top 
                 limits = ((-3,4), (-1,4)),
                 lab = [L"\mathbf{\mu}", L"\mathbf{x}"],
-                lab_pad = [-80.0,-60.0],
+                lab_size = [40,40],
+                lab_pad = [-50.0,-50.0],
+                ticks_lab_size = [40,40],
                 x_ticks = [-3,4],
                 y_ticks = [-1,4],
                 ticks_lab_trunc = [0,0]
@@ -58,19 +60,20 @@ domain = LinRange(x_inf, x_sup, 1000)
 
 # Create and customise the scalar potential function figure
 fig, ax = mkfig(size = [1000,1000],
+                border = 15.0,
                 limits = ((x_inf,x_sup), (y_inf,y_sup)),
                 title = L"\mathbf{\mu=}\text{%$(μ1)}",
                 toggle_title = true,
-                title_size = 80,
+                title_size = 120,
                 title_gap = 14.0,
                 toggle_lab = [false,false],
                 toggle_ticks = [false,false],
                 toggle_ticks_lab = [false,false]
                )
 # Plot the scalar potential (landscape)
-lines!(ax, domain, [V(x,μ1) for x in domain], color = :darkgoldenrod2, linewidth = 4.5)
+lines!(ax, domain, [V(x,μ1) for x in domain], color = :darkgoldenrod2, linewidth = 10)
 # Plot the state (ball in the landscape)
-scatter!(ax, u[idx1], V(u[idx1],μ1), color = (:teal, 1.0), markersize = 45, strokewidth = 3)
+scatter!(ax, u[idx1], V(u[idx1],μ1), color = (:teal, 1.0), markersize = 75, strokewidth = 3)
 
 # Export the scalar potential function plot 
 save("../fig/fig2.1.png", fig)
@@ -90,19 +93,20 @@ domain = LinRange(x_inf, x_sup, 1000)
 
 # Create and customise the scalar potential function figure
 fig, ax = mkfig(size = [1000,1000],
+                border = 15.0,
                 limits = ((x_inf,x_sup), (y_inf,y_sup)),
                 title = L"\mathbf{\mu=}\text{%$(μ2)}",
                 toggle_title = true,
-                title_size = 80,
+                title_size = 120,
                 title_gap = 14.0,
                 toggle_lab = [false,false],
                 toggle_ticks = [false,false],
                 toggle_ticks_lab = [false,false]
                )
 # Plot the scalar potential (landscape)
-lines!(ax, domain, [V(x,μ2) for x in domain], color = :darkgoldenrod2, linewidth = 4.5)
+lines!(ax, domain, [V(x,μ2) for x in domain], color = :darkgoldenrod2, linewidth = 10)
 # Plot the state (ball in the landscape)
-scatter!(ax, u[idx2], V(u[idx2],μ2), color = (:teal, 1.0), markersize = 45, strokewidth = 3)
+scatter!(ax, u[idx2], V(u[idx2],μ2), color = (:teal, 1.0), markersize = 75, strokewidth = 3)
 
 # Export the scalar potential function plot 
 save("../fig/fig2.2.png", fig)
@@ -122,19 +126,20 @@ domain = LinRange(x_inf, x_sup, 1000)
 
 # Create and customise the scalar potential function figure
 fig, ax = mkfig(size = [1000,1000],
+                border = 15.0,
                 limits = ((x_inf,x_sup), (y_inf,y_sup)),
                 title = L"\mathbf{\mu=}\text{%$(μ3)}",
                 toggle_title = true,
-                title_size = 80,
+                title_size = 120,
                 title_gap = 14.0,
                 toggle_lab = [false,false],
                 toggle_ticks = [false,false],
                 toggle_ticks_lab = [false,false]
                )
 # Plot the scalar potential (landscape)
-lines!(ax, domain, [V(x,μ3) for x in domain], color = :darkgoldenrod2, linewidth = 4.5)
+lines!(ax, domain, [V(x,μ3) for x in domain], color = :darkgoldenrod2, linewidth = 10)
 # Plot the state (ball in the landscape)
-scatter!(ax, u[idx3], V(u[idx3],μ3), color = (:teal, 1.0), markersize = 45, strokewidth = 3)
+scatter!(ax, u[idx3], V(u[idx3],μ3), color = (:teal, 1.0), markersize = 75, strokewidth = 3)
 
 # Export the scalar potential function plot 
 save("../fig/fig2.3.png", fig)

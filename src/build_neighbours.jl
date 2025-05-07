@@ -1,3 +1,5 @@
+using LinearAlgebra, BandedMatrices
+
 function build_neighbours(I::Tuple{Int,Int})
     neigh = Array{Int,2}(undef,4,prod(I))
     rows = I[1]

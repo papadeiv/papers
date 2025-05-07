@@ -4,12 +4,13 @@ include("../../../../inc/SystemAnalysis.jl")
 include("../../../../inc/PotentialLearning.jl")
 
 # Import the parameters values
-equilibria = readin("../data/equilibria.csv")
+equilibria = readin("../data/figure_06/equilibria.csv")
 μ = equilibria[:,1]
+x0 = equilibria[:,2]
 Nμ = length(μ)
 
 # Import a reppresentative solution in the ensemble
-sol = readin("../data/solutions/1.csv")
+sol = readin("../data/figure_06/solutions/1.csv")
 Ne = length(sol[:,1]) 
 
 # Number of bins for the histogram of the realizations
@@ -26,6 +27,9 @@ f(x, μ) = -μ - 2*x + 3*(x^2) -(4/5)*x^3
 mean_guess = Matrix{Float64}(undef, Nμ, Nc)
 mean_coefficients = Matrix{Float64}(undef, Nμ, Nc)
 
+# Matrix to store the coefficients of the Taylor expansion of the true potential
+taylor_coefficients = Matrix{Float64}(undef, Nμ, Nc) 
+
 # Vectors to store the error estimates
 error_linear = Vector{Float64}(undef, Nμ)
 error_nonlinear = Vector{Float64}(undef, Nμ)
@@ -41,10 +45,13 @@ escaped = Vector{Float64}(undef, Nμ)
 # Loop over the paramater's values
 printstyled("Finding the local minima of the non-linear optimisation problem\n"; bold=true, underline=true, color=:light_blue)
 @showprogress for n in 1:Nμ
+        # Compute the Taylor coefficients
+        taylor_coefficients[n,1] = -(1.0::Float64) + (4.0::Float64/5.0::Float64)*(x0[n])
+
         # Create the directory to store the histograms
-        mkpath("../data/distribution/$n/")
+        mkpath("../data/figure_06/distribution/$n/")
         # Import the ensemble solution at the current parameter value μ
-        u_μ = readin("../data/solutions/$n.csv")
+        u_μ = readin("../data/figure_06/solutions/$n.csv")
 
         # Compute the unstable equilibria at the current parameter value
         xu = sort(get_equilibria(f, μ[n], domain=[-20,20])[2], rev=true)[1]
@@ -60,14 +67,14 @@ printstyled("Finding the local minima of the non-linear optimisation problem\n";
                 local u = u_μ[m,:]
 
                 # Check if the trajectory has escaped the basin of attraction
-                check = check_escapes(u, [xu, Inf])
+                check, T_esc = check_escapes(u, [xu, Inf])
 
                 # Proceed if the trajectory has not escaped
                 if !check
                         # Fit an empirical distribution to the data
                         bins, pdf = fit_distribution(u, n_bins=Nb+1)
                         # Export the histogram of the current particle 
-                        writeout(hcat(bins, pdf), "../data/distribution/$n/$m.csv")
+                        writeout(hcat(bins, pdf), "../data/figure_06/distribution/$n/$m.csv")
 
                         # Compute the inverted distribution for the scalar potential under OUP assumption
                         xs, Vs = invert_equilibrium_distribution(bins, pdf, σ)
@@ -80,13 +87,13 @@ printstyled("Finding the local minima of the non-linear optimisation problem\n";
         end
 
         # Export the escape indices array 
-        writeout(unescaped, "../data/escapes/$n.csv")
+        writeout(unescaped, "../data/figure_06/escapes/$n.csv")
 
         # Compute the number of trajectories that haven't escaped
         N_unescaped = length(unescaped)
         escaped[n] = (Ne - N_unescaped)/Ne
 
-        # Proceed if at least one trajectory has remained bounded
+        # Proceed if at least one trajectory in the ensemble has not escaped 
         if N_unescaped > 0
                 # Compute the ensemble mean for the initial guess without using {c0}
                 mean_guess[n,:] = [mean(initial_guesses[[unescaped[k] for k in 1:N_unescaped], m]) for m in 2:(Nc+1)]
@@ -109,7 +116,7 @@ printstyled("Finding the local minima of the non-linear optimisation problem\n";
                         idx = idx + 1
                 end
                 # Export the coefficients matrix
-                writeout(coefficients, "../data/fit/$n.csv")
+                writeout(coefficients, "../data/figure_06/fit/$n.csv")
 
                 # Compute the ensemble mean coefficients
                 mean_coefficients[n,:] = [mean(coefficients[:,m]) for m in 1:Nc]
@@ -124,8 +131,8 @@ printstyled("Finding the local minima of the non-linear optimisation problem\n";
                 end
 
                 # Export the ensemble distribution of coefficients
-                writeout(coefficients_bins, "../data/coefficients/bins$n.csv")
-                writeout(coefficients_pdf, "../data/coefficients/pdf$n.csv")
+                writeout(coefficients_bins, "../data/figure_06/coefficients/bins$n.csv")
+                writeout(coefficients_pdf, "../data/figure_06/coefficients/pdf$n.csv")
 
                 # Define the analytic potential and its linear and non-linear least-squares approximations...
                 U(x) = μ[n]*x + x^2 - x^3 + (1/5)*x^4
@@ -160,15 +167,18 @@ printstyled("Finding the local minima of the non-linear optimisation problem\n";
         end
 end
 
+# Export the Taylor coefficients
+writeout(taylor_coefficients, "../data/figure_06/taylor.csv")
+
 # Export the ensemble mean linear (guess) and non-linear least-squares solutions
-writeout(mean_guess, "../data/mean_guess.csv")
-writeout(mean_coefficients, "../data/mean_coefficients.csv")
+writeout(mean_guess, "../data/figure_06/mean_guess.csv")
+writeout(mean_coefficients, "../data/figure_06/mean_coefficients.csv")
 
 # Export the error estimates
-writeout(hcat(error_linear, error_nonlinear), "../data/error_estimates.csv")
+writeout(hcat(error_linear, error_nonlinear), "../data/figure_06/error_estimates.csv")
 
 # Export the escape rates
-writeout(hcat(escape_analytic, escape_linear, escape_nonlinear), "../data/escape_rates.csv")
+writeout(hcat(escape_analytic, escape_linear, escape_nonlinear), "../data/figure_06/escape_rates.csv")
 
 # Export the percentage of escapes
-writeout(escaped, "../data/escaped_percentage.csv")
+writeout(escaped, "../data/figure_06/escaped_percentage.csv")
