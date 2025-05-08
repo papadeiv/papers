@@ -72,12 +72,12 @@ global cnt = 1
 # Create and customise the C3 coefficient statistics 
 global fig, AX = mkfig(size = [1200,2400],
                 box_position = [3:4,1:2],
-                limits = ((μ[1],μ[end]), (0.8,1.5)),
+                limits = ((μ[1],μ[end]), (0.8,1.35)),
                 lab = [L"\mathbf{\mu}", L"c^{*}_3"],
                 lab_size = [60,70],
                 lab_pad = [-60.0,-90.0],
                 x_ticks = [μ[1],μ[end]],
-                y_ticks = [0.8,1.50],
+                y_ticks = [0.8,1.35],
                 ticks_lab_trunc = [1,1]
 )
 # Plot the heatmap associated to the distribution of the non-linear solutions
@@ -145,7 +145,7 @@ end
                         # Import the data
                         distribution = readin("../data/figure_06/distribution/$n/$m.csv")
                         # Plot the histogram approximating the stationary distribution 
-                        lines!(ax, distribution[:,1], distribution[:,2], color = (:darkgoldenrod2,0.05), linewidth = 1)
+                        lines!(ax, distribution[:,1], distribution[:,2], color = (:darkgoldenrod2,0.05), linewidth = 6)
                 end
                 # Overlay the solution of the ensemble mean of the non-linear least-squares problem
                 lines!(ax, domain, [p(x, c_nonlinear[n,:]) for x in LinRange(x_uns, x_sup, 1000)], linewidth = 5, color = (:teal,1.0))

@@ -2,8 +2,8 @@ include("../../../../inc/IO.jl")
 include("../../../../inc/SystemAnalysis.jl")
 
 # Specify the settings of the ensemble problem
-Nt = convert(Int64, 1e3)
-Ne = convert(Int64, 1e3)
+Nt = convert(Int64, 1e4)
+Ne = convert(Int64, 3e3)
 Nμ = convert(Int64, 2e2)
 
 # Define the noise level in the system 
