@@ -21,10 +21,10 @@ u0 = [x0, μ0]
 t, μ, u = evolve_ramped_1d(f, g, η, u0, Nt=convert(Int64,1e3), μf=4.0)
 
 # Export the data 
-writeout(t, "../data/figure_03/time.csv")
-writeout(μ, "../data/figure_03/μ.csv")
-writeout(u, "../data/figure_03/u.csv")
+writeout(t, "../data/figure_02/time.csv")
+writeout(μ, "../data/figure_02/μ.csv")
+writeout(u, "../data/figure_02/u.csv")
 
 # Execute the postprocessing and plotting scripts
-include("../postprocessing/figure_03_postprocessing.jl")
-include("../plotting/figure_03_plotting.jl")
+include("../postprocessing/figure_02_postprocessing.jl")
+include("../plotting/figure_02_plotting.jl")

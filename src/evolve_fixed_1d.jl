@@ -16,20 +16,20 @@ function evolve_fixed_1d(f::Function, g::Function, μ::Vector{Float64}, IC::Vect
         end
 
         # Define matrix to store the solutions and their timestamps at each parameter value
-        time = Vector{Float64}(undef, Nt+1)
+        time = Vector{Int64}(undef, length(parameters))
         states = Matrix{Float64}(undef, Nt+1, length(parameters))
 
         # Loop over the parameter values
-        printstyled("Solving the SDE in the prescribed parameter range\n"; bold=true, underline=true, color=:light_blue)
-        @showprogress for n in 1:length(parameters)
+        printstyled("Solving the SDE parameter sweep using $(Threads.nthreads()) threads\n"; bold=true, underline=true, color=:light_blue)
+        @showprogress Threads.@threads for n in 1:length(parameters)
                 # Solve the SDE for the current parameter value
                 t, u = evolve_forward_1d(f, g, parameters[n], IC=IC[n], δt=δt, Nt=Nt)
 
-                # Export the timestamps only at the first parameter value
-                n==1 && (time = t)
+                # Get the total number of realisations for the current parameter
+                time[n] = length(u[:,1])
 
                 # Export the solutions
-                states[:,n] = u[:,1]
+                states[1:time[n],n] = u[:,1]
         end
 
         # Return the solutions, their timestamps and parameter values

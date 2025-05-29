@@ -139,7 +139,7 @@ printstyled("Finding the local minima of the non-linear optimisation problem\n";
                 V_linear(x) = mean_guess[n,1]*x + mean_guess[n,2]*(x^2) + mean_guess[n,3]*(x^3)
                 V_nonlinear(x) = mean_coefficients[n,1]*x + mean_coefficients[n,2]*(x^2) + mean_coefficients[n,3]*(x^3)
                 # ... and their second derivatives
-                Uxx(x) = 2.0::Float64 - 6.0::Float64 + (12.0::Float64/5.0::Float64)*x^2
+                Uxx(x) = 2.0::Float64 - 6.0::Float64*x + (12.0::Float64/5.0::Float64)*x^2
                 Vxx_linear(x) = 2.0::Float64*mean_guess[n,2] + 6.0::Float64*mean_guess[n,3]*x
                 Vxx_nonlinear(x) = 2.0::Float64*mean_coefficients[n,2] + 6.0::Float64*mean_coefficients[n,3]*x
 

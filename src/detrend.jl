@@ -1,7 +1,41 @@
-using PyCall
+using Statistics, PyCall
 
-# Detrend a timeseries using the pithon classes 
-function detrend(timeseries, savepath)
+# Detrend the timeseries using different algorithms (according user's choice) 
+function detrend(timestamps, timeseries; alg = "mean")
+        # Initialise arrays for the trend and the residuals
+        trend = Vector{Float64}(undef, length(timeseries))
+        residuals = Vector{Float64}(undef, length(timeseries))
+
+        # Detrend the timeseries
+        if alg == "mean"
+                # Compute the mean of the timeseries to define the trend
+                trend = mean(timeseries).*ones(length(timeseries))
+                # Remove the trend to find the residuals
+                residuals = timeseries - trend 
+
+        elseif alg == "linear"
+                # Solve the linear least-squares problem 
+                coefficients = approximate_potential(timestamps, timeseries, degree=1).coeffs 
+                # Define the linear trend
+                trend = [coefficients[1] + coefficients[2]*t for t in timestamps]
+                # Remove the trend to find the residuals
+                residuals = timeseries - trend
+
+        elseif alg == "nonlinear"
+                trend = mean(timeseries).*ones(length(timeseries))
+                residuals = timeseries - trend
+
+        elseif alg == "emd"
+                trend = mean(timeseries).*ones(length(timeseries))
+                residuals = timeseries - trend
+
+        else
+                display("The algorithm you specified does not exist or it is not implemented for this method")
+        end
+
+        return [trend, residuals]
+
+        #=
         py"""
         import sys
         sys.path.append('/home/dpap666/Libraries/STEWS/src/python')
@@ -25,4 +59,5 @@ function detrend(timeseries, savepath)
 
         pyanalyse = py"analyse"
         pyanalyse(timeseries, savepath)
+        =#
 end

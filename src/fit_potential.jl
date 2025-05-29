@@ -17,7 +17,7 @@ function fit_potential(xn, yn, σ; initial_guess=nothing)
         # Define the normalisation constant as a function of the 4 parameters
         N(μ) = get_normalisation_constant(f, (-(1/(3*μ[3]))*(sqrt((μ[2])^2 - 3*μ[1]*μ[3]) + μ[2]), Inf::Float64), parameters=μ)
 
-        # Define the target, normalised pdf
+        # Define the target of the optimisation problem: normalised pdf
         p(x, μ) = N(μ)*exp.(-(1.0::Float64/D).*(c0(μ) .+ μ[1]*x .+ μ[2]*(x.^2) .+ μ[3]*(x.^3)))
 
         # Initial guess for the optimal parameters
@@ -28,7 +28,7 @@ function fit_potential(xn, yn, σ; initial_guess=nothing)
 
         # Define the lower and upper bounds for the coefficients
         lower = [-45.0, -25.0, 0.01] 
-        upper = [45.0, 25.0, 3.0]
+        upper = [45.0, 25.0, 4.0]
 
         # Get the non-linear least-squares solution
         c = curve_fit(p, xn, yn, initial_guess, lower=lower, upper=upper).param

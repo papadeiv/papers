@@ -2,8 +2,20 @@ using Statistics
 
 # Computes the temporal variance of a timeseries over a sliding window of specified width
 function variance(time, data, width::Float64)
-        sliding_window = trunc(Int64, width*(length(data)))
-        time_ews = time[(sliding_window+1):end] 
-        ews = [var(data[n:n+sliding_window]) for n in 1:(length(data) - sliding_window)]
+        # Get the total number of steps in the timeseries 
+        Nt = length(time)
+
+        # Assemble the sliding window
+        window = get_window_parameters(Nt, width)
+        Nw = window[1]
+        Ns = window[2]
+
+        # Get the truncated timesteps
+        time_ews = time[Nw:end] 
+
+        # Compute the variance ews across the sliding window
+        ews = [var(data[n:(n + Nw - 1)]) for n in 1:Ns]
+
+        # Return the ews
         return time_ews, ews
 end

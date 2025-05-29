@@ -24,7 +24,7 @@ escape_nonlinear = escapes[:,3]
 escape_time = readin("../data/escape_time.csv")
 
 # Import the variance EWS 
-variance = readin("../data/variance.csv")
+stats = readin("../data/statistics.csv")
 
 # Import error estimates
 estimates = readin("../data/error_estimates.csv") 
@@ -52,8 +52,8 @@ N(μ) = get_normalisation_constant(f, (-(1/(3*μ[3]))*(sqrt((μ[2])^2 - 3*μ[1]*
 p(x, μ) = N(μ)*f(x, μ)
 
 # Loop over the parameter values
-printstyled("Generating figures of the non-linear optimisation\n"; bold=true, underline=true, color=:light_blue)
-@showprogress for n in 1:Nμ
+printstyled("Generating the figures using $(Threads.nthreads()) threads\n"; bold=true, underline=true, color=:light_blue)
+@showprogress Threads.@threads for n in 1:Nμ
         #########################
         # Approximate histogram #
         #########################
@@ -169,14 +169,7 @@ lines!(ax, μ, escape_linear, color = (:red,0.75), linewidth = 3)
 # Plot the escape rate for the non-linear reconstruction 
 lines!(ax, μ, escape_nonlinear, color = (:blue,0.75), linewidth = 3)
 # Plot the variance of the trajectory at each parameter value
-lines!(ax, μ, variance, color = (:lime,1.00), linewidth = 3)
-
-#=
-# Create a mirrored axis for the variance
-mirror_ax = mirror_axis(fig, [μ[1],μ[end]], y_lab = L"\textbf{variance}", color = :darkgreen)
-# Plot the variance of the trajectory at each parameter value
-lines!(mirror_ax, μ, variance, color = (:lime,1.00), linewidth = 3)
-=#
+lines!(ax, μ, stats[:,2], color = (:lime,1.00), linewidth = 3)
 
 # Add the escape time index axis 
 fig, ax = mkfig(fig=fig,
@@ -292,21 +285,6 @@ lines!(ax, μ, error_linear, color = (:red,1.00), linewidth = 4)
 # Plot the reconstruction error from non-linear regression
 lines!(ax, μ, error_nonlinear, color = (:blue,1.00), linewidth = 4)
 
-# Add the escape percentage axis 
-#=
-fig, ax = mkfig(fig=fig,
-                box_position = [2,1],
-                limits = ((μ[1],μ[end]), nothing),
-                lab = [L"\mathbf{\mu}", L"\textbf{escape time}"],
-                toggle_lab = [true,true],
-                lab_pad = [-60.0,-60.0],
-                x_ticks = [μ[1],μ[end]],
-                y_ticks = [0, escape_time[1]],
-                toggle_ticks_lab = [true,true],
-                ticks_lab_trunc = [1,0]
-)
-scatter!(ax, μ, escape_time, color = (:darkgreen,0.50), markersize = 40, strokecolor = (:black,1.00), strokewidth = 3)
-=#
 # Add the error in the pdf axis
 fig, ax = mkfig(fig=fig,
                 box_position = [2,1],

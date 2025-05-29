@@ -35,12 +35,17 @@ escape_nonlinear = Vector{Float64}(undef, Nμ)
 # Vector to store the escape time index
 escape_time = Vector{Int64}(undef, Nμ)
 
-# Vector to store the escape time index
-variance = Vector{Float64}(undef, Nμ)
+# Vector to store the statistics of the timeseries 
+stats = Matrix{Float64}(undef, Nμ, 3)
 
 # Loop over the paramater's values
-printstyled("Finding the local minima of the non-linear optimisation problem\n"; bold=true, underline=true, color=:light_blue)
-@showprogress for n in 1:Nμ
+printstyled("Solving the non-linear optimisation problem using $(Threads.nthreads()) threads\n"; bold=true, underline=true, color=:light_blue)
+#=@showprogress=#Threads.@threads for n in 1:Nμ
+        display(μ[n])
+        ######################
+        # Escape probability #
+        ######################
+ 
         # Import the solution at the current parameter value μ
         u_μ = sol[:,n] 
 
@@ -49,12 +54,15 @@ printstyled("Finding the local minima of the non-linear optimisation problem\n";
 
         # Get the time index of first escape out of the basin of attraction
         check, escape_time[n] = check_escapes(u_μ, [xu, Inf])
+        #display(escape_time[n])
 
         # Define a truncated timeseries of the trajectory until the first escape
         u = u_μ[1:escape_time[n]]
 
-        # Compute the variance of the truncated timeseries
-        variance[n] = var(u)
+        # Compute the statistics of the truncated timeseries
+        stats[n,1] = mean(u)
+        stats[n,2] = var(u)
+        stats[n,3] = skewness(u)
 
         # Define number of bins for the histogram (1/50 th of the number of truncated realizations until first exit) to be no less then 5
         Nb = max(5::Int64, convert(Int64, ceil(escape_time[n]/50)))
@@ -71,13 +79,15 @@ printstyled("Finding the local minima of the non-linear optimisation problem\n";
         # Derive the coefficients via linear least-squares
         linear_coefficients[n,:] = (approximate_potential(xs, Vs, degree=3).coeffs)[2:Nc+1]
         linear_coefficients[n,3] = abs(linear_coefficients[n,3])
-        display(n)
-        display(escape_time[n])
-        display(linear_coefficients[n,:])
+        #display(linear_coefficients[n,:])
 
         # Non-linear least-squares fit of the coefficients of the scalar potential 
         nonlinear_coefficients[n,:] = fit_potential(bins, pdf, σ, initial_guess=linear_coefficients[n,:])
 
+        ##################
+        # Error analysis #
+        ##################
+ 
         # Define the analytic potential and its linear and non-linear least-squares approximations...
         U(x) = μ[n]*x + x^2 - x^3 + (1/5)*x^4
         V_linear(x) = linear_coefficients[n,1]*x + linear_coefficients[n,2]*(x^2) + linear_coefficients[n,3]*(x^3)
@@ -94,7 +104,7 @@ printstyled("Finding the local minima of the non-linear optimisation problem\n";
 
         # Compute the L-2 norm of the error of the linear and non-linear least-squares solutions w.r.t. the analytic potential 
         error_linear[n] = norm([(U(x) - V_linear(x)) for x in domain], 2)
-        error_nonlinear[n] = norm([(U(x) - V_nonlinear(x))^2 for x in domain], 2)
+        error_nonlinear[n] = norm([(U(x) - V_nonlinear(x)) for x in domain], 2)
 
         # Define the local extrema of the 3 potentials
         a = bounds[2] 
@@ -124,4 +134,4 @@ writeout(hcat(escape_analytic, escape_linear, escape_nonlinear), "../data/escape
 writeout(escape_time, "../data/escape_time.csv")
 
 # Export the variance
-writeout(variance, "../data/variance.csv")
+writeout(stats, "../data/statistics.csv")
