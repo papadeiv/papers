@@ -30,6 +30,7 @@ function evolve_ramped_1d(f::Function, g::Function, η::Function, u0; δt=1e-2, 
         dynamics = SDEProblem(drift!, diffusion!, u0, (0.0, T))
 
         # Solve the SDE forward in time
+        printstyled("Solving the non-autonomous SDE\n"; bold=true, underline=true, color=:light_blue)
         sol = solve(dynamics, EM(), dt=δt, verbose=false, saveat=saveat)
 
         # Extract the timestamps

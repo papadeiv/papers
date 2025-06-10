@@ -1,7 +1,7 @@
 using Statistics, PyCall
 
 # Detrend the timeseries using different algorithms (according user's choice) 
-function detrend(timestamps, timeseries; alg = "mean")
+function detrend(timestamps, timeseries; alg = "exact", qse = Float64[])
         # Initialise arrays for the trend and the residuals
         trend = Vector{Float64}(undef, length(timeseries))
         residuals = Vector{Float64}(undef, length(timeseries))
@@ -27,6 +27,10 @@ function detrend(timestamps, timeseries; alg = "mean")
 
         elseif alg == "emd"
                 trend = mean(timeseries).*ones(length(timeseries))
+                residuals = timeseries - trend
+
+        elseif alg == "exact"
+                trend = qse 
                 residuals = timeseries - trend
 
         else

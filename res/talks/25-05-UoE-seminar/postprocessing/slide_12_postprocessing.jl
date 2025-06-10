@@ -55,13 +55,6 @@ printstyled("Computing the L2-norm of the reconstruction error\n"; bold=true, un
         lin_bounds = get_stationary_points(Polynomial(c_lin))
         xs_lin[n] = x_stb[n] - lin_bounds[2]
 
-        #=
-        display(n)
-        display(μ[n_end])
-        display(c_mean)
-        display(mean_bounds[2])
-        =#
-
         # Compute the vertical shift
         V_mean(x) = (Polynomial(c_mean))(x)
         ys_mean[n] = U(x_stb[n]) - V_mean(mean_bounds[2])
