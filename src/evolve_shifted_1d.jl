@@ -27,7 +27,6 @@ function evolve_shifted_1d(f::Function, Λ::Function, η::Function, u, T; Nt=100
         dynamics = SDEProblem(drift!, diffusion!, u, (T[1], T[end]), Λ)
 
         # Solve the SDE forward in time
-        printstyled("Solving the non-autonomous SDE\n"; bold=true, underline=true, color=:light_blue)
         sol = solve(dynamics, EM(), dt=δt, verbose=false, saveat=Δt)
 
         # Extract the timestamps
