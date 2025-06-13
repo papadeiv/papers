@@ -1,7 +1,7 @@
+# Solve the parameter sweep of an ensemble problem
+
 include("./evolve_ensemble.jl")
 
-# Solve the ensemble problem for a range of parameter values
-using ProgressMeter
 function evolve_ensemble_fixed(f::Function, g::Function, μ::Vector{Float64}, IC::Vector{Float64}; δt=1e-2, Nt=1000::Int64, Nμ=nothing, Ne=1000::Int64)
         # Define the vector of fixed parameter values according to the user's choice
         if Nμ == nothing

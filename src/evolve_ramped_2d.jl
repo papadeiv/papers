@@ -1,5 +1,5 @@
-# Solve the non-autonomous SDE forward in time (with non-stationary, ramped parameter) 
-using DifferentialEquations
+# Solve the 2-dimensional non-autonomous SDE forward in time for a linearly ramped parameter
+
 function evolve_ramped_2d(f1::Function, f2::Function, g1::Function, g2::Function, h::Function, u0; δt=5e-2, Nt=1000::Int64, saveat=δt, μf=nothing)
         # Compute the temporal quantities according to the user's choice
         if μf==nothing

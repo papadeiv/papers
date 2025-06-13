@@ -1,6 +1,5 @@
-using Roots, ForwardDiff 
-
 # Find the equilibria and their stability
+
 function get_equilibria(f::Function, μ::Float64; domain=[-Inf,Inf])
         # Reduce the parameter dependent dynamics to a 1D scalar function
         F(x) = f(x, μ)

@@ -1,6 +1,5 @@
-using LsqFit
-
 # Find optimal coefficients of the potential to fit the observed distribution 
+
 function fit_potential(xn, yn, σ; initial_guess=nothing)
         # Define the stochastic diffusion
         D = (σ^2)/2.0::Float64

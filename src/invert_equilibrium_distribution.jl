@@ -1,4 +1,5 @@
 # Derive the stationary distribution of a timeseries based on topological equivalence with OUP
+
 function invert_equilibrium_distribution(bins, distribution, noise::Float64; N = nothing)
         # Compute the diffusion coefficient
         D = (noise^2)/2

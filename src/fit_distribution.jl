@@ -1,5 +1,3 @@
-using LinearAlgebra, StatsBase
-
 function fit_distribution(u; interval = nothing, n_bins = 200::Int64)
         # Get the range of values of the distribution
         if interval == nothing

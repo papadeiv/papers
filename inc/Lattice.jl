@@ -1,5 +1,10 @@
+# Import packages
+using LinearAlgebra, BandedMatrices
+
+# Include functions
 include("../src/build_neighbours.jl")
 
+# Define structs
 struct Lattice 
         rows::Int
         cols::Int

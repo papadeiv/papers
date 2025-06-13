@@ -1,6 +1,5 @@
-using StatsBase
-
 # Computes the temporal variance of a timeseries over a sliding window of specified width
+
 function skew(time, data, width::Float64)
         # Get the total number of steps in the timeseries 
         Nt = length(time)

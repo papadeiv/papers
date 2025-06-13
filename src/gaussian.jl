@@ -1,4 +1,5 @@
 # Define the Gaussian distribution
+
 function gaussian(x, μ, σ)
         D = σ^2/2
         C = sqrt(1/(4*pi*D))

@@ -1,7 +1,7 @@
-using LaTeXStrings, CairoMakie, Makie.Colors
+# Create a customised figure for scientific plots 
+
 CairoMakie.activate!(; px_per_unit = 2)
 
-# Create a customised figure for scientific plots 
 function mkfig(;
                size = [1000,1000],
                alpha = 1.0,

@@ -1,7 +1,5 @@
-using ProgressMeter
-using DifferentialEquations
+# Solve the parameter sweep of a 1-dimensional autonomous SDE
 
-# Solve the 1-dimensional SDE forward in time for fixed parameter values in a range 
 function evolve_fixed_1d(f::Function, g::Function, μ::Vector{Float64}, IC::Vector{Float64}; δt=5e-2, Nt=1000::Int64, Nμ=nothing)
         # Compute the total time 
         T = δt*Nt

@@ -1,7 +1,5 @@
-using LaTeXStrings, CairoMakie, Makie.Colors
-CairoMakie.activate!(; px_per_unit = 2)
-
 # Customise the ticks for each axes in the plot
+
 function set_ticks(axis, x_data, y_data; n_ticks = 0)
         # Extract the range in the data
         x_min = x_data[argmin(x_data)] 

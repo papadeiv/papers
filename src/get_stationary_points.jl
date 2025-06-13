@@ -1,6 +1,5 @@
-using Polynomials
-
 # Derive the stationary points of a polynomial 
+
 function get_stationary_points(V::Polynomial; domain=[-Inf,Inf])
         # Differentiate the polynomial
         dV = derivative(V)

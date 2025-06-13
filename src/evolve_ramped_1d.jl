@@ -1,6 +1,5 @@
-using DifferentialEquations
+# Solve the 1-dimensional non-autonomous SDE forward in time for a linearly ramped parameter
 
-# Solve the non-autonomous SDE forward in time (with non-stationary, ramped parameter) 
 function evolve_ramped_1d(f::Function, g::Function, η::Function, u0; δt=1e-2, Nt=1000::Int64, saveat=δt, μf=nothing)
         # Define endtime value
         T = 0.0::Float64

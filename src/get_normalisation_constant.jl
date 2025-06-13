@@ -1,6 +1,5 @@
-using Integrals
-
 # Numerically approximate the normalisation constant of a pdf via quadrature
+
 function get_normalisation_constant(f::Function, I::Tuple{Float64, Float64}; parameters=nothing, accuracy=1e-8)
         # Define the integral problem over the domain and with the user's parameters 
         if parameters == nothing

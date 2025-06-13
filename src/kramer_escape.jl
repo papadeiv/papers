@@ -1,4 +1,5 @@
-# Define Kramer's escape rate
+# Compute Kramer's escape rate
+
 function kramer_escape(U::Function, Uxx::Function, a, b, σ)
         # Compute the prefactor
         C = (1/(2*pi))*sqrt(Uxx(a)*abs(Uxx(b)))

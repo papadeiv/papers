@@ -1,7 +1,7 @@
+# Solve the ensemble problem forward in time for a fixed parameter value
+
 include("./get_equilibria.jl")
 
-# Solve the ensemble problem
-using DifferentialEquations
 function evolve_ensemble(f::Function, g::Function, μ::Float64; IC=nothing, δt=1e-2, Nt=1000::Int64, Ne=1000::Int64)
         # Compute the total time 
         T = δt*Nt

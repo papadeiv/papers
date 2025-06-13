@@ -1,4 +1,5 @@
 # Assemble the escape time distribution
+
 function check_escapes(u, boundaries)
         # Get the number of realizations
         Nt = length(u)

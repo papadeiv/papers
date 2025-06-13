@@ -1,5 +1,5 @@
-# Solve the 2-dimensional SDE forward in time for a fixed parameter value 
-using DifferentialEquations
+# Solve the 2-dimensional autonomous SDE forward in time for a fixed parameter value 
+
 function evolve_forward_2d(f1::Function, f2::Function, g1::Function, g2::Function, μ::Float64, IC::Vector{Float64}; δt=5e-2, Nt=1000::Int64)
         # Compute the total time 
         T = δt*Nt

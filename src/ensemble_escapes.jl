@@ -1,4 +1,5 @@
 # Assemble the escape time distribution
+
 function ensemble_escapes(time, ensemble, equilibria)
         # Get the number of realizations
         Nt = length(ensemble[1,:])

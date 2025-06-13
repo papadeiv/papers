@@ -1,6 +1,5 @@
-using Statistics, PyCall
-
 # Detrend the timeseries using different algorithms (according user's choice) 
+
 function detrend(timestamps, timeseries; alg = "exact", qse = Float64[])
         # Initialise arrays for the trend and the residuals
         trend = Vector{Float64}(undef, length(timeseries))

@@ -1,4 +1,5 @@
-# Compute and plot the ensemble's average escape rate
+# Compute the ensemble's average escape rate
+
 function ensemble_escape_rate(time::Float64, distribution, Ne::Int64, treshold::Int64)
         # Extract the number of N-tippings from the ensemble
         N_exit = length(distribution) + 1

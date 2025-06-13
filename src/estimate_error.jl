@@ -1,5 +1,3 @@
-using LinearAlgebra
-
 function estimate_error(x, y, σ, d; estimate=1)
         # Number of samples
         n = length(x)

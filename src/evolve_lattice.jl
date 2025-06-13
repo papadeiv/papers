@@ -1,6 +1,5 @@
-using DifferentialEquations
+# Solves the high-dimensional, slow-fast, lattice dynamical system
 
-# Propagates forward the high-dimensional lattice dynamical system from a given initial condition
 function evolve_lattice(lattice::Lattice, f::Function, g::Function, h::Function, u0::Vector{Float64}; δt=5e-2, Nt=1000::Int64, saveat=δt, μf=nothing)
         # Compute the temporal quantities according to the user's choice
         if μf==nothing

@@ -1,7 +1,7 @@
+# Solve the 1-dimensional autonomous SDE forward in time for a fixed parameter value 
+
 include("./get_equilibria.jl")
 
-# Solve the SDE forward in time for a fixed parameter value 
-using DifferentialEquations
 function evolve_forward_1d(f::Function, g::Function, μ::Float64; IC=nothing, δt=5e-2, Nt=1000::Int64, saveat=δt)
         # Compute the total time 
         T = δt*Nt
