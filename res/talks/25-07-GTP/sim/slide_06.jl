@@ -1,7 +1,6 @@
 include("../../../../inc/IO.jl")
 include("../../../../inc/SystemAnalysis.jl")
 
-#=
 # Define the noise level and timescale separation 
 σ = 0.125::Float64
 ε = 0.001::Float64
@@ -24,5 +23,4 @@ writeout(hcat(t, μ, u), "../data/slide_06/solution.csv")
 
 # Execute the postprocessing and plotting scripts
 include("../postprocessing/slide_06_postprocessing.jl")
-=#
 include("../plotting/slide_06_plotting.jl")

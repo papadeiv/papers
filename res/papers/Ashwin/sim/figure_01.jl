@@ -11,7 +11,8 @@ K = 2.00::Float64
 f(x, λ) = -((x + a + b*λ)^2 + c*tanh(λ - d))*(x - K/(cosh(e*λ)))
 
 # Define the parameter's rates
-ε = [0.01, 0.035, 0.1]
+ε = collect(LinRange(0.01, 0.15, 1000)) 
+Nε = length(ε)
 
 # Define the dynamical system (stochastic diffusion) 
 σ = 0.00::Float64
@@ -28,16 +29,19 @@ t∞ = [-T, +T]
 
 # Loop over the rates
 printstyled("Solving the non-autonomous SDEs for different rates\n"; bold=true, underline=true, color=:light_blue)
-for n in 1:length(ε) 
+@showprogress for n in 1:Nε 
         # Define the dynamical system (parameter shift)
         Λ(t) = ε[n]*(sech(ε[n]*t))^2
 
         # Solve the fast-slow SDE
-        t, λ, x = evolve_shifted_1d(f, Λ, η, u∞, t∞, Nt=convert(Int64,4e3))
+        local t, λ, x = evolve_shifted_1d(f, Λ, η, u∞, t∞, Nt=convert(Int64,1e4))
 
         # Export the data 
         writeout(hcat(t, λ, x), "../data/figure_01/solutions/$n.csv")
 end
+
+# Export the parameter rates
+writeout(ε, "../data/figure_01/rates.csv")
 
 # Execute the postprocessing and plotting scripts
 include("../postprocessing/figure_01_postprocessing.jl")
