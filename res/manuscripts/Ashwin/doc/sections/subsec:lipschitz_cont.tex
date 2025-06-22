@@ -1,0 +1,26 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsection{Lipschitz continuity}\label{subsec:lipschitz_cont}
+
+\begin{definition}[Lipschitz function]\label{def:lipschitz_fun}
+        A continuous and differentiable function $f:\mathbb{R}\to \mathbb{R}$ is Lipschitz is there is a $L>0$ s.t.
+        \begin{equation*}
+                |f(x)-f(y)| < L\,|x-y|\,,\quad\forall x\in \mathbb{R}\setminus\{y\}\,.
+        \end{equation*}
+\end{definition}
+
+\begin{theorem}[label=thm:mean_value_thm]{Mean Value Theorem}{}
+        If $f$ is differentiable then $\forall x,y\in \mathbb{R}$, $x\neq y$ there exist $z\in(x,y)$ s.t.
+        \begin{equation*}
+                \frac{f(x)-f(y)}{x-y} = \newprime{f}(z)\,.
+        \end{equation*}
+\end{theorem}
+
+\begin{corollary}
+     By Definition \ref{def:lipschitz_fun} and Theorem \ref{thm:mean_value_thm}, if there exists $L>0$ s.t. $|\newprime{f}(z)|<L$, $\forall z \in \mathbb{R}$ then $f$ is Lipschitz. This further implies that any $f$ whose first derivative $\newprime{f}$ is bounded is necessarly Lipschitz.
+\end{corollary}
+
+% Computing Lipschitz constant 
+\subfile{subsubsec:lipschitz_const}
+
+\end{document}

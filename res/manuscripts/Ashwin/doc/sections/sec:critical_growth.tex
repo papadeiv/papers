@@ -1,0 +1,14 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\section{Dependence on the growth rate}\label{sec:critical_growth}
+
+Here we consider a family of $\mathcal{C}^{2}$ parameter shifts $\Lambda(t)\in \mathcal{P}(\lambda_{-},\lambda_{+})$ of the form of $n^{\text{th}}$-degree polynomials in $s:=\sigma(t)$, where $\sigma(x)$ denotes any sigmoid function of $x$.
+We immediately notice that differently from the previous case \ref{sec:critical_rate}, here we do not investigate the dependence of R-tipping from the perspective of the critical rate $\varepsilon$ but rather fix a new timescale $t\to s =\sigma(t)$ (so that $s\to\pm1$ as $t\to\pm\infty$) and investigate the properties of the polynomial parameter shift $g(s) = \sum_{k=0}^{n}c_{k}\,s^{k}\in\mathbb{P}_{n}[s]\subset\Lambda(s)$ that generate irreversible R-tipping.
+In particular for a fixed degree $n>2$ we will choose a set $\{c_{k}\}_{k=0,...,n}$ of coefficients s.t. $g(s)$ is non-monotonic.
+
+% Lipschitz continuity
+\subfile{subsec:lipschitz_cont}
+% Simulations 
+\subfile{subsec:simulations}
+
+\end{document}

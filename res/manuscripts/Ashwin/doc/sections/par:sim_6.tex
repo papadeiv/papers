@@ -1,0 +1,30 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\paragraph{Simulation 6}\label{par:sim_6}
+
+We will fix the following (odd) coefficients
+
+\begin{equation}\label{eq:sim_6_shift}
+        g(s) \in \mathbb{P}_{11}[s]\,,\quad\{c_{5}=-1.6,\, c_{7}=2,\, c_{9}=\text{undef},\, c_{11}=-0.5\}\,,
+\end{equation}
+
+and let the coefficient of the $9^{\text{th}}-$degree term to vary.
+
+Notice that $g$ is odd and thus symmetric in the interval $[-T,T]$ for any $T>0$.
+We chose the coefficients s.t. $\newprime{g}$ has $5$ critical points $\{t_{j}<j_{j+1}\}_{j=1,...,4}$, with middle one being always $t_{3}=0$.
+The Lipschitz constant will always correspond to the values of $\newprime{g}$ at the end values of the critical points, i.e.
+
+\begin{equation*}
+    L = \sup\,(-\infty, g(t_{\text{end}})]\,, 
+\end{equation*}
+
+where $t_{end}=t_{1}=-t_{5}$ since $|\newprime{g}(t_{1})| = |\newprime{g}(t_{5})|$.
+
+% Simulation 6.b 
+\subfile{subpar:sim_6_b}
+% Simulation 6.c 
+\subfile{subpar:sim_6_c}
+% Simulation 6.d 
+\subfile{subpar:sim_6_d}
+
+\end{document}

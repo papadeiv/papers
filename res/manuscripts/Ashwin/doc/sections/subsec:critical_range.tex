@@ -1,0 +1,20 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsection{Critical range}\label{subsec:critical_range}
+
+We will now empirically determine the range of values of $\varepsilon\in(0,1]$ for which irreversible R-tipping is observed. 
+We consider the following non-autonomous dynamical system \cite[Example 3.1, p.2200]{Ashwin17}
+
+\begin{equation}\label{eq:dyn_sys}
+        \dot{x} = f(x, \lambda(t)) = -\bigg((x+a+b\lambda)^{2} + c\,\text{tanh}(\lambda - d)\bigg)\bigg(x - \frac{k}{\text{cosh}(e\lambda)}\bigg)\,,
+\end{equation}
+
+with $a = -\frac{1}{4},\, b = \frac{6}{5},\, c = -\frac{2}{5},\, d = -0.3,\, e = 3$ and $k = 2$ fixed.
+Our choice of parameter shift will be \eqref{eq:tanh_shift} with varying values of $\varepsilon$. 
+As outlined in \ref{subsubsec:integration_constant}, varying $\varepsilon$ implies we either choose different initial conditions $\lambda_{-}$ or different truncations for the asymptotic time horizon $T$.
+Regardless of the case, the integration constant will be updated for each value of $\varepsilon$ i.e. we should substitute $C\to C(\varepsilon)$ in \eqref{eq:tanh_shift}.
+
+% Results 
+\subfile{subsubsec:results_tanh_shift}
+
+\end{document}

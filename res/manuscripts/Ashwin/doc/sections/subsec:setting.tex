@@ -1,0 +1,23 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsection{Setting}\label{subsec:setting}
+
+Differentiating \eqref{eq:tanh_shift} w.r.t. $t$ gives us a non-autonomous differential equation for $\lambda$
+
+\begin{equation}\label{eq:tanh_shift_diff_eq}
+        \dot{\lambda} = \varepsilon\,\text{sech}^{2}(\varepsilon t)\,.
+\end{equation}
+
+Integrating \eqref{eq:tanh_shift_diff_eq} by separation of variables, and changing the timescale $t\to s = \varepsilon t$, will obviously give us back \eqref{eq:tanh_shift}
+
+\begin{align*}
+     \int_{}^{}d\lambda =& \int_{}^{}\varepsilon\,\text{sech}^{2}(\varepsilon t)dt \;\Rightarrow\; \lambda + C_{1} = \varepsilon \int_{}^{}\text{sech}^{2}(s)\bigg(\frac{1}{\varepsilon}\,ds\bigg) = \int_{}^{}\text{sech}^{2}(s)ds = \text{tanh}(s) + C_{2} = \nonumber \\
+        =& \, \text{tanh}(\varepsilon t) + C_{2} \;\Rightarrow\; \lambda(t) = \text{tanh}(\varepsilon t) + C\,.
+\end{align*}
+
+From the above it becomes evident that the choice of $C$ is tied to fixing a value for the initial condition $\lambda(t_{0}) = \lambda_{0}$ of the parameter shift.
+
+% How to choose C 
+\subfile{subsubsec:integration_constant}
+
+\end{document}

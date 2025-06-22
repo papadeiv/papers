@@ -1,0 +1,23 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsubsection{How to choose C}\label{subsubsec:integration_constant}
+
+Since the parameter shift must connect two asymptotic values $\lambda_{-},\,\lambda_{+}$ at $t\to\pm\infty$, to choose the initial condition which will uniquely fix $C$ we impose that
+
+\begin{equation*}
+        \lim_{t\to-\infty}\lambda(t) = \lambda_{-}\,.
+\end{equation*}
+
+In simulations we must fix a finite time interval in which the shift occurs, therefore we fix $T>0$ and therefore set $[-T, T]\subset(-\infty,+\infty)$.
+The above constraint thus becomes
+
+\begin{equation}\label{eq:integration_constant}
+        \lambda(-T) = \lambda_{-} \;\Rightarrow\; C = \lambda_{-} - \text{tanh}(-\varepsilon T) = \lambda_{-} + \text{tanh}(\varepsilon T)\,,
+\end{equation}
+
+where the last equality comes from $\text{tanh}(x)$ being an odd function of $x$ in the symmetric domain $[-X,X]$, $X>0$.
+
+% Compactification of time 
+\subfile{par:compactification}
+
+\end{document}

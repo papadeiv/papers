@@ -1,0 +1,18 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsubsection{Computing Lipschitz constant}\label{subsubsec:lipschitz_const}
+
+We can use Theorem \ref{thm:mean_value_thm} to determine $L$ for a given function $f$.
+Since we consider parameter shifts of the form of polynomials of sigmoids we automatically restrict ourselves to functions whose derivatives $\newprime{f}$ are bounded and therefore Lipschitz as per Corollary 2.1.
+The algorithm proceeds as follows:
+\begin{enumerate}
+     \item given $f$ compute $\newprime{f}$;
+     \item find the set $\Gamma$ of critical points of $\newprime{f}$, i.e. $\Gamma = \{x\in \mathbb{R}\;:\;\pprime{f}(x)=0\}$;
+     \item find the supremum of the set $|\newprime{f}(\Gamma)|$.
+\end{enumerate}
+In other words
+\begin{equation}\label{eq:lipschitz_constant}
+        L = \sup\,\{|\newprime{f}(x)|\,,\;\forall x \in \mathbb{R}\;:\;\pprime{f}(x)=0\}\,.
+\end{equation}
+
+\end{document}
