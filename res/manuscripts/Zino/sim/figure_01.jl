@@ -1,45 +1,59 @@
 include("../../../../inc/IO.jl")
 include("../../../../inc/SystemAnalysis.jl")
 
-# Parameters of the payoff matrix
-a = 1.00::Float64
-b = 1.00::Float64
-c = 1.00::Float64
-d = 1.00::Float64
+# Payoff matrix
+A = [[1.0, 0.0, 0.0, 1.0], # Coordination game
+     [1.0, 3.0, 0.0, 2.0], # Dominant strategy
+     [0.0, 1.0, 1.0, 0.0]] # Anti-coordination
+Nμ = length(A)
 
-# Parameters of the control matrix
-G11 = 1.00::Float64
-G12 = 1.00::Float64
-G21 = 1.00::Float64
-G22 = 1.00::Float64
+# Define a set of initial conditions (ICs) 
+Nx = 100 
+ICs = collect(LinRange(0.05, 0.95, Nx))
 
-# Define the timescale constant for the parameter ramp
-ε = 0.010::Float64
-g(t) = ε
+# Define time parameters of the simulation
+Nt = 1000
+dt = 1e-2
+T = Nt*dt
 
-# Define the dynamical system (deterministic drift) 
-f1(x, y) = x*(1.00::Float64 - x)*((a + d - b - c)*x + b - d + (G11 - G21)*y*x + (G12 - G22)*y*(1.00::Float64 - x))
-f2(x, y) = g(x)*y
+# Loop over the parameter values
+printstyled("Solving the ODE for different payoffs\n"; bold=true, underline=true, color=:light_blue)
+@showprogress for n in 1:Nμ
+        # Extract the current parameter vector
+        μ = A[n]
 
-# Define the dynamical system (stochastic diffusion) 
-g1(x, μ) = 0.0::Float64
-g2(x, μ) = 0.0::Float64
+        # Define the dynamical system (deterministic drift)
+        f(x, μ, t) = x*(1 - x)*((μ[1] + μ[4] - μ[2] - μ[3])*x + μ[2] - μ[4])
 
-#=
-# Define the IC
-x1 = 3.33::Float64
-x2 = -(3.0::Float64)
-x0 = [x1, x2]
+        # Define empty matrix to store the solutions
+        X = Matrix{Float64}(undef, (Nt+1), (Nx+1))
 
-# Solve the fast-slow SDE
-t, μ, u = evolve_fixed_2d(f1, f2, x0, Nt=convert(Int64,1e3))
+        # Loop over different ICs
+        for m in 1:length(ICs)
+                # Extract the current initial condition
+                x0 = ICs[m]
+                
+                # Solve the differential equation for the current IC
+                dynamics = ODEProblem(f, x0, (0.0, T), μ)
+                sol = solve(dynamics, dt=dt, saveat=dt)
 
-# Export the data 
-writeout(t, "../data/figure_01/time.csv")
-writeout(μ, "../data/figure_01/μ.csv")
-writeout(u, "../data/figure_01/u.csv")
+                # Extract the solution
+                t = sol.t
+                x = [(sol.u)[t][1] for t in 1:length(t)]
 
-# Execute the postprocessing and plotting scripts
-include("../postprocessing/figure_01_postprocessing.jl")
+                # Store the results in the matrix
+                if m==1
+                        X[:,1] = t
+                end
+                X[:,m+1] = x
+        end
+
+        # Export the solution matrix 
+        writeout(X, "../data/figure_01/$n.csv")
+end
+
+# Export the ICs
+writeout(ICs, "../data/figure_01/x0.csv")
+
+# Execute the plotting script
 include("../plotting/figure_01_plotting.jl")
-=#

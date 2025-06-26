@@ -11,7 +11,7 @@ K = 2.00::Float64
 f(x, λ) = -((x + a + b*λ)^2 + c*tanh(λ - d))*(x - K/(cosh(e*λ)))
 
 # Define the parameter's rates
-ε = collect(LinRange(0.01, 0.15, 1000)) 
+ε = [0.10,0.11,0.12,0.13,0.14] 
 Nε = length(ε)
 
 # Define the dynamical system (diffusion of the state variable) 
@@ -48,5 +48,5 @@ end
 writeout(ε, "../data/figure_01/rates.csv")
 
 # Execute the postprocessing and plotting scripts
-include("../postprocessing/figure_01_postprocessing.jl")
-include("../plotting/figure_01_plotting.jl")
+include("../postprocessing/figure_01.b_postprocessing.jl")
+include("../plotting/figure_01.b_plotting.jl")

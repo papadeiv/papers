@@ -48,5 +48,5 @@ end
 writeout(ε, "../data/figure_01/rates.csv")
 
 # Execute the postprocessing and plotting scripts
-include("../postprocessing/figure_01_postprocessing.jl")
-include("../plotting/figure_01_plotting.jl")
+include("../postprocessing/figure_01.a_postprocessing.jl")
+include("../plotting/figure_01.a_plotting.jl")

@@ -1,4 +1,5 @@
 include("../../../../inc/IO.jl")
+include("../../../../inc/PotentialLearning.jl")
 include("../../../../inc/TimeseriesAnalysis.jl")
 include("../../../../inc/EarlyWarningSignals.jl")
 
