@@ -2,9 +2,10 @@ include("../../../../inc/IO.jl")
 include("../../../../inc/SystemAnalysis.jl")
 
 # Payoff matrix
-A = [[1.0, 0.0, 0.0, 1.0], # Coordination game
-     [1.0, 3.0, 0.0, 2.0], # Dominant strategy
-     [0.0, 1.0, 1.0, 0.0]] # Anti-coordination
+A = [[1.0, 0.5, 0.0, 1.0], # Coordination game
+     [0.0, 2.0, 1.0, 3.0], # Dominant strategy (x1 stable)
+     [1.0, 3.0, 0.0, 2.0], # Dominant strategy (x2 stable)
+     [0.5, 1.0, 1.0, 0.0]] # Anti-coordination
 Nμ = length(A)
 
 # Define a set of initial conditions (ICs) 
