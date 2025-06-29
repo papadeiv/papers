@@ -39,7 +39,7 @@ fig, ax = mkfig(size = [1000,1000],
                 title = L"\textbf{Bifurcation set}",
                 toggle_title = true,
                 title_size = 50,
-                lab = [L"\mathbf{\alpha := c - a}",L"\mathbf{\beta := d - b}"],
+                lab = [L"\mathbf{\alpha := a - c}",L"\mathbf{\beta := d - b}"],
                 lab_pad = [-30.0,-30.0],
                 x_ticks = [ɑ_min,ɑ_max],
                 y_ticks = [β_min,β_max],
@@ -49,14 +49,14 @@ fig, ax = mkfig(size = [1000,1000],
 lines!(ax, [0,0], [β_min,β_max], linewidth = 6, color = :black)
 lines!(ax, [ɑ_min,ɑ_max], [0,0], linewidth = 6, color = :black)
 # Print the name of the regions in the bifurcation set
-text!(-δx, δy, text = L"\textbf{coordination game}", fontsize = 25, align = (:center,:baseline))
-text!(δx, δy, text = L"\textbf{dominant strategy (}\mathbf{x_1}\textbf{ stable)}", fontsize = 25, align = (:center,:baseline))
-text!(-δx, -δy, text = L"\textbf{dominant strategy (}\mathbf{x_2}\textbf{ stable)}", fontsize = 25, align = (:center,:baseline))
-text!(δx, -δy, text = L"\textbf{anti-coordination}", fontsize = 25, align = (:center,:baseline))
+text!(δx, δy, text = L"\textbf{coordination game}", fontsize = 25, align = (:center,:baseline))
+text!(-δx, δy, text = L"\textbf{dominant strategy (}\mathbf{x_1}\textbf{ stable)}", fontsize = 25, align = (:center,:baseline))
+text!(δx, -δy, text = L"\textbf{dominant strategy (}\mathbf{x_2}\textbf{ stable)}", fontsize = 25, align = (:center,:baseline))
+text!(-δx, -δy, text = L"\textbf{anti-coordination}", fontsize = 25, align = (:center,:baseline))
 # Loop over the different strategies
 for n in 1:Nμ
         # Compute the position in the bifurcation set
-        ɑ = A[n][3] - A[n][1] 
+        ɑ = A[n][1] - A[n][3] 
         β = A[n][4] - A[n][2]
 
         # Plot the position in the bifurcation set
@@ -79,19 +79,15 @@ X = solution[:,2:end]
 fig, ax = mkfig(size = [1000,1000],
                 bg_out = :white,
                 pad = (30,60,10,5), # Order is: left, right, bottom, top 
-                box_position = [1,1],
+                box_position = [1,2],
                 limits = ((t[1], t[end]), (-0.05, 1.05)),
                 title = L"\textbf{Coordination game}",
                 toggle_title = true,
                 title_size = 30,
-                lab = [L"\mathbf{t}",L"\mathbf{x}"],
-                toggle_lab = [false,true],
-                lab_pad = [-60.0,-30.0],
+                toggle_lab = [false,false],
                 x_ticks = [t[1],t[end]],
                 y_ticks = [0,1],
-                toggle_ticks_lab = [false,true],
-                ticks_lab_xpos = [:right,:top],
-                ticks_lab_trunc = [0,0],
+                toggle_ticks_lab = [false,false],
                )
 # Define vector of indices for plotting purposes
 idx = collect(UnitRange(1::Int64, Nx))
@@ -120,15 +116,19 @@ X = solution[:,2:end]
 
 # Create and customise the figure 
 fig, ax = mkfig(fig = fig,
-                box_position = [1,2],
+                box_position = [1,1],
                 limits = ((t[1], t[end]), (-0.05, 1.05)),
                 title = L"\textbf{Dominant strategy (}\mathbf{x_1}\textbf{ stable)}",
                 toggle_title = true,
                 title_size = 30,
-                toggle_lab = [false,false],
+                lab = [L"\mathbf{t}",L"\mathbf{x}"],
+                toggle_lab = [false,true],
+                lab_pad = [-60.0,-30.0],
                 x_ticks = [t[1],t[end]],
                 y_ticks = [0,1],
-                toggle_ticks_lab = [false,false],
+                toggle_ticks_lab = [false,true],
+                ticks_lab_xpos = [:right,:top],
+                ticks_lab_trunc = [0,0],
                )
 # Define vector of indices for plotting purposes
 idx = collect(UnitRange(1::Int64, Nx))
@@ -157,16 +157,18 @@ X = solution[:,2:end]
 
 # Create and customise the figure 
 fig, ax = mkfig(fig = fig,
-                box_position = [2,1],
+                box_position = [2,2],
                 limits = ((t[1], t[end]), (-0.05, 1.05)),
                 title = L"\textbf{Dominant strategy (}\mathbf{x_2}\textbf{ stable)}",
                 toggle_title = true,
                 title_size = 30,
                 lab = [L"\mathbf{t}",L"\mathbf{x}"],
+                toggle_lab = [true,false],
                 lab_pad = [-60.0,-30.0],
                 x_ticks = [t[1],t[end]],
                 y_ticks = [0,1],
-                ticks_lab_xpos = [:right,:top],
+                toggle_ticks_lab = [true,false],
+                ticks_lab_xpos = [:left,:top],
                 ticks_lab_trunc = [0,0],
                )
 # Define vector of indices for plotting purposes
@@ -196,18 +198,16 @@ X = solution[:,2:end]
 
 # Create and customise the figure 
 fig, ax = mkfig(fig = fig,
-                box_position = [2,2],
+                box_position = [2,1],
                 limits = ((t[1], t[end]), (-0.05, 1.05)),
                 title = L"\textbf{Anti-coordination}",
                 toggle_title = true,
                 title_size = 30,
                 lab = [L"\mathbf{t}",L"\mathbf{x}"],
-                toggle_lab = [true,false],
                 lab_pad = [-60.0,-30.0],
                 x_ticks = [t[1],t[end]],
                 y_ticks = [0,1],
-                toggle_ticks_lab = [true,false],
-                ticks_lab_xpos = [:left,:top],
+                ticks_lab_xpos = [:right,:top],
                 ticks_lab_trunc = [0,0],
                )
 # Define vector of indices for plotting purposes
