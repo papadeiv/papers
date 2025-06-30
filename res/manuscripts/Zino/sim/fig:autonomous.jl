@@ -50,11 +50,11 @@ printstyled("Solving the ODE for different payoffs\n"; bold=true, underline=true
         end
 
         # Export the solution matrix 
-        writeout(X, "../data/figure_01/$n.csv")
+        writeout(X, "../data/fig:autonomous/$n.csv")
 end
 
 # Export the ICs
-writeout(ICs, "../data/figure_01/x0.csv")
+writeout(ICs, "../data/fig:autonomous/x0.csv")
 
 # Execute the plotting script
-include("../plotting/figure_01_plotting.jl")
+include("../plotting/fig:autonomous.jl")

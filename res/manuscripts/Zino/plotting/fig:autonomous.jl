@@ -14,7 +14,7 @@ Nμ = length(A)
 x3(μ) = (μ[4] - μ[2])/(μ[1] + μ[4] - μ[2] - μ[3])
 
 # Import the initial conditions 
-x0 = readin("../data/figure_01/x0.csv")
+x0 = readin("../data/fig:autonomous/x0.csv")
 Nx = length(x0)
 
 #######################
@@ -27,6 +27,10 @@ Nx = length(x0)
 β_min = -(2.0::Float64)
 β_max = 2.0::Float64
 
+# Define the ɑ-domains for the admissible set Γ*
+ɑ_dom_1 = LinRange(ɑ_min, 0, 1000)
+ɑ_dom_2 = LinRange(0, ɑ_max, 1000)
+
 # Define symmetric position for printing the text
 δx = 1.0
 δy = 1.5
@@ -34,17 +38,17 @@ Nx = length(x0)
 # Create and customise the figure 
 fig, ax = mkfig(size = [1000,1000],
                 bg_out = :white,
-                pad = (30,60,10,5), # Order is: left, right, bottom, top 
+                pad = (30,60,10,35), # Order is: left, right, bottom, top 
                 limits = ((ɑ_min,ɑ_max), (β_min,β_max)),
-                title = L"\textbf{Bifurcation set}",
-                toggle_title = true,
-                title_size = 50,
                 lab = [L"\mathbf{\alpha := a - c}",L"\mathbf{\beta := d - b}"],
-                lab_pad = [-30.0,-30.0],
+                lab_pad = [-60.0,-60.0],
                 x_ticks = [ɑ_min,ɑ_max],
                 y_ticks = [β_min,β_max],
                 ticks_lab_trunc = [0,0],
                )
+# Shade the admissible set Γ*
+band!(ɑ_dom_1, ones(1000).*β_min, zeros(1000), color = (:gray, 0.5))
+band!(ɑ_dom_2, zeros(1000), ones(1000).*β_max, color = (:gray, 0.5))
 # Plot the separatrices of the bifurcation set 
 lines!(ax, [0,0], [β_min,β_max], linewidth = 6, color = :black)
 lines!(ax, [ɑ_min,ɑ_max], [0,0], linewidth = 6, color = :black)
@@ -64,14 +68,14 @@ for n in 1:Nμ
 end
 
 # Export the figure 
-save("../fig/figure_01.a.png", fig)
+save("../fig/fig:autonomous_bifset.png", fig)
 
 #########################
 #   Coordination game   #
 #########################
 
 # Import the solution data at current timestep from csv 
-solution = readin("../data/figure_01/1.csv")
+solution = readin("../data/fig:autonomous/1.csv")
 t = solution[:,1]
 X = solution[:,2:end]
 
@@ -110,7 +114,7 @@ lines!(ax, [t[1], t[end]], [x3(A[1]) for T in [t[1], t[end]]], linewidth = 6, co
 #####################################
 
 # Import the solution data at current timestep from csv 
-solution = readin("../data/figure_01/2.csv")
+solution = readin("../data/fig:autonomous/2.csv")
 t = solution[:,1]
 X = solution[:,2:end]
 
@@ -151,7 +155,7 @@ lines!(ax, [t[1], t[end]], [x3(A[2]) for T in [t[1], t[end]]], linewidth = 6, co
 #####################################
 
 # Import the solution data at current timestep from csv 
-solution = readin("../data/figure_01/3.csv")
+solution = readin("../data/fig:autonomous/3.csv")
 t = solution[:,1]
 X = solution[:,2:end]
 
@@ -192,7 +196,7 @@ lines!(ax, [t[1], t[end]], [x3(A[3]) for T in [t[1], t[end]]], linewidth = 6, co
 #########################
 
 # Import the solution data at current timestep from csv 
-solution = readin("../data/figure_01/4.csv")
+solution = readin("../data/fig:autonomous/4.csv")
 t = solution[:,1]
 X = solution[:,2:end]
 
@@ -227,4 +231,4 @@ lines!(ax, [t[1], t[end]], [1.0, 1.0], linewidth = 6, color = :black, linestyle 
 lines!(ax, [t[1], t[end]], [x3(A[4]) for T in [t[1], t[end]]], linewidth = 6, color = :black)
 
 # Export the figure 
-save("../fig/figure_01.b.png", fig)
+save("../fig/fig:autonomous_solutions.png", fig)
