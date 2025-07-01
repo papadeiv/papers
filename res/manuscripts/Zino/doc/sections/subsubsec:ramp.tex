@@ -1,0 +1,22 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsubsection{Smooth monotonic ramp}\label{subsubsec:ramp}
+
+To analyse and prove rate-induced tipping in \eqref{eq:nonautonomous_shifted} we will refer to the rigorous framework introduced in \cite{Ashwin17}.
+In it a non-autonomous dynamical system that presents R-tipping requires a $C^{2}-$smooth and bounded parameter shift $\Lambda(t)$ which is not necessarly monotonic.
+The parameter shift $\Lambda(t)$ shall connect two parameter values $\lambda_{-},\,\lambda_{+}$ in the time asymptotic regime, i.e.
+
+\begin{equation}\label{eq:generic_shift}
+     \text{range}(\Lambda(t))=(\lambda_{-},\lambda_{+})\quad \text{and}\quad \lim_{t\to\pm\infty}\Lambda(t)=\lambda_{\pm}\,.
+\end{equation}
+
+Furthermore we ask for our parameter shift to be quasi-stationary almost at everytime with the exception of a small subset $(t_{a},t_{b})$.
+In other words we ask
+\begin{equation}\label{eq:generic_shift_derivative}
+        \dot{\Lambda}(t) \approx 0\,,\;\forall t\in \mathbb{R}\setminus(t_{a},t_{b})\,. 
+\end{equation}
+
+Conditions \eqref{eq:generic_shift}-\eqref{eq:generic_shift_derivative} are necessary to ensure that the system has a stable attractor in both the past and future limits and that such attractor does not drift too fast once the transient regime is ended or before it started.
+Furthermore, even if the parameter shift does not need to be monotonic (as per \cite{Ashwin17}), we will impose this further constraint for simplicity.
+
+\end{document}
