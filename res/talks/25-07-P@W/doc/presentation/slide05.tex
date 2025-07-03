@@ -1,0 +1,75 @@
+\documentclass[./main.tex]{subfiles}
+\begin{document}
+
+% Slide # 5
+\begin{frame}[label=slide05]
+        % Title
+        \frametitle{A numerical method}
+
+        % Body
+        \footnotesize
+        \begin{columns}[T]
+                \column{0.5\textwidth}
+
+                \textbf{Objective}: derive an early-warning signal with the following desirable properties:
+                \begin{itemize}
+                        \item has a physical interpretation;
+                        \item shows a consisten trend for an incoming tipping;
+                        \item relies on little to no prior knowledge of the nature of the system.
+                \end{itemize}
+
+                \medskip
+
+                \begin{enumerate}
+                        \uncover<2->{\item \textbf{Input}: timeseries data}
+
+                        \medskip
+
+                        \uncover<3->{\item \textbf{Algorithm}:}
+                        \begin{enumerate}
+                                \smallskip
+
+                                \uncover<4->{\item assemble a histogram;}
+
+                                \smallskip
+
+                                \uncover<5->{\item find the best curve fit;}
+
+                                \smallskip
+
+                                \uncover<6->{\item reconstruct the landscape;}
+                        \end{enumerate}
+
+                        \medskip
+
+                        \uncover<7->{\item \textbf{Output}: probability of tipping\footnotemark[3]}
+                \end{enumerate}
+
+                \hfill
+                
+                \column{0.5\textwidth}
+
+                \vspace{-0.5cm}
+                \begin{figure}[H]
+                        \centering 
+                        \includegraphics<2->[keepaspectratio, width=0.82\textwidth]{../../fig/slide_05.1.png}
+                \end{figure}
+
+                \vspace{-0.75cm}
+                \begin{figure}[H]
+                        \centering 
+                        \includegraphics<4>[keepaspectratio, width=0.82\textwidth]{../../fig/slide_05.2.png}%
+                        \includegraphics<5->[keepaspectratio, width=0.82\textwidth]{../../fig/slide_05.3.png}%
+                \end{figure}
+
+                \vspace{-0.75cm}
+                \begin{figure}[H]
+                        \centering 
+                        \includegraphics<6->[keepaspectratio, width=0.82\textwidth]{../../fig/slide_05.4.png}
+                \end{figure}
+        \end{columns}
+
+        \alt<7>{\vspace{+0.175cm}\footnotetext[3]{\vspace{-0.5cm}\kern0.1cm \tiny Kramers, H., Physica, 7 (1940)}}{~}
+\end{frame}
+
+\end{document}
