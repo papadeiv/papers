@@ -22,7 +22,7 @@ function mkfig(;
                toggle_lab = [true,true],
                lab_size = [50,50],
                lab_color = [(:black,alpha),(:black,alpha)],
-               lab_pad = [0.0,0.0],
+               lab_pad = [-50.0,-50.0],
                ax_scale = [identity,identity],
                ax_orientation = [false,false],
                flip_y = false,

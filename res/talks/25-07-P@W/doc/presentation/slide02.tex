@@ -2,28 +2,68 @@
 \begin{document}
 
 % Slide # 2
-\begin{frame}[label=slide02]
+\begin{frame}[t, label=slide02]
         % Title
-        \frametitle{Precursors and indicators}
+        \frametitle{Kramers' escape formula}
 
         % Body
         \footnotesize
-        \begin{definition}
-                Early warning signals are simple properties that \alr[2]{\textbf{change in characteristic ways}} prior to a critical transition\footnotemark[1]. 
-        \end{definition} \pause \pause
+        \begin{columns}[T]
+                \column{0.5\textwidth}
+                
+                \begin{equation*}
+                        dx_{t} = -\newprime{V}(x)dt + \sqrt{2D}dW_{t}\,,
+                \end{equation*}
 
-        \vspace{1cm}
+                \uncover<2->{
+                        \begin{equation*}
+                            \partial_{t}\rho(x,t)=\mathcal{L}\rho(x,t)\,.
+                        \end{equation*}
+                }
 
-        \begin{tabular*}{\textwidth}{@{\extracolsep\fill}lcc}
-                \toprule
-                Metric & Critical slowing down & Flickering \\
-                \midrule
-                Variance & \alr[4]{\ding{51}} & \alr[5]{\ding{55}} \\
-                Skewness & \alr[4]{\ding{55}} & \alr[5]{\ding{51}} \\
-                \bottomrule
-        \end{tabular*} \pause
+                \uncover<3->{
+                        In the \textbf{time asymptotic limit}:
+                        \begin{equation*}
+                            \rho(x,t)\to\rho_{*}(x)\,,\quad0\approx \mathcal{L}\rho_{*} = \newprime{(V\rho_{*})} + D \pprime{\rho_{*}}\,,
+                        \end{equation*}
+                }
 
-        \footnotetext[1]{\vspace{-0.5cm}\kern0.1cm\href{http://www.early-warning-signals.org/?page_id=42}{\tiny Early Warning Signals toolbox}}
+                \vspace{-0.5cm}
+                \uncover<4->{
+                        \begin{equation*}
+                            \rho_{*}(x) = N\,\text{exp}\bigg(-\frac{V(x)}{D}\bigg)\,.
+                        \end{equation*}
+                }
+
+                \medskip
+                \uncover<6->{
+                        \textit{Mean first passage time (MFPT)} in the \textbf{weak noise limit} $(D<<1)$:
+                        \begin{equation*}
+                                \tau_{\text{esc}}\approx \frac{2\pi}{\sqrt{\pprime{V}(a)|\pprime{V}(b)|}}\,\text{exp}\bigg(\frac{V(b)-V(a)}{D}\bigg)\,.
+                        \end{equation*}
+                }
+
+                \hfill
+                
+                \column{0.5\textwidth}
+
+                \vspace{-0.5cm}
+                \begin{figure}[H]
+                        \centering 
+                        \includegraphics<1-3>[keepaspectratio, width=0.82\textwidth]{./figures/slide_02.1.png}%
+                        \includegraphics<4>[keepaspectratio, width=0.82\textwidth]{./figures/slide_02.2.png}%
+                        \includegraphics<5->[keepaspectratio, width=0.82\textwidth]{./figures/slide_02.3.png}%
+                \end{figure}
+
+                \vspace{-0.5cm}
+                \begin{figure}[H]
+                    \centering 
+                    \includegraphics<5->[keepaspectratio, width=0.82\textwidth]{./figures/slide_02.4.png}
+                \end{figure}
+                
+       \end{columns}
+
+        \footnotetext[1]{\vspace{-0.5cm}\kern0.1cm \tiny Kramers, H., Physica, 7 (1940)}
 \end{frame}
 
 \end{document}
