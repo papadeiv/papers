@@ -1,7 +1,6 @@
 include("../../../../inc/IO.jl")
 include("../../../../inc/SystemAnalysis.jl")
 
-#=
 # Define the diffusion 
 σ = 0.50::Float64
 η(x) = σ
@@ -24,6 +23,5 @@ t, u = evolve_forward_1d(f, η, μ0, IC=x0, Nt=Nt, δt=δt)
 writeout(hcat(t, u), "../data/slide_02/solution.csv")
 
 # Execute the postprocessing and plotting scripts
-=#
 include("../postprocessing/slide_02_postprocessing.jl")
 include("../plotting/slide_02_plotting.jl")

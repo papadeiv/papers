@@ -1,7 +1,6 @@
 include("../../../../inc/IO.jl")
 include("../../../../inc/SystemAnalysis.jl")
 
-#=
 # Define the diffusion
 σ = 0.4::Float64
 η(x) = σ
@@ -30,5 +29,4 @@ writeout(hcat(t, μ, u), "../data/slide_03/solution.csv")
 
 # Execute the postprocessing and plotting scripts
 include("../postprocessing/slide_03_postprocessing.jl")
-=#
 include("../plotting/slide_03_plotting.jl")
