@@ -17,7 +17,7 @@ One choice is the hyperbolic tangent shift
 
 which we parametrised in its ramp rate by $\varepsilon>0$ and its centering (in time) by $\delta\in \mathbb{R}$. 
 Notice that by varying $\varepsilon$ we change the Lipschitz constant $L$ of $\Lambda(t)$ (essentially making the shift to ramp faster in the transient regime for larger values of $\varepsilon$) whereas by varying $\delta$ we change the subset $(t_{a}, t_{b})$ in \eqref{eq:generic_shift_derivative} when the transient regime occurs. 
-Values $\varepsilon\to+\infty$ and $\delta\to0$ make the \eqref{eq:tanh_shift} to converge to the sign function. 
+Values $\varepsilon\to+\infty$ and $\delta\to0$ make the selected shift \eqref{eq:tanh_shift} to converge to the sign function. 
 
 \begin{remark*}
      Any $C^{1}-$smooth, bounded function $f$ is Lipschitz with constant $L$ that coincides with $\sup\{|\newprime{f}(x_{j})|\}$, where $x_{j}\in\text{dom}\,f$ are stationary points of $\newprime{f}$.
@@ -31,15 +31,30 @@ Values $\varepsilon\to+\infty$ and $\delta\to0$ make the \eqref{eq:tanh_shift} t
     \label{fig:sigmoid_example}
 \end{figure}
 
-With the above we finally formulate the non-autonomous augmented replicator system 
+With the above we can formulate the non-autonomous augmented replicator system 
+
+\begin{equation}\label{eq:nonautonomous_shifted_implicit}
+   \begin{cases}
+           \dot{x}(t) = x(1-x)(x - \lambda(t))\,, \\
+           \dot{\lambda}(t) =  \frac{\varepsilon}{2}\,\text{sech}^{2}(\varepsilon t + \delta)\,,
+   \end{cases}
+\end{equation}
+
+where $\dot{\lambda}(t) = \frac{d}{dt}\Lambda(t) = \dot{\Lambda}(t)$.
+
+We would like to rewrite \eqref{eq:nonautonomous_shifted_implicit} so that it can be interpreted as a $2-$dimensional autonomous system.
+To do that we drop the time dependence on $\lambda$ and $\dot{\lambda}$ and notice that
+\begin{equation*}
+        \text{tanh}(\varepsilon t + \delta) = 2\lambda - 1\quad \text{and}\quad \dot{\lambda} = \frac{\varepsilon}{2}\,\text{sech}^{2}(\varepsilon t + \delta) = \frac{\varepsilon}{2}\Big(1 - \text{tanh}^{2}(\varepsilon t + \delta)\Big) = \frac{\varepsilon}{2}\big(1 - (2\lambda - 1)^{2}\big)\,,
+\end{equation*}
+
+which, after trivial calculations, allows us to rewrite the non-autonomous system as
 
 \begin{equation}\label{eq:nonautonomous_shifted}
    \begin{cases}
            \dot{x} = x(1-x)(x - \lambda(t))\,, \\
-           \dot{\lambda} =  \frac{1}{2}(\text{sech}^{2}(\varepsilon t + \delta) + 1)\,,
+           \dot{\lambda} =  2\,\varepsilon\lambda(1-\lambda)\,.
    \end{cases}
 \end{equation}
-
-where $\dot{\lambda} = \frac{d}{dt}\Lambda(t) = \dot{\Lambda}(t)$.
 
 \end{document}

@@ -185,7 +185,5 @@ Colorbar(fig[1:2,2],
          labelsize = 50
 )
 
-
-
 # Export the figure 
 save("../fig/fig:nonautonomous/fig:sigmoid_example.png", fig)

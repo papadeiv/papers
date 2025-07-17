@@ -6,7 +6,7 @@ function mkfig(;
                size = [1000,1000],
                alpha = 1.0,
                bg_out = :transparent,
-               pad = (30,60,10,30), # Order is: left, right, bottom, top 
+               pad = (60,60,30,30), # Order is: left, right, bottom, top 
                fig = Figure(; size = (size[1], size[2]), figure_padding = pad, backgroundcolor = bg_out),
                box_position = [1,1],
                bg_in = :white,

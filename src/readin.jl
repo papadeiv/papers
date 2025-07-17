@@ -1,3 +1,5 @@
+# Standard input method
+
 function readin(filename)
         # Read the data in dataframe form
         df = DataFrame(CSV.File(filename; delim=',', header=false))
