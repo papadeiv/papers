@@ -1,9 +1,9 @@
-include("../../../inc/IO.jl")
-include("../../../inc/PlottingTools.jl")
-include("../../../inc/EscapeProblem.jl")
-include("../../../inc/SystemAnalysis.jl")
-include("../../../inc/PotentialLearning.jl")
-include("../../../inc/TimeseriesAnalysis.jl")
+include("../../inc/IO.jl")
+include("../../inc/PlottingTools.jl")
+include("../../inc/EscapeProblem.jl")
+include("../../inc/SystemAnalysis.jl")
+include("../../inc/PotentialLearning.jl")
+include("../../inc/TimeseriesAnalysis.jl")
 
 printstyled("Generating the figures\n"; bold=true, underline=true, color=:light_blue)
 

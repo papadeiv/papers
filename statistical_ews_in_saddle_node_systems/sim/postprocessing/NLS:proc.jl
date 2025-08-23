@@ -1,9 +1,9 @@
-include("../../../inc/IO.jl")
-include("../../../inc/EscapeProblem.jl")
-include("../../../inc/SystemAnalysis.jl")
-include("../../../inc/PotentialLearning.jl")
-include("../../../inc/TimeseriesAnalysis.jl")
-include("../../../inc/EarlyWarningSignals.jl")
+include("../../inc/IO.jl")
+include("../../inc/EscapeProblem.jl")
+include("../../inc/SystemAnalysis.jl")
+include("../../inc/PotentialLearning.jl")
+include("../../inc/TimeseriesAnalysis.jl")
+include("../../inc/EarlyWarningSignals.jl")
 
 import .EarlyWarningSignals as ews
 

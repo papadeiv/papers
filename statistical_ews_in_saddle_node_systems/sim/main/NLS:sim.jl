@@ -1,7 +1,6 @@
-include("../../../inc/IO.jl")
-include("../../../inc/SystemAnalysis.jl")
+include("../../inc/IO.jl")
+include("../../inc/SystemAnalysis.jl")
 
-#=
 # Define the noise level and timescale separation 
 σ = 0.250::Float64
 ε = 0.001::Float64
@@ -23,6 +22,5 @@ t, μ, u = evolve_ramped_1d(f, g, η, u0, δt=1e-2, μf=1.43)
 writeout(hcat(t, μ, u), "../data/NLS/solution.csv")
 
 # Execute the postprocessing and plotting scripts
-include("../proc/NLS:proc.jl")
-=#
-include("../plot/NLS:plot.jl")
+include("../postprocessing/NLS:proc.jl")
+include("../plotting/NLS:plot.jl")

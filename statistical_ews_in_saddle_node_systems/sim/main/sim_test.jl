@@ -1,6 +1,7 @@
-include("../../../inc/IO.jl")
-include("../../../inc/SystemAnalysis.jl")
+include("../../inc/IO.jl")
+include("../../inc/SystemAnalysis.jl")
 
+#=
 # Define the dynamical system (drift) 
 f(x, μ) = -μ - 2*x + 3*(x^2) - (4/5)*(x^3)
 
@@ -25,5 +26,6 @@ writeout(t, "../data/stationary_ensemble/time.csv")
 writeout(u, "../data/stationary_ensemble/solutions.csv")
 
 # Execute the postprocessing and plotting scripts
-include("../proc/stationary_ensemble:proc.jl")
-include("../plot/stationary_ensemble:plot.jl")
+include("../postprocessing/stationary_ensemble:proc.jl")
+=#
+include("../plotting/stationary_ensemble:plot.jl")

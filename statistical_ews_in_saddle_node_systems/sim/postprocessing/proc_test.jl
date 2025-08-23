@@ -1,8 +1,8 @@
-include("../../../inc/IO.jl")
-include("../../../inc/EscapeProblem.jl")
-include("../../../inc/SystemAnalysis.jl")
-include("../../../inc/PotentialLearning.jl")
-include("../../../inc/TimeseriesAnalysis.jl")
+include("../../inc/IO.jl")
+include("../../inc/EscapeProblem.jl")
+include("../../inc/SystemAnalysis.jl")
+include("../../inc/PotentialLearning.jl")
+include("../../inc/TimeseriesAnalysis.jl")
 
 # Define the noise level and the bifurcation parameter
 σ = 0.125::Float64

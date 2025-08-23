@@ -1,9 +1,12 @@
-include("../../../inc/IO.jl")
-include("../../../inc/PlottingTools.jl")
-include("../../../inc/EscapeProblem.jl")
-include("../../../inc/SystemAnalysis.jl")
-include("../../../inc/PotentialLearning.jl")
-include("../../../inc/TimeseriesAnalysis.jl")
+#=
+include("../../inc/IO.jl")
+include("../../inc/EscapeProblem.jl")
+include("../../inc/SystemAnalysis.jl")
+include("../../inc/PotentialLearning.jl")
+include("../../inc/TimeseriesAnalysis.jl")
+
+using CairoMakie, PrettyMakie, Makie.Colors
+using LaTeXStrings
 
 printstyled("Generating the figures\n"; bold=true, underline=true, color=:light_blue)
 
@@ -133,3 +136,4 @@ lines!(ax, [taylor[3], taylor[3]], [0, maximum(pdf)], linewidth = 3, color = :br
 
 # Export the coefficients' distribution figure
 save("../fig/coefficients_distribution.png", fig)
+=#
