@@ -31,10 +31,27 @@ function main()
 
                 # Compute the reconstruction error
                 error[n] = get_error(μ, Vs)
+
+                # Plot the results (only for the first 100 particles in the ensemble) 
+                if n < 100
+                        plot_ax1(t, u)                  # Timeseries of the ensemble
+                        plot_ax2(Vs)                    # Reconstructed (shifted) potential 
+                end
         end
+
+        # Plot the random variables
+        plot_coeffs(c)                                  # Solutions of the NLLS problem
+        plot_error(error)                               # Numerical error of the reconstruction
+        plot_rvs(parameters)                            # Transformations of the coefficients 
+
+        # Export the data
         writeCSV(parameters, "../../res/data/parameters.csv")
         writeCSV(error, "../../res/data/error.csv")
         writeCSV(c, "../../res/data/coefficients.csv")
+
+        # Export the figures
+        savefig("solutions.png", fig1)
+        savefig("analysis.png", fig3)
 end
 
 # Execute the main

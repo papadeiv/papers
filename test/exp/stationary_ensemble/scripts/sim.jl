@@ -23,7 +23,7 @@ x0 = stable[2]
 
 # Time parameters
 δt = 1e-3                                     # Timestep
-Nt = convert(Int64, 5e3)                      # Total number of steps
+Nt = convert(Int64, 1e5)                      # Total number of steps
 
 # Ensemble parameters
-Ne = convert(Int64, 5e3)
+Ne = convert(Int64, 1e3)

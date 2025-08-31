@@ -26,11 +26,6 @@ escape = Matrix{Float64}(undef, Ne, 2)      # Estimated escape EWS
 parameters = Matrix{Float64}(undef, Ne, 4)  # R.V.s under analysis 
 error = Vector{Float64}(undef, Ne)          # Numerical error of the reconstrucion
 
-# Taylor expansion of U around the stable equilibria
-debug("Coefficients of the Taylor expansion of U around x0 = ", stable[2])
-debug(["c1 = ", "c2 = ", "c3 = "], 
-      [Ux(stable[2], μ), Uxx(stable[2], μ)/2, U3x(stable[2], μ)/6])
-
 # Numerical error of the potential reconstruction (trapezoid rule on L2-norm)
 function get_error(μ, Vs; Nh=1000)
         # Compute the equilibria of the vector field (extrema of the potential)

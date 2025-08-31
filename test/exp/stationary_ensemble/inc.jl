@@ -1,3 +1,5 @@
+using CairoMakie, Makie.Colors
+using LaTeXStrings
 using ProgressMeter 
 using Revise
 
@@ -17,4 +19,10 @@ end
 if !isdefined(Main, :SystemAnalysis)
         include("../../src/SystemAnalysis.jl")
         using .SystemAnalysis
+end
+
+# Avoid re-loading PlottingTools
+if !isdefined(Main, :PlottingTools)
+        include("../../src/PlottingTools.jl")
+        using .PlottingTools
 end
