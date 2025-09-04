@@ -42,5 +42,41 @@ function get_equilibria(f::Function, μ::Float64; domain=[-Inf,Inf])
         end
 
         # Return all the equilibria 
-        return [stable, unstable] 
+        return (
+                stable = stable,
+                unstable = unstable
+               ) 
+end
+
+"""
+    get_equilibria(f; domain)
+
+Overload of `get_equilibria` to find the roots of a vector field `f` that does not have an explicit dependence on the bifurcation parameter.
+Detailed description.
+"""
+function get_equilibria(f::Function; domain=[-Inf,Inf])
+        # Find the zeros of the function in the specified interval
+        equilibria = find_zeros(f, domain[1], domain[2])
+
+        # Define empty arrays to separate stable from unstable equilibria
+        stable = Float64[]
+        unstable = Float64[]
+
+        # Loop over the equilibria 
+        for eq in equilibria
+                # Compute the Jacobian at the equilibrium
+                stability = ForwardDiff.derivative(f,eq)
+                # Determine the stability by checking the sign 
+                if stability < 0
+                        push!(stable, eq)
+                else
+                        push!(unstable, eq)
+                end
+        end
+
+        # Return all the equilibria 
+        return (
+                stable = stable,
+                unstable = unstable
+               ) 
 end

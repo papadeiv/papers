@@ -2,6 +2,8 @@
 *.csv
 # Do not track the mat data files
 *.mat
-# Do not track the images (in jpg) and videos (in mp4) 
+# Do not track the images and videos
 *.jpg
+*.png
+*.webm
 *.mp4

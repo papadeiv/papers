@@ -9,7 +9,7 @@ include("../utils/reconstruction_quasipotential.jl")
 include("../utils/large_deviation_principle.jl")
 
 # Export namespaces
-export fit_distribution, fit_potential, shift_potential
+export fit_distribution, get_normalisation_constant, fit_potential, shift_potential
 export estimate_escape 
 
 end # module

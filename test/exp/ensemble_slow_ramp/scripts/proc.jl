@@ -5,7 +5,6 @@ In here we define the quantities related to the computation of EWSs from raw dat
 """
 
 # Parameters of the scalar potential method
-Nb = convert(Int64, floor(0.02*Nt))         # Number of bins in the histogram
 Nc = convert(Int64, 3e0)                    # Solution space dim. of the method 
 Na =  convert(Int64, 1e4)                   # Number of attempts per guess 
 β = 1e-2                                    # Std of the guess perturbation 
@@ -24,21 +23,3 @@ Vxx(x,c) = 2*c[2] + 6*c[3]*x                # Second derivative
 c = Matrix{Float64}(undef, Ne, Nc)          # Solutions of the method 
 escape = Matrix{Float64}(undef, Ne, 2)      # Estimated escape EWS
 parameters = Matrix{Float64}(undef, Ne, 4)  # R.V.s under analysis 
-error = Vector{Float64}(undef, Ne)          # Numerical error of the reconstrucion
-
-# Numerical error of the potential reconstruction (trapezoid rule on L2-norm)
-function get_error(μ, Vs; Nh=1000)
-        # Compute the equilibria of the vector field (extrema of the potential)
-        equilibria = get_equilibria(f, μ, domain=[-10,10])
-        stable = equilibria[1]
-        unstable = equilibria[2]
-
-        # Create uniform partition of the domain of integration
-        domain = LinRange(unstable[1], stable[2], Nh)
-        dx = domain[2] - domain[1] 
-
-        # Define the integrand
-        E = [(U(x, μ) - Vs(x))^2 for x in domain]
-
-        return sqrt(dx*(sum(E) - 0.5*(E[1]+E[end])))
-end

@@ -92,7 +92,7 @@ end
 """
     approximate_potential(data_x, data_y; kwargs...)
 
-Solves the linear least-squares problem over defined by `data_x` and `data_y` to fit a polynomial scalar potential.
+Solves the linear least-squares problem defined by `data_x` and `data_y` to fit a polynomial scalar potential.
  
 # Keyword Arguments
 - `degree::Int`: degree of the fitted polynomial (defaults to `3`).

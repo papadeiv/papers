@@ -13,13 +13,9 @@ D = (σ^2)/2.0                                 # Diffusion level (additive)
 f(x, μ) = -μ - 2*x + 3*(x^2) - (4/5)*(x^3)    # Drift
 η(x) = σ                                      # Diffusion
 
-# Equilibria
-equilibria = get_equilibria(f, μ, domain=[-10,10])
-stable = equilibria[1]
-unstable = equilibria[2]
-
 # Initial condition 
-x0 = stable[2]
+equilibria = get_equilibria(f, μ, domain=[-10,10])
+x0 = equilibria.stable[2]
 
 # Time parameters
 δt = 1e-3                                     # Timestep
