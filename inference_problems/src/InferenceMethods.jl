@@ -1,15 +1,15 @@
-module EscapeProblem 
+module InferenceMethods
 
 # Import packages
 using LinearAlgebra, Polynomials, Integrals
 using StatsBase, LsqFit
+using ProgressMeter, DocStringExtensions
 
 # Import utility functions
 include("../utils/potential_reconstruction.jl")
-include("../utils/large_deviation_principle.jl")
+include("../utils/parameters_estimation.jl")
 
 # Export namespaces
-export fit_distribution, get_normalisation_constant, fit_potential, shift_potential
-export estimate_escape 
+export fit_distribution, fit_potential 
 
 end # module

@@ -1,18 +1,16 @@
 """
-??? 
+Methods to approximate the scalar potential of a conservative vector field from the realisations of a stochastic process whose drift is the gradient of said vector field.
 
 Author: Davide Papapicco
 Affil: U. of Auckland
 Date: 21-08-2025
 """
 
-include("./debugging.jl")
-
-#--------------------------------------#
-#                                      # 
-#   reconstruction_quasipotential.jl   #                     
-#                                      #
-#--------------------------------------#
+#---------------------------------#
+#                                 # 
+#   potential_reconstruction.jl   #                     
+#                                 #
+#---------------------------------#
 
 struct Potential
         bins::Vector
@@ -23,13 +21,23 @@ struct Potential
 end
 
 """
-    fit_distribution(u; kwargs...)
+$(TYPEDSIGNATURES)
 
-Constructs a histogram approximating the probability distribution of a timeseries `u`.
+Constructs a histogram approximating the probability distribution of a timeseries.
 
-# Keyword Arguments
-- `interval::Tuple{<:Real,<:Real}`: The domain `(a, b)` over which the histogram is constructed (defaults to `(minimum(u),maximum(u))`).
-- `n_bins::Int`: Number of bins used for the histogram (defaults to `200`).
+To get meaningful histograms the timeseries `u` should be detrended first.
+
+## Keyword Arguments
+* `interval=nothing`: The domain `(a, b)` over which the histogram is constructed (defaults to `(minimum(u),maximum(u))`).
+* `n_bins=200::Int64`: Number of bins used for the histogram (defaults to `200`).
+
+## Output
+`bins, pdf, normalisation_constant`
+* `bins::Vector{Float64}`: center points of the bins of the histogram 
+* `pdf::Vector{Float64}`: heights of the bars of the histogram 
+* `normalisation_constant::Float64`: `LinearAlgebra.norm(hist)` 
+
+## Example
 """
 function fit_distribution(u; interval = nothing, n_bins = 200::Int64)
         # Get the range of values of the distribution
@@ -60,12 +68,19 @@ function fit_distribution(u; interval = nothing, n_bins = 200::Int64)
 end
 
 """
-    invert_equilibrium_distribution(bins, distribution, noise; kwargs)
+$(TYPEDSIGNATURES)
 
 Uses the stationary asymptotic limit of the OUP to derive the scalar potential given the histogram `bins` and `distribution` values of a probability density and a scalar-values `noise`.
 
-# Keyword Arguments
-- `N`: the normalisation constant of the pdf (defaults to `1/sqrt(pi*noise^2)`). 
+## Keyword Arguments
+* `N=nothing`: the normalisation constant of the pdf (defaults to `1/sqrt(pi*noise^2)`). 
+
+## Output
+`xs, Vs`
+* `xs::Vector{Float64}`: discrete coordinates of the inverted potential 
+* `Vs::Vector{Float64}`: values of the inverted potential 
+
+## Example
 """
 function invert_equilibrium_distribution(bins, distribution, noise::Float64; N = nothing)
         # Compute the diffusion coefficient
@@ -90,12 +105,17 @@ function invert_equilibrium_distribution(bins, distribution, noise::Float64; N =
 end
 
 """
-    approximate_potential(data_x, data_y; kwargs...)
+$(TYPEDSIGNATURES)
 
 Solves the linear least-squares problem defined by `data_x` and `data_y` to fit a polynomial scalar potential.
- 
-# Keyword Arguments
-- `degree::Int`: degree of the fitted polynomial (defaults to `3`).
+
+## Keyword Arguments
+* `degree=3::Int`: degree of the fitted polynomial
+
+## Output
+* `interpolant::Function`: result of the least-square fit
+
+## Example
 """
 function approximate_potential(data_x, data_f; degree=3::Int64)
         interpolant = Polynomials.fit(data_x, data_f, degree)
@@ -129,12 +149,19 @@ function approximate_potential(data_x, data_f; degree=3::Int64)
 end
 
 """
-    get_normalisation_constant(f, I; kwargs...)
+$(TYPEDSIGNATURES)
 
-Computes the approximate normalisation constant of a pdf `f::Function` parametrised by `parameters` over a finite domain by Gauss-Kronrod quadrature.
- 
-# Keyword Arguments
-- `accuracy::Float64`: relative accuracy criterion for the quadrature iterations (defaults to `1e-8`).
+Computes the approximate normalisation constant of a pdf by Gauss-Kronrod quadrature.
+
+Here `f::Function` is assumed to depend on a cubic potential parametrised by `parameters` and defined over a finite domain.
+
+## Keyword Arguments
+* `accuracy=1e-8`: relative accuracy criterion for the quadrature iterations (defaults to `1e-8`).
+
+## Output
+* `normalisation_constant::Float64`: normalisation constant to make `f` a pdf 
+
+## Example
 """
 function get_normalisation_constant(f::Function, parameters; accuracy=1e-8)
         # Compute the location of the local minima and maxima
@@ -163,19 +190,27 @@ function get_normalisation_constant(f::Function, parameters; accuracy=1e-8)
 end
 
 """
-    fit_potential(timeseries; kwargs...)
+$(TYPEDSIGNATURES)
 
 Sets up and solves the non-linear least-square optimisation problem to fit a scalar potential to a `timeseries` using the stationarity assumption.
- 
-# Keyword Arguments
-- `n_coeff::Int`: degree of the polynomial function to be fitted (defaults to `3`).
-- `n_bins::Int`: number of bins to approximate the histogram of the stationary distribution as computed by `fit_distribution` (defaults to the `floor` integer of 2% of the total number of timesteps in `timeseries`).
-- `noise::Float`: additive noise of the scalar SDE generating the `timeseries` (defaults to `std(timeseries)`).
-- `initial_guess::Vector`: initial value for the vector of coefficients to be used by the optimiser (if nothing is passed it defaults to the solution of `approximate_solution` which uses the OUP assumption).
-- `optimiser::Float`: standard deviation of the noise injected in the `initial_guess` (defaults to `1e-2`).
-- `attempts::Int`: number of tries on the initial guess for the optimiser in case of failure or numerical instability (defaults to `1000`).
+
+The potential is assumbed to be cubic.
+
+## Keyword Arguments
+* `n_coeff=3::Int`: degree of the polynomial function to be fitted (defaults to `3`)
+* `n_bins=nothing`: number of bins to approximate the histogram of the stationary distribution as computed by `fit_distribution` (defaults to the `floor` integer of 2% of the total number of timesteps in `timeseries`)
+* `noise=nothing`: additive noise of the scalar SDE generating the `timeseries` (defaults to `std(timeseries)`)
+* `initial_guess=nothing`: initial value for the vector of coefficients to be used by the optimiser (if nothing is passed it defaults to the solution of `approximate_solution` which uses the OUP assumption)
+* `optimiser=1e-2`: standard deviation of the noise injected in the `initial_guess` (defaults to `1e-2`)
+* `attempts=1000::Int`: number of tries on the initial guess for the optimiser in case of failure or numerical instability (defaults to `1000`)
+* `verbose=false`: print on screen whether the method converged or not 
+
+## Output
+* `coefficients::Vector{Float64}`: 3 polynomial coefficients of the cubic solving the nonlinear problem (c0 is assumed to be 0 and does not impact the potential's shape)
+
+## Example
 """
-function fit_potential(timeseries; n_coeff=3, n_bins=nothing, noise=nothing, initial_guess=nothing, optimiser=1e-2, attempts=1000)
+function fit_potential(timeseries; n_coeff=3, n_bins=nothing, noise=nothing, initial_guess=nothing, optimiser=1e-2, attempts=1000, verbose = false)
         # Number of coefficients for the non-linear least-squares problem
         Nc = n_coeff
 
@@ -231,7 +266,10 @@ function fit_potential(timeseries; n_coeff=3, n_bins=nothing, noise=nothing, ini
                 solution = curve_fit(p, bins, hist, initial_guess, lower=lower, upper=upper).param
                 return solution
         catch e
-                if isa(e, ArgumentError) && occursin("matrix contains Infs or NaNs", e.msg)
+                if isa(e, ArgumentError) && (
+                                             occursin("matrix contains Infs or NaNs", e.msg) ||
+                                             occursin("Initial guess must be within bounds", e.msg)
+                                            )
                         # No print
                 else
                         rethrow(e)
@@ -248,7 +286,10 @@ function fit_potential(timeseries; n_coeff=3, n_bins=nothing, noise=nothing, ini
                         solution = curve_fit(p, bins, hist, perturbed_guess, lower=lower, upper=upper).param
                         return solution
                 catch e
-                        if isa(e, ArgumentError) && occursin("matrix contains Infs or NaNs", e.msg)
+                        if isa(e, ArgumentError) && (
+                                                     occursin("matrix contains Infs or NaNs", e.msg) ||
+                                                     occursin("Initial guess must be within bounds", e.msg)
+                                                    )
                                 tries += 1
                         else
                                 rethrow(e)
@@ -257,33 +298,19 @@ function fit_potential(timeseries; n_coeff=3, n_bins=nothing, noise=nothing, ini
         end
 
         # Return the linear solution
-        debug("Curve fitting failed after $(tries) attempts.")
+        if verbose
+                debug("Curve fitting failed after $(tries) attempts.")
+        end
         return initial_guess
 end
 
 """
-    get_stationary_points(V::Polnomial; kwargs...)
+$(TYPEDSIGNATURES)
 
-Computes the local extrema of a polynomial `V`.
- 
-# Keyword Arguments
-- `domain::Vector`: the interval over which the extrema are sought (defaults to `[-Inf,Inf]`).
-"""
-function get_stationary_points(V::Polynomial; domain=[-Inf,Inf])
-        # Differentiate the polynomial
-        dV = derivative(V)
+Compute the vertical and horizontal shifts of a polynomial scalar potential generated by `c` by centering it on the local minima `x0` of a target potential `U` (usually the ground truth) evaluated at parameter value `μ`.
 
-        # Find the roots of the first-derivative of the polynomial
-        points = roots(dV)
-
-        # Return the points sorted from smallest to largest 
-        return sort(points) 
-end
-
-"""
-    shift_potential(U::Function, x0, p, c)
-
-Computes the vertical and horizontal shifts of a polynomial scalar potential generated by `c` by centering it on the local minima `x0` of a target potential `U` (usually the ground truth) evaluated at parameter value `p`.
+## Output
+* `xs, Vs`: locations `xs` of the shifted potential `Vs` 
 """
 function shift_potential(U::Function, x0, μ, c)
         # Compute the stable equilibrium (center of the shift)

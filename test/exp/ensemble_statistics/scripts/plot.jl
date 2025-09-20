@@ -4,11 +4,8 @@
 Collection of all the functions used to generate and properly format the figures of the simulations.
 """
 
-CtpMauve = colorant"rgb(202,158,230)"
-CtpTeal = colorant"rgb(129, 200, 190)"
-CtpBlue = colorant"rgb(140, 170, 238)"
-CtpRed = colorant"rgb(231, 130, 132)"
-CtpYellow = colorant"rgb(229,200,144)"
+# Create empty layouts for the figures
+include("./figs.jl")
 
 #--------------------------------#
 #    Timeseries and potential    #

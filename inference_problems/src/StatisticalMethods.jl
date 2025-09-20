@@ -1,7 +1,8 @@
 module StatisticalMethods
 
 # Import packages
-using ProgressMeter, StatsBase
+using ProgressMeter, DocStringExtensions
+using StatsBase
 
 # Import utility functions
 include("../utils/stationary_processes.jl")

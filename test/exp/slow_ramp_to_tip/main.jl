@@ -71,7 +71,7 @@ function main()
                 push!(error, get_error(ensemble.timesteps[n][end], Vs))
 
                 # Plot and export the residuals, distributions and potentials
-                if mod(n,10) == 0
+                if mod(n,100) == 0
                         fig2 = plot_solutions(ensemble.timesteps[n], 
                                       ensemble.trajectories[n], 
                                       detrended_solution, 

@@ -32,12 +32,12 @@ With `makefig` we set a lot of the defaults to aesthetically pleasingly values w
 * `border=5.0`: thickness of the border (spine) 
 * `border_color=:black`: color of the border (spine) 
 * `limits=(nothing,nothing)`: limits of the x- and y-axis 
-* `title=L"\textbf{template title}"`: title at the top of the plot 
+* `title=L"textbf{template title}"`: title at the top of the plot 
 * `toggle_title=false`: toggles the visibility of the title 
 * `title_size=50`: fontsize of the title 
 * `title_color=:black`: color of the title 
 * `title_gap=4.0`: distance between the title and the top border of the plot 
-* `lab=[L"\mathbf{x}",L"\mathbf{y}"]`: labels of the x- and y-axis 
+* `lab=[L"mathbf{x}",L"mathbf{y}"]`: labels of the x- and y-axis 
 * `toggle_lab=[true,true]`: toggle the visibility of the labels 
 * `lab_size=[50,50]`: fontsize of the labels 
 * `lab_color=[:black,:black]`: color of the labels 

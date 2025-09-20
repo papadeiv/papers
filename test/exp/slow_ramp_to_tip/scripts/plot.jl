@@ -82,7 +82,7 @@ function plot_solutions(parameters, subseries, detrended, solution, shifted_pote
                             ticks_lab_trunc = [1,0]
                            )
         # Compute and plot the histogram of the residuals 
-        local bins, pdf = fit_distribution(detrended.residuals, n_bins=convert(Int64, floor(0.005*length(detrended.residuals))))
+        local bins, pdf = fit_distribution(detrended.residuals)
         domain = LinRange(minimum(bins),maximum(bins),1000)
         barplot!(ax3, bins, pdf, color = pdf, colormap = [(CtpWhite,1.0),(CtpGray,0.35)], strokecolor = :black, strokewidth = 1)
         # Plot the solution of the NLLS regression to the histogram

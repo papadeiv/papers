@@ -18,7 +18,7 @@ include("./scripts/plot.jl")
 # Define the main algorithm
 function main()
         # Solve the ensemble problem 
-        t, X = evolve_ensemble(f, η, μ, IC=[x0], δt=δt, Nt=Nt, Ne=Ne)
+        t, X = evolve_1d(f, η, μ, [x0], δt=δt, Nt=Nt, Ne=Ne)
 
         # Loop over the ensemble's sample paths
         printstyled("Computing the least-squares solutions across the ensemble\n"; bold=true, underline=true, color=:light_blue)

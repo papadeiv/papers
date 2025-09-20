@@ -5,8 +5,8 @@ This is where we store the definition of the system alongside all the settings o
 """
 
 # System parameters
-μ0 = 1.20::Float64                            # Initial parameter value
-μf = 1.45::Float64                            # Final parameter value
+μ0 = 1.30::Float64                            # Initial parameter value
+μf = 1.40::Float64                            # Final parameter value
 ε = 1e-3                                      # Slow timescale
 σ = 0.250::Float64                            # Noise level (additive)
 D = (σ^2)/2.0                                 # Diffusion level (additive) 

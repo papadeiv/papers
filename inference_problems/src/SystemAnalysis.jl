@@ -3,6 +3,7 @@ module SystemAnalysis
 # Import packages
 using DifferentialEquations
 using Polynomials, Roots, ForwardDiff
+using DocStringExtensions
 
 # Import utility functions
 include("../utils/evolve_1d_systems.jl")

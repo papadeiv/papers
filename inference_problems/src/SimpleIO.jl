@@ -2,7 +2,7 @@ module SimpleIO
 
 # Import packages
 using Tables, CSV, MAT
-using ProgressMeter 
+using ProgressMeter, DocStringExtensions 
 
 # Import utility functions
 include("../utils/data_handling.jl")

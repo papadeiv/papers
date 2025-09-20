@@ -14,55 +14,71 @@ include("./scripts/plot.jl")
 
 # Define the main algorithm
 function main()
-        # Solve the ensemble problem 
-        sample_paths = evolve_ramped_1d(f, g, η, x0, δt=δt, μf=μf, Ne=Ne)
-        t = sample_paths.time
-        μ = sample_paths.parameter
+        # Loop over the discrete ranges
+        for m in 1:Nμ
+                # Create empty layouts for the figures
+                include("./scripts/figs.jl")
 
-        # Plot the true scalar potential
-        plot_ground_truth(μ)
+                # Solve the slowly ramped ensemble problem
+                sample_paths = evolve_ramped_1d(f, g, η, x0[m,:], δt=δt, μf=μf[m], Ne=Ne)
+                t = sample_paths.time
+                μ = sample_paths.parameter
 
-        # Compute the quasi-steady equilibrium in the windowed parameter range of the subseries 
-        qse = [(get_equilibria(f, μc, domain=[-10,10])).stable[2] for μc in μ] 
+                # Plot the true scalar potential
+                plot_ground_truth(μ)
 
-        # Loop over the ensemble's sample paths
-        printstyled("Computing the least-squares solutions across the ensemble\n"; bold=true, underline=true, color=:light_blue)
-        @showprogress for n in 1:Ne
-                # Extract the current solution from the ensemble and detrend it
-                u = sample_paths.states[n]
-                u_det = detrend(u, qse = qse)
-                u_res = u_det.residuals
+                # Compute the quasi-steady equilibrium of the slow ramp 
+                qse = [(get_equilibria(f, μc, domain=[-10,10])).stable[2] for μc in μ] 
 
-                # Solve the NLLS problem
-                c[n,:] = fit_potential(u_res, n_coeff=Nc, noise=σ, optimiser=β, attempts=Na)
+                # Loop over the ensemble's sample paths
+                printstyled("Range $m of $Nμ: ($(μ0[m]),$(μf[m]))\n"; bold=true, underline=true, color=:green)
+                printstyled("Solving the least-squares problems across the ensemble\n"; bold=true, underline=true, color=:light_blue)
+                @showprogress for n in 1:Ne
+                        # Extract the current solution from the ensemble and detrend it
+                        u = sample_paths.states[n]
+                        u_det = detrend(u, qse = qse)
+                        u_res = u_det.residuals
 
-                # Reconstruct a shifted potential (to match the ground truth)
-                xs, Vs = shift_potential(U, x0[1], μ[end], c[n,:])
+                        # Solve the NLLS problem
+                        coefficients[n,:] = fit_potential(u_res, n_coeff=Nc, noise=σ, optimiser=β, attempts=Na)
 
-                # Compute the random variables targeted by the analysis 
-                parameters[n,1] = xs                    # Estimated stable equilibrium
-                parameters[n,2] = V(xs,c[n,:])          # Potential value at equilibrium
-                parameters[n,3] = Vxx(xs,c[n,:])        # Curvature value at equilibrium
-                parameters[n,4] = exp(V(xs,c[n,:])/D)   # Escape probability at equilibrium
+                        # Compute the random variables for the analysis
+                        push!(analysis, analyse(coefficients[n,:]))
 
-                # Plot the results (only for the first 100 particles in the ensemble) 
-                if n < 100
-                        plot_solutions(μ, u, u_res)       # Timeseries of the ensemble
-                        plot_reconstruction(Vs)       # Timeseries of the ensemble
+                        # Reconstruct a shifted potential (to match the ground truth)
+                        xs, Vs = shift_potential(U, x0[m,1], μ[end], coefficients[n,:])
+
+                        # Compute the escape EWS
+                        escape[n,m] = estimate_escape(coefficients[n,:], σ).LDP
+              
+                        # Plot the results (only for the first 100 particles in the ensemble) 
+                        if n < 100
+                                plot_solutions(μ, u, u_res)   # Timeseries of the ensemble
+                                plot_reconstruction(Vs)       # Timeseries of the ensemble
+                        end
                 end
+
+                # Plot the drift, info and results 
+                plot_drift(μ, qse)
+                print_info(length(t), m)
+                plot_results(coefficients, analysis)
+
+                # Export the figures
+                savefig("ensemble_slow_ramp/solutions/$m.png", fig1)
+                savefig("ensemble_slow_ramp/coefficients/$m.png", fig4)
+                savefig("ensemble_slow_ramp/analysis/$m.png", fig7)
+                savefig("ensemble_slow_ramp/ews/$m.png", fig15)
         end
 
-        # Plot the drift of the quasi-steady equilibrium (QSE) and print the info
-        plot_drift(μ, qse)
-        print_info(length(t))
+        #=
+        # Plot and export the escape ews
+        true_escape = plot_ews(escape)
+        savefig("ensemble_slow_ramp/ews.png", fig11)
 
-        # Plot the random variables
-        plot_coeffs(c)                                  # Solutions of the NLLS problem
-        plot_rvs(parameters)                            # Transformations of the coefficients 
-
-        # Export the figures
-        savefig("ensemble_slow_ramp/solutions.png", fig1)
-        savefig("ensemble_slow_ramp/analysis.png", fig4)
+        # Export data
+        writeCSV(escape, "../../res/data/escape.csv")
+        writeCSV(true_escape, "../../res/data/true_escape.csv")
+        =#
 end
 
 # Execute the main
