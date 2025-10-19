@@ -5,21 +5,15 @@ This is where we store the definition of the system alongside all the settings o
 """
 
 # System parameters
-μ = [0.0, 3.0, 1.0]                           # Bifurcation parameter value
-σ = 0.125::Float64                            # Noise level (additive)
+μ = -0.400                                    # Bifurcation parameter value
+σ = 0.100                                     # Noise level (additive)
 D = (σ^2)/2.0                                 # Diffusion level (additive) 
+Nt = 1e5                                      # Total number of steps
 
-# Dynamical system  
-f(x, μ) = μ[1] + 2.0*μ[2]*x + 3.0*μ[3]*(x^2)  # Drift
-η(x) = σ                                      # Diffusion
-
-# Initial condition 
-equilibria = get_equilibria(f, μ, domain=[-10,10])
-x0 = equilibria.stable[1]
-
-# Time parameters
-δt = 1e-3                                     # Timestep
-Nt = convert(Int64, 1e5)                      # Total number of steps
-
-# Ensemble parameters
-Ne = convert(Int64, 1e3)
+# Stationary Fokker-Plank density
+xs(μ) = (1/(3*μ[3]))*(sqrt((μ[2])^2 - 3*μ[1]*μ[3]) - μ[2])
+c0(μ) = - μ[1]*xs(μ) - μ[2]*(xs(μ))^2 - μ[3]*(xs(μ))^3
+V(x, μ) = c0(μ) + μ[1]*x + μ[2]*(x^2) + μ[3]*(x^3)
+f(x, μ) = exp(-(1.0::Float64/D)*(V(x, μ)))
+N(μ) = normalise(f, μ)
+p(x, μ) = N(μ)*exp.(-(1.0::Float64/D).*(c0(μ) .+ μ[1]*x .+ μ[2]*(x.^2) .+ μ[3]*(x.^3)))
