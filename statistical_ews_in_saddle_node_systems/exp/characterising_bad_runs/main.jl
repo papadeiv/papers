@@ -34,19 +34,26 @@ function main()
                 solution = fit_potential(u, n_bins=Nb, noise=σ, optimiser=β, attempts=Na)
                 push!(solutions, solution.fit)
 
-                # Perform postprocessing analysis on the solutions
-                Vs = analyse(solution.fit)
-
-                # Plot and export the potential reconstruction 
-                include("./scripts/figs.jl")
-                plot_solutions(t, u, Vs, n)
+                # Export the timeseries if the solution is bad or good
+                c = solution.fit
+                xu = -(1/(3*c[3]))*(sqrt((c[2])^2 - 3*c[1]*c[3]) + c[2])
+                if abs(xu - (-2*sqrt(-μ))) > 0.95
+                        df = DataFrame(t = t, u = u)
+                        CSV.write("../../res/data/bad_runs/$n.csv", df)
+                        Vs = analyse(solution.fit)
+                        include("./scripts/figs.jl")
+                        plot_solutions(t, u, Vs, n)
+                elseif abs(xu - (-2*sqrt(-μ))) < eps() 
+                        df = DataFrame(t = t, u = u)
+                        CSV.write("../../res/data/good_runs/$n.csv", df)
+                        Vs = analyse(solution.fit)
+                        include("./scripts/figs.jl")
+                        plot_solutions(t, u, Vs, n)
+                end
         end
-
-        # Export the csv file
-        export_data()
 end
 
 # Execute the main
-main()
+#main()
 # Plot the ews
-#plot_ews()
+characterise()

@@ -15,6 +15,8 @@ fig1, ax1 = makefig(size = [1600,1600],
                     box_position = [1,1],
                     limits = ((-0.35, 0.35), (-0.5, 7)),
                     lab = [L"\mathbf{x_t}", L"\textbf{dist}"],
+                    title = L"\mathbf{Nb=%$Nb}",
+                    toggle_title = true,
                     x_ticks = [-0.3,0,0.3],
                     y_ticks = [0,7],
                     ticks_lab_trunc = [1,0]

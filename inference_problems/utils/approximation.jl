@@ -32,11 +32,12 @@ function normalise(f::Function, parameters, domain; accuracy=1e-8)
 
         # Solve the definite integral by using adaptive Gauss-Kronrod quadrature
         quadrature = solve(integral, QuadGKJL(); maxiters=10000, reltol=accuracy, abstol=accuracy)
+
         # Return the approximation
         return 1.0::Float64/(quadrature.u)
 end
 
-function normalise(f::Function, parameters; accuracy=1e-8)
+function normalise(f::Function, parameters; accuracy=1e-12)
         # Compute the location of the local minima and maxima
         μ = parameters
         xs = +(1/(3*μ[3]))*(sqrt((μ[2])^2 - 3*μ[1]*μ[3]) - μ[2])
@@ -44,10 +45,30 @@ function normalise(f::Function, parameters; accuracy=1e-8)
 
         # Define the integration interval
         I = (-Inf,Inf)
+
+        # Initialise the interval
         if xs > xu
-                I = (xu, +Inf) 
+                # Avoid numerical cancellation in the quadrature
+                if abs(xu-xs) < 1e1
+                        I = (xu, +Inf) 
+                else
+                        # Find a small enough value of the integrand
+                        subinterval = collect(LinRange(xs,xu,100000))
+                        idx = findfirst(p -> p < 1e-16, [f(x, μ) for x in subinterval])
+                        xu = subinterval[idx]
+                        I = (xu, +Inf)
+                end
         else
-                I = (-Inf, xu) 
+                # Avoid numerical cancellation in the quadrature
+                if abs(xu-xs) < 1e1
+                        I = (-Inf, xu)
+                else
+                        # Find a small enough value of the integrand
+                        subinterval = collect(LinRange(xs,xu,100000))
+                        idx = findfirst(p -> p < 1e-16, [f(x, μ) for x in subinterval])
+                        xu = subinterval[idx]
+                        I = (-Inf, xu)
+                end
         end
 
         # Define the integral problem over the domain
@@ -58,7 +79,10 @@ function normalise(f::Function, parameters; accuracy=1e-8)
         end
 
         # Solve the definite integral by using adaptive Gauss-Kronrod quadrature
-        quadrature = solve(integral, QuadGKJL(); maxiters=10000, reltol=accuracy, abstol=accuracy)
+        quadrature = solve(integral, QuadGKJL(; order=1000); maxiters=100000, reltol=accuracy, abstol=accuracy)
+
+        #display(1.0::Float64/(quadrature.u))
+        
         # Return the approximation
         return 1.0::Float64/(quadrature.u)
 end

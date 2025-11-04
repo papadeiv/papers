@@ -22,4 +22,4 @@ x0 = [equilibria.stable[1], μ]
 # Simulation parameters
 dt = 1e-1                                     # Timestep
 Nt = 2e5                                      # Total number of steps
-Ne = 1e3                                      # Number of particles in the ensemble 
+Ne = 1e2                                      # Number of particles in the ensemble 

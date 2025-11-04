@@ -18,7 +18,7 @@ function main()
         runs = ["bad", "good"]
 
         # Loop over the two runs
-        for n in 1:2
+        for n in 1:1
                 # Import the solutions of the good and the bad runs
                 run = Matrix(CSV.read("../../res/data/"*runs[n]*".csv", DataFrame))
                 t = run[:,1] 
@@ -40,27 +40,32 @@ function main()
                 N=1/sqrt(2*pi*D)
                 y = -D.*log.(y./N)
                 linear_solution = Polynomials.fit(x, y, Nc).coeffs[2:4]
-                #linear_solution = [-0.00372292,0.56030212,0.37830491] # Good guess 1
-                #linear_solution = [-0.00039618,0.58196175,0.31332258] # Good guess 2
 
-                # Use the above as an initial guess for the nonlinear regression
-                lower = [-45.0, -25.0, -40.0] 
-                upper = [45.0, 25.0, 40.0]
-                fit = curve_fit(p, bins, pdf, linear_solution, lower=lower, upper=upper, store_trace=true)
-                nonlinear_solution = fit.param 
+                # Define the nonlinear model
+                model(x, μ) = normalise(f, μ)*f(x, μ)
+                #jacob(x, μ) = [(1.0/x)*exp(-μ[2]/x), (-μ[1]/(x^2))*exp(-μ[2]/x)] 
+                
+                # Compute the linear solution and use it as an initial guess
+                guess = linear_solution
+               
+                # Plot the Jacobian approximation 
+                fig = Figure(; size = (1500, 500))
+                ax1 = Axis(fig[1,1], xlabel=L"x", ylabel=L"\partial_{c_1}\;f")
+                #lines!(ax1, xdata, [jacob(x, μ)[1] for x in xdata], color=:red, label="true", linewidth = 3.0)
+                lines!(ax1, bins, approx_jacobian(model, bins, guess)[:,1], color=:orange, label="approximation")
+                ax2 = Axis(fig[1,2], xlabel=L"x", ylabel=L"\partial_{c_2}\;f")
+                #lines!(ax2, xdata, [jacob(x, μ)[2] for x in xdata], color=:blue, label="true", linewidth = 3.0)
+                lines!(ax2, bins, approx_jacobian(model, bins, guess)[:,2], color=:orange, label="approximation")
+                ax3 = Axis(fig[1,3], xlabel=L"x", ylabel=L"\partial_{c_3}\;f")
+                #lines!(ax3, xdata, [jacob(x, μ)[3] for x in xdata], color=:blue, label="true", linewidth = 3.0)
+                lines!(ax3, bins, approx_jacobian(model, bins, guess)[:,3], color=:orange, label="approximation")
+                #axislegend(ax1)
+                #axislegend(ax2)
+                #axislegend(ax3)
+                savefig("cubic/jacobian/bad/0.png", fig)
 
-                # Loop over the trace of the optimiser
-                println("")
-                @printf("                  Optimiser's steps\n")
-                @printf("----------------------------------------------------\n")
-                @printf("Iter     Residual       Lambda       Gradient norm\n")
-                @printf("------   ----------     --------     ---------------\n")
-                for m in 1:length(fit.trace)
-                        @printf("%3d    %11.6f    %11.6f    %13.8f\n", fit.trace[m].iteration, fit.trace[m].value, fit.trace[m].metadata["lambda"], fit.trace[m].g_norm)
-                end
-                println("")
-                #println("guess = [", (linear_solution)[1], ", ", (linear_solution)[2], ", ", (linear_solution)[3], "]")
-                #println("final = [", (nonlinear_solution)[1], ", ", (nonlinear_solution)[2], ", ", (nonlinear_solution)[3], "]")
+                # Fit the data using gradient descent
+                nonlinear_solution = fit_gradient_descent(bins, pdf, model, guess, jac=nothing, maxiter=10000, α=1e-6, tol=1e-10)
 
                 # Shift the solutions to center the potential with the ground truth 
                 Vs_linear = shift_potential(U, sqrt(-μ), linear_solution)

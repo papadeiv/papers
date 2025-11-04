@@ -31,9 +31,14 @@ function normalise(f::Function, parameters, domain; accuracy=1e-8)
         end
 
         # Solve the definite integral by using adaptive Gauss-Kronrod quadrature
-        quadrature = solve(integral, QuadGKJL(); maxiters=10000, reltol=accuracy, abstol=accuracy)
-        # Return the approximation
-        return 1.0::Float64/(quadrature.u)
+        quadrature = solve(integral, QuadGKJL(; order=100); maxiters=10000, reltol=accuracy, abstol=accuracy)
+
+        # Compute the normalisation constant
+        N = 1.0::Float64/(quadrature.u)
+        if N > 1e4
+                display(N)
+        end
+        return N
 end
 
 function normalise(f::Function, parameters; accuracy=1e-8)
@@ -58,9 +63,14 @@ function normalise(f::Function, parameters; accuracy=1e-8)
         end
 
         # Solve the definite integral by using adaptive Gauss-Kronrod quadrature
-        quadrature = solve(integral, QuadGKJL(); maxiters=10000, reltol=accuracy, abstol=accuracy)
-        # Return the approximation
-        return 1.0::Float64/(quadrature.u)
+        quadrature = solve(integral, QuadGKJL(; order=100); maxiters=10000, reltol=accuracy, abstol=accuracy)
+
+        # Compute the normalisation constant
+        N = 1.0::Float64/(quadrature.u)
+        if N > 1e4
+                display(N)
+        end
+        return N
 end
 
 """
@@ -179,7 +189,7 @@ function fit_potential(timeseries; n_bins=nothing, noise=nothing, initial_guess=
                                              occursin("Initial guess must be within bounds", e.msg)
                                             )
                         # No print
-                elseif isa(e, DomainError)
+                elseif isa(e, DomainError) || isa(e, LoadError)
                         # No print
                 else
                         rethrow(e)
@@ -205,7 +215,7 @@ function fit_potential(timeseries; n_bins=nothing, noise=nothing, initial_guess=
                                                      occursin("Initial guess must be within bounds", e.msg)
                                                     )
                                 tries += 1
-                        elseif isa(e, DomainError)
+                        elseif isa(e, DomainError) || isa(e, LoadError)
                                 tries += 1
                         else
                                 rethrow(e)
