@@ -172,7 +172,7 @@ function main()
                         println("")
 
                         # Export the figure
-                        savefig("cubic/"*runs[n]*"/$m.png", fig1)
+                        savefig("inverse_gaussian_weights/"*runs[n]*"/$m.png", fig1)
                 end
 
                 # Plot and export the reconstruction error

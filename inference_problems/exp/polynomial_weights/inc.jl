@@ -1,7 +1,9 @@
 using CairoMakie, Makie.Colors, LaTeXStrings
-using Polynomials, Statistics
+using Polynomials, LinearAlgebra, LsqFit 
+using Statistics, StatsBase
 using ProgressMeter, Revise
 using DataFrames, CSV
+using Printf
 
 # Avoid re-loading SystemAnalysis 
 if !isdefined(Main, :SystemAnalysis)
