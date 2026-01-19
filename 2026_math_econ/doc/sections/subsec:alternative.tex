@@ -1,0 +1,21 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsection{An alternative model}\label{subsec:alternative}
+Before embarking into the analysis of the model we wish to reformulate its dynamics to be more amenable to the task at hand while satisfying the constrained conditions \eqref{eq:cond_he}$-$\eqref{eq:cond_geL}
+Lagerlöf choice of dynamics \eqref{eq:lagerlof_h}$-$\eqref{eq:lagerlöf_E} is unconventional in classical dynamical systems theory.
+While continuous functions of their arguments, they are non-smooth.
+Non-smooth systems may have richer and generically more interesting dynamics (especially in high-dimensions) however they significantly complicate the analysis of their fundamental properties.
+To remedy this we propose the alternative choice 
+\begin{align}
+     h(e,\, g)           =& \; \log\bigg(\,\frac{e}{g}\bigg)\,,   \label{eq:alternative_h} \\
+     \mathcal{G}(e,\, L) =& \; \big(2-\exp(-e^{2})\big)\,\exp(-L^{2}) \,.   \label{eq:alternative_G}
+\end{align}
+Notice that \eqref{eq:alternative_h} satisfies \eqref{eq:cond_heg} only if $g > e$.
+To derive the final equation $\mathcal{E}(e,\,L)$ we again put our choice for $h$ into \eqref{eq:cond_e} and solve for $e$ to get
+\begin{equation}\label{eq:alternative_E}
+     \mathcal{E}(e,\,L) = \exp(\tau)\,\mathcal{G}(e,\,L)\,.
+\end{equation}
+One remarkable difference between this system w.r.t. Lagerlöf's one is that the one we propose is a diffeomorphism that is smooth in all the state variables; conversely the presence of the $\min$, $\max$ functions in \eqref{eq:lagerlof_G} and \eqref{eq:lagerlof_E} respectively makes the dynamics non-smooth.
+We decided to stick to an iterated map that adheres to the more traditional part of classical dynamical systems theory so that the analytical toolbox available can, for the large part, be retained.
+
+\end{document}

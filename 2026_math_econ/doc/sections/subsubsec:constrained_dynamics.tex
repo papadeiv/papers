@@ -1,0 +1,56 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsubsection{Constrained dynamics}\label{subsubsec:constrained_dynamics}
+
+The dynamical system given in \eqref{eq:galor_system} is only qualitative in the sense that no functional form is usually specified for $3$ of the $4$ state variables.
+We can thus think of \eqref{eq:galor_system} as a family of dynamical systems characterised by the following constraints
+\begin{itemize}
+     \item all state variables are non-negative
+             \begin{itemize}
+                     \item $g_{t} \geq 0$: technology can only increase from one generation to the next or at most stagnates; 
+                     \item $A_{t} \geq 0$: no technology corresponds to the natural world; 
+                     \item $e_{t} \geq 0$: a parent can at most invest no education in its child and cannot reduce it;
+                     \item $L_{t} \geq 0$: an empty world corresponds to a population level of $0$;
+             \end{itemize}
+     \item a rising education level implies an increasing human capital
+             \begin{equation}\label{eq:cond_he}
+                  \partial_{e}h(g,\,e) > 0 \,;
+             \end{equation}
+     \item the rate at which the human capital increases with respect to (w.r.t.) education decreases monotonically
+             \begin{equation}\label{eq:cond_hee}
+                  \partial_{e}^{2}h(g,\,e) < 0 \,;
+             \end{equation}
+     \item a relative increase in technology reduced human capital
+             \begin{equation}\label{eq:cond_hg}
+                  \partial_{g}h(g,\,e) < 0 \,;
+             \end{equation}
+      \item the rate at which human capital is eroded w.r.t. increasingly faster technological development increases monotonically
+             \begin{equation}\label{eq:cond_hg}
+                  \partial_{g}^{2}h(g,\,e) > 0 \,;
+             \end{equation}            
+      \item technological progress increases the return of investment in education 
+             \begin{equation}\label{eq:cond_heg}
+                  \partial_{eg}^{2}h(g,\,e) > 0 \,;
+             \end{equation}
+      \item first-order (implicit) condition on invested education
+             \begin{equation}\label{eq:cond_e}
+                  G(e,\,g) = (e + \tau)\partial_{e}h(e,\,g) - h(e,\,g) = 0\,,\quad e > 0 \,;
+             \end{equation}
+      \item increasing investment in education results in increasing rate of techonological development
+             \begin{equation}\label{eq:cond_ge}
+                  \partial_{e}\mathcal{G}(e,\,L) > 0 \,;
+             \end{equation}
+      \item the scale effect of technological increase driven by population is limited 
+             \begin{equation}\label{eq:cond_gL}
+                     \lim_{L\to\infty}\mathcal{G}(e,\,L) < \infty \,;
+             \end{equation}
+      \item technological progress happens even in the absence of education 
+             \begin{equation}\label{eq:cond_geL}
+                     \mathcal{G}(0,\,L) > 0 \,;
+             \end{equation}
+\end{itemize}
+
+Despite \eqref{eq:galor_system} being only qualitative, we can already observe from the only explicit dynamics, the one for the state variable $A_{t}$, that it is linear in $A_{t}$ which means that, if there is a fixed point (f.p.) for the entire system it must live on the hyperplane $A_{t} = 0$.
+Furthermore, considering that $g_{t+1} = \mathcal{G}(e,\,L) > 0$ for all $t$, then said f.p. is guaranteed to be unstable.
+
+\end{document}

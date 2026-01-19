@@ -1,0 +1,51 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsubsection{The state variables}\label{subsubsec:state_variables}
+
+The dynamical system introduced by Galor and Weil (GW) is $4-$dimensional.
+However, given its complexity, sever auxillary quantitites are introduced which do not update according to a rule that couples to the dynamical system itself; we will call these quantities \textit{observables}.
+We will first provide a descriptive outline of the macroeconomic meaning of all the quantities involved and then separate them into state variables and observables.
+The model consists of agents in overlapping generations meaning that at a given iteration $t$ the agents participate to the economy both as childern and adults (here a time increment $t$ denotes the passage of one generation, approximately spanning 20 terrestrial years).
+The per-capita income is denoted by 
+\begin{equation}\label{eq:income}
+     z_{t} = h_{t}^{\alpha}x_{t}^{1-\alpha}\,,
+\end{equation}
+where $h_{t}$ is human capital, $x_{t}$ is resources available to the agent and $\alpha$ is the share of labour in the production of goods.
+Introducing the total population of adults $L_{t}$, the total land $X$ and the level of technology $A_{t}$ we can further characterise \eqref{eq:income} by noticing that
+\begin{equation}\label{eq:income_explicit}
+     x_{t} = \frac{A_{t}X}{L_{t}} \;\Rightarrow\; z_{t} = h_{t}^{\alpha}\bigg(\frac{A_{t}}{L_{t}}\bigg)^{1 - \alpha} \,,
+\end{equation}
+where we explicitly set $X=1$ for simplicity.
+Also important in GW's model is the relative increase in technology from one generation to the next
+\begin{equation}\label{eq:relative_tech_increase}
+     g_{t+1} = \frac{A_{t+1} - A_{t}}{A_{t}}\,.
+\end{equation}
+Finally, we denotes with $e_{t+1}$ the education invested by an adult at generation $t$ towards a child that becomes an adult at generation $t+1$.
+
+The state variables of our dynamical systems are $X_{t} = (g_{t},\,A_{t},\,e_{t},\,L_{t})$ with $x_{t},\,h_{t},\,z_{t}$ being observables. More explicitly
+\begin{equation}\label{eq:galor_system}
+        \underbrace{
+                \begin{cases}
+                        g_{t+1} = \mathcal{G}(e,\,L)\,, \\
+                        A_{t+1} = \mathcal{A}(A,\,e,\,L) = (1 + \mathcal{G}(e,\,L))A\,, \\ 
+                        e_{t+1} = \mathcal{E}(e,\,L)\,, \\ 
+                        L_{t+1} = \mathcal{L}(g,\,A,\,e,\,L) = 
+                           \begin{cases}
+                               \frac{\gamma}{\tau + \mathcal{E}(e,\,L)}\,,\;\;z_{t}\geq \frac{1}{1-\gamma},\, \\
+                               \frac{1 - \frac{1}{z_{t}}}{\tau + \mathcal{E}(e,\,L)}\,,\;\;1 < z_{t} < \frac{1}{1 - \gamma},\, \\
+                               0\,,\;\;z_{t}\leq 1.
+                           \end{cases}
+                \end{cases}
+        }_{\text{state variables}}
+        \,,\quad
+        \underbrace{
+                \begin{cases}
+                        x_{t} = x(A,\,L) = \frac{A}{L}\,, \\
+                        h_{t} = h(g,\,e)\,,\\ 
+                        z_{t} = z(g,\,A,\,e,\,L) = h^{\alpha}(g,\,e)\,x^{1-\alpha}(A,\,L)\,,
+                \end{cases}
+        }_{\text{observables}}
+\end{equation}
+with $\gamma\in(0,1)$ and $\tau > 0$ (unit time cost of education).
+
+\end{document}

@@ -1,0 +1,32 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsection{Lagerlöf's simulations}\label{subsec:lagerlof}
+
+In 2006, Lagerlöf \cite{Lagerlof06} characterised \eqref{eq:galor_system} further by providing explicit functional forms to $h$ and $\mathcal{G}$ ($\mathcal{E}$ is fully determined by the choice of $h$) that satisfy conditions \eqref{eq:cond_he}$-$\eqref{eq:cond_geL}.
+In particular it was proposed that
+\begin{align}
+     h(e,\, g)           =& \; \frac{e + \tau\rho}{e + \tau\rho + g}\,,                                       \label{eq:lagerlof_h} \\
+     \mathcal{G}(e,\, L) =& \; (e + \tau\rho)\min\{L,\, L^{*}\} \,,                                           \label{eq:lagerlof_G}
+\end{align}
+with $\rho\in(0,1)$ being the part of the time cost $\tau$ that contributes building human capital and $L^{*} > 0$ plays the role of capping the effect of population growth on the techonological development rate in a sort of scale effect way.
+Putting \eqref{eq:langerlof_h} into \eqref{eq:cond_e} and solving for $e$ yields the final difference equation for the system
+\begin{equation}\label{eq:lagerlof_E}
+     \mathcal{E}(e,\, L) = \; \max\Big\{0,\, \sqrt{\mathcal{G}(e,\, L)\,\tau(1-\rho)} - \rho\tau \Big\} \,.
+\end{equation}
+In \cite{Lagerlof06} the authour uses \eqref{eq:lagerlof_h}$-$\eqref{eq:lagerlof_G}, together with $galor_system$, to perform numerical simulations of the system being propagated forward in time.
+To do so, fixed (constant) values are assigned to the various parameters (see \cite[Table 1, p. 128]{Lagerlof06}) and ICs are chosen s.t. the desired behaviour is observed, i.e. one that agrees with the \textit{``long-run growth''} theoretical framework of \cite{Galor00}.
+The authour also notices the \textit{``discovery''} of a new type of oscillatory phenomena in the \textit{``time-paths''} that was not before predicted by the qualitative GW's model.
+We replicate the results depicted in \cite{Lagerlof06} to concretely discuss the main result in such paper.
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[keepaspectratio, width=\textwidth]{../figures/timepaths.png}
+    \caption{\textbf{Top}: \textit{``Time-paths''} of the dynamical system proposed Lagerlöf from IC $X_{0} = (g_{0},\,A_{0},\,e_{0},\,L_{0}) = (0.048,\, 0.870,\, 0,\, 0.364)$ as specified in \cite{Lagerlof06}. 
+             \textbf{Bottom}: detailed transient of the post-Malthusian regime showing the endogenous \textit{``oscillatory''} behaviour mentioned in \cite{Lagerlof06} preceeding the settlement of $g,\,e,\,L$ onto steady-state values.
+    }
+    \label{fig:timepaths}
+\end{figure}
+
+\subfile{subsubsec:observation_discussion}
+
+\end{document}
