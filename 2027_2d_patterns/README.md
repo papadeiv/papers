@@ -64,6 +64,7 @@ What follows is a brief description of the numerical experiments so that you can
 
 - `fig:snaking_2d`: bifurcation diagram of the steady-state obtained via succesfull homotopy continuation from the 1-dimensional pattern (yellow star)
 
-| Bifurcation diagram              |
+| Bifurcation diagram in 2d        |
+
 | --------------- | -------------- |
 | ![](res/5.jpeg) | ![](res/6.gif) |
