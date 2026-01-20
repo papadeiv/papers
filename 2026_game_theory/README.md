@@ -59,7 +59,6 @@ What follows is a brief description of the numerical experiments so that you can
 
 - `fig:nonautonomous`: we introduce a time-changing parameter λ according to a shift law Λ(t) that makes the system non-autonomous. We investigate the tipping behavious of the solutions as the parameter is shifted in M however ruling out rate-induced tipping.
 
-| Tipping solutions (red curves) at different rates (colorbar) of the parameter shift (dashed black curve)                                                                  |
-
+| Tipping solutions (red curves) at different rates (colorbar) of the parameter shift (dashed black curve)                                                            | | | |
 | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
 | ![](doc/figures/fig:nonautonomous_1.png) | ![](doc/figures/fig:nonautonomous_2.png) | ![](doc/figures/fig:nonautonomous_3.png) | ![](doc/figures/fig:nonautonomous_4.png) |
