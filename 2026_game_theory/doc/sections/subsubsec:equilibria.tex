@@ -1,0 +1,56 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsubsection{Equilibria and stability}\label{subsubsec:equilibria}
+
+The system has $3$ equilibria: $2$ \textit{fixed} ones (meaning that they do not depend on the parameter vector) at $x=0=:x_{1}$ and $x=1=:x_{2}$ and $1$ parametrised equilibrium 
+
+\begin{equation}\label{eq:unstable_eq}
+     x_{*} = \frac{d-b}{a-b-c+d} = \frac{\beta}{\beta + \alpha}\,,
+\end{equation}
+
+which we expressed both in terms of the full \eqref{eq:replicator_full} and reduced \eqref{eq:replicator_reduced} formulations of the system \eqref{eq:replicator_implicit}.
+Notice that $x_{*}$ only exists in $\mathbb{R}$ for parameter values $(a,b,c,d)\in \mathbb{R}^{4}$ such that $a - b - c + d \neq 0$, or equivalently $(\alpha,\beta)\in \mathbb{R}^{2}$ such that $\alpha\neq-\beta$.
+We can use this last equilibrium to further characterise the admissable set of Definition \ref{def:admissable_set}.
+
+\begin{definition}[]\label{def:restricted_admissable_set}
+        Let $\Gamma$ be the admissable set in Definition \ref{def:admissable_set} and let $\newprime{\Gamma} = \{\gamma\in\Gamma \;:\; x_{*}\not\in\mathbb{R}\}$ then we define a \textit{restricted} admissable set
+        \begin{equation*}
+                \Gamma_{*} = \Gamma\setminus\newprime{\Gamma}\,. 
+        \end{equation*}
+\end{definition}
+
+Essentially with the definition of the restricted admissable set $\Gamma_{*}$ we attempt to characterise a smaller portion of the initial admissable set $\Gamma$ by exploiting the parametrised equilibrium $x_{*}$.
+Specifically, if the parameter vector $\gamma\in\Gamma$ does not allow for $x_{*}$ to exist (i.e. $\gamma\in \newprime{\Gamma}$) then any trajectory starting in $\Omega$ will trivially stay in $\Omega$  asymptotically in forward time.
+This is true because at least one between $x_{1} = 0$ and $x_{2} = 1$ is almost globally stable in $\Omega$ $\forall\gamma\in\newprime{\Gamma}$ (i.e. $\phi_{t}(x_{0})\to x_{1}$ for all $x_{0}\in\Omega$ with the exception of $x_{0}=x_{2}$ and viceversa).
+We omit the trivial proof of this statement and instead redirect to Figure \ref{fig:autonomous_solutions} for a visual depiction.
+Conversely if $\gamma\in\Gamma$ is such that $x_{*}$ does exist (i.e. $\gamma\in\Gamma\setminus \newprime{\Gamma}$) then we ask that it allows for $x_{*}$ to be in $\Omega$.
+This last condition is necessary to ensure that such equilibrium is not spurious in the context of the game-theoretic setting of \eqref{eq:replicator_implicit} i.e. we cannot have a fraction of a population to be less than $0$ nor more than $1$.
+This last condition is met by imposing the following inequalities on \eqref{eq:unstable_eq}
+
+\begin{equation*}
+     0 \leq \frac{d-b}{a -b -c + d} = \frac{\beta}{\beta + \alpha} \leq 1\,,
+\end{equation*}
+
+which yield
+
+\begin{equation}\label{eq:admissable_set_explicit}
+        \Gamma_{*} = \{(\alpha,\beta)\in \mathbb{R}^{2}\;:\; \text{sign}(\alpha)=\text{sign}(\beta)\}\,.
+\end{equation}
+
+With \eqref{eq:admissable_set_explicit} we now summarise the informations regarding the stability of the autonomous system with the following statement.
+
+\begin{lemma}\label{lemma:stability}
+     Let $\Gamma=\newprime{\Gamma}\cup\Gamma_{*}$ be the admissable set in Definition \ref{def:restricted_admissable_set} then the following hold true
+     \begin{enumerate}
+          \item \textbf{coordination game}: if $\gamma\in\Gamma_{*}$ s.t. $\alpha,\,\beta>0$ then $x_{1},\,x_{2}$ are stable and $x_{*}$ is unstable;
+          \item \textbf{dominant strategy}: if $\gamma\in\newprime{\Gamma}$ s.t. $\alpha<0$ and $\beta>0$ then $x_{1}$ is stable and $x_{2}$ is unstable;
+          \item \textbf{dominant strategy}: if $\gamma\in\newprime{\Gamma}$ s.t. $\alpha>0$ and $\beta<0$ then $x_{1}$ is unstable and $x_{2}$ is stable;
+          \item \textbf{anti-coordination}: if $\gamma\in\Gamma_{*}$ s.t. $\alpha,\,\beta<0$ then $x_{1},\,x_{2}$ are unstable and $x_{*}$ is stable.
+     \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+        This proof is trivial and essentially a direct calculation argument of the linearisation of \eqref{eq:replicator_reduced} around its equilibria \cite[Appendix A, p. 15]{Zino25}.
+\end{proof}
+
+\end{document}

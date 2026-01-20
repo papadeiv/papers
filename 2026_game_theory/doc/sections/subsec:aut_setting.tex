@@ -1,0 +1,25 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsection{Game-theoretic setting}\label{subsec:aut_setting}
+
+The replicator equation, in its abstract form \eqref{eq:replicator_implicit}, models a population game where players adopt one of two strategies to maximise payoff \cite{Zino25}.
+In particular, the dynamic variable $x$ models a fraction of a population of players adopting said strategy (say $1$).
+It follows that a fraction of $1-x$ of the population will adopt the other strategy (say $2$).
+The $4-$dimensional parameter $(a,b,c,d)\in \mathbb{R}^{4}$ models the payoff of adopting strategy $1$ and is encoded as entries of a $2\times2$ matrix $A$.
+As such we restrict the parameter space to reflect such property.
+\begin{definition}[Admissable set]\label{def:admissable_set}
+        Let \eqref{eq:replicator_implicit} be our dynamical system, $\Omega=[0,1]\subset \mathbb{R}$ be a target subset of its phase space, $x_{0}:=x(0)\in\Omega$ be an initial condition for \eqref{eq:replicator_implicit} and $\phi_{t}(x_{0})$ be the (forward) flow of the initial condition $x_{0}$ under \eqref{eq:replicator_implicit}.
+        Then we denote
+        \begin{equation*}
+                \Gamma := \{(a,b,c,d)\in \mathbb{R}^{4}\;:\; \phi_{t}(x_{0})\in\Omega \quad\forall x_{0}\in\Omega,\,t>0\}\,,
+        \end{equation*}
+        as the subset of admissable values in the parameter space of \eqref{eq:replicator_implicit}.
+\end{definition}
+We will further characterise the admissable set $\Gamma$ by looking at equilibria of the replicator equation.
+
+% Equilibria and stability 
+\subfile{subsubsec:equilibria}
+% Bifurcation structure 
+\subfile{subsubsec:bifurcations}
+
+\end{document}

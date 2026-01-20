@@ -1,4 +1,4 @@
-# A systematic analysis of a model of unified growth
+# A systematic analysis of the dynamics of a model of unified growth
 
 ## 🚀 Description 
 
@@ -28,7 +28,7 @@ root/
 
 ### ⚙️🛠️ Organisation of the experiments
 
-In `exp` you'll find many subdirs, each associated one-to-one with an important experiment and/or a picture in the paper. The organisation of the code in each subdir follows the following structure
+In `exp` you'll find many subdirs, each associated one-to-one with an important experiment and/or a picture in the paper. The code in each subdir is organised acoording to the following structure
 
 ```bash
 experiment/

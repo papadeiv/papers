@@ -28,7 +28,7 @@ root/
 
 ### ⚙️🛠️ Organisation of the experiments
 
-In `exp` you'll find many subdirs, each associated one-to-one with an important experiment and/or a picture in the paper. The organisation of the code in each subdir follows the following structure
+In `exp` you'll find many subdirs, each associated one-to-one with an important experiment and/or a picture in the paper. The code in each subdir is organised acoording to the following structure
 
 ```bash
 experiment/
@@ -48,4 +48,4 @@ What follows is a brief description of those experiments so that you can gather 
 - [characterising_bad_runs](./exp/characterising_bad_runs/): in `main.jl` you'll find two main functions: `main()` and `characterise()`. By running `main()` first, out of an ensemble simulation of the same SDE at fixed parameter value, you'll extract those runs that results in a significantly bad or good reconstruction of the potential according to a criterion on the accurcay of the unstable equilibrium.
 After that, by running `characterise()` you'll compute and display all the first 7 central moments of the empirical distribution of the above runs so to find statistical indicators that characterise bad runs from good runs.
 
-- [ensemble_distribution](./exp/ensemble distribution/): compute and plot the empirical distribution of the quantities involved in the nonlinear reconstruction of the potential out of an ensemble of i.i.d. stationary particles (i.e. for a fixed parameter value).
+- [ensemble_distribution](./exp/ensemble_distribution/): compute and plot the empirical distribution of the quantities involved in the nonlinear reconstruction of the potential out of an ensemble of i.i.d. stationary particles (i.e. for a fixed parameter value).
