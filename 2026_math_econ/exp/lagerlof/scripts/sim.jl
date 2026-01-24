@@ -38,15 +38,6 @@ function e(et, Lt)
         return max(0, sqrt(g(et, Lt)*τ*(1 - ρ)) - τ*ρ)
 end
 
-# Auxillary function for Lt
-function z(gt, At, et, Lt)
-        # Compute the human capital
-        h = (et + τ*ρ)/(et + τ*ρ + gt)
-        # Compute the per-capita resources
-        x = At/Lt 
-        # Return the per-capita income
-        return (h^α)*(x^(1 - α))
-end
 # Update rule for Lt
 function L(gt, At, et, Lt)
         #println("    sqrt(g(et,Lt)τ(1-ρ)) - τρ = $(sqrt(g(et, Lt)*τ*(1 - ρ)) - τ*ρ)")

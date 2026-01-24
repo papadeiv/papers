@@ -31,8 +31,8 @@ The state variables of our dynamical systems are $X_{t} = (g_{t},\,A_{t},\,e_{t}
                         e_{t+1} = \mathcal{E}(e,\,L)\,, \\ 
                         L_{t+1} = \mathcal{L}(g,\,A,\,e,\,L) = 
                            \begin{cases}
-                               \frac{\gamma}{\tau + \mathcal{E}(e,\,L)}\,,\;\;z_{t}\geq \frac{1}{1-\gamma},\, \\
-                               \frac{1 - \frac{1}{z_{t}}}{\tau + \mathcal{E}(e,\,L)}\,,\;\;1 < z_{t} < \frac{1}{1 - \gamma},\, \\
+                               \frac{\gamma\,L}{\tau + \mathcal{E}(e,\,L)}\,,\;\;z_{t}\geq \frac{1}{1-\gamma},\, \\
+                               \frac{\big(1 - \frac{1}{z_{t}}\big)\,L}{\tau + \mathcal{E}(e,\,L)}\,,\;\;1 < z_{t} < \frac{1}{1 - \gamma},\, \\
                                0\,,\;\;z_{t}\leq 1.
                            \end{cases}
                 \end{cases}

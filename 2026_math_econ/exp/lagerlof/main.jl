@@ -16,6 +16,12 @@ function main()
 
         # Plot the 'time-paths'
         plot_paths(U)
+
+        # Plot the observables
+        plot_observables(U)
+
+        # Export the figure
+        savefig("timepaths.png", fig)
 end
 
 # Execute the main
