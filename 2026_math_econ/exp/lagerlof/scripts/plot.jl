@@ -24,6 +24,7 @@ function plot_paths(U)
         poly!(ax3, Point2f[(0, minimum(et) - 0.025*(maximum(et) - minimum(et))), (50, minimum(et) - 0.025*(maximum(et) - minimum(et))), (50, 0.025), (0, 0.025)], color = :transparent, strokecolor = :black, strokewidth = 5.0)
         poly!(ax4, Point2f[(0, minimum(Lt) - 0.025*(maximum(Lt) - minimum(Lt))), (50, minimum(Lt) - 0.025*(maximum(Lt) - minimum(Lt))), (50, 6), (0, 6)], color = :transparent, strokecolor = :black, strokewidth = 5.0)
 
+        #=
         # Specify the limits of the plots
         ax1.limits = ((t[1], t[end]), (minimum(gt) - 0.05*(maximum(gt) - minimum(gt)), maximum(gt) + 0.05*(maximum(gt) - minimum(gt))))
         ax3.limits = ((t[1], t[end]), (minimum(et) - 0.05*(maximum(et) - minimum(et)), maximum(et) + 0.05*(maximum(et) - minimum(et))))
@@ -48,6 +49,7 @@ function plot_paths(U)
         ax5.yticks = [minimum(gt), 0.8]
         ax6.yticks = [minimum(et), 0.025]
         ax7.yticks = [minimum(Lt), 6]
+        =#
 end
 
 # Plot the observables of the state variables 

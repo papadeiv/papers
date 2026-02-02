@@ -3,10 +3,10 @@
 """
 
 # Number of iterations of the map
-N = convert(Int64, 3e2)
+N = convert(Int64, 3e4)
 
 # Fixed parameters
-τ = 0.15
+τ = 0.50
 ρ = 0.879
 α = 0.6
 γ = 0.225
