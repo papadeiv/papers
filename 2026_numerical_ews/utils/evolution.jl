@@ -22,7 +22,7 @@ The SDEs are characterised by a parametric drift `f`, a parameter shift `Λ` and
 ## Output
 `solutions::Tuple`
 * `solutions.time::Vector{Float64}`: timestamps of the trajectories
-* `solutions.states::Vector{Vector{Float64}}`: trajectories of the ensemble 
+* `solutions.state::Vector{Vector{Float64}}`: trajectories of the ensemble 
 
 ## Example
 """

@@ -35,9 +35,6 @@ function normalise(f::Function, parameters, domain; accuracy=1e-8)
 
         # Compute the normalisation constant
         N = 1.0::Float64/(quadrature.u)
-        if N > 1e4
-                display(N)
-        end
         return N
 end
 
@@ -67,9 +64,6 @@ function normalise(f::Function, parameters; accuracy=1e-8)
 
         # Compute the normalisation constant
         N = 1.0::Float64/(quadrature.u)
-        if N > 1e4
-                display(N)
-        end
         return N
 end
 
@@ -129,10 +123,11 @@ function fit_potential(bins, distribution, degree, noise::Float64; N = nothing)
                )
 end
 
-function fit_potential(timeseries; n_bins=nothing, noise=nothing, initial_guess=nothing, optimiser=1e-2, attempts=1000, verbose = false)
+function fit_potential(timeseries; n_bins=nothing, noise=nothing, initial_guess=nothing, transformation = [1.0, 0.0, 0.0], optimiser=1e-2, attempts=1000, verbose = false)
         # Number of bins for the histogram
         if n_bins == nothing
-                n_bins = convert(Int64, floor(0.02*length(timeseries)))
+                # Scott's rule (1985)
+                n_bins = convert(Int64, ceil(abs(maximum(timeseries)-minimum(timeseries))/(3.49*std(timeseries)*(length(timeseries))^(-1.0/3.0))))   
         end
         Nb = n_bins
 
@@ -147,6 +142,11 @@ function fit_potential(timeseries; n_bins=nothing, noise=nothing, initial_guess=
 
         # Fit an empirical distribution to the timeseries data
         bins, hist = fit_distribution(timeseries, n_bins=Nb+1)
+
+        # Find the median of the empirical distribution (for centering the polynomial weighting)
+        dx = bins[2] - bins[1]
+        cdf = cumsum(hist)*dx
+        median_idx = findfirst(>=(0.5), cdf)
 
         # Initial guess for the non-linear 0-problem 
         if initial_guess == nothing
@@ -174,10 +174,16 @@ function fit_potential(timeseries; n_bins=nothing, noise=nothing, initial_guess=
         # Define the lower and upper bounds for the coefficients
         lower = [-45.0, -25.0, -40.0] 
         upper = [45.0, 25.0, 40.0]
+
+        # Define the polynomial weighting
+        α = transformation[1]
+        β = transformation[2]
+        d = convert(Int64, transformation[3])
+        weights = α .+ β.*(bins .- bins[median_idx]).^d
         
         # First attempt to solve the non-linear least-squares problem
         try
-                solution = curve_fit(p, bins, hist, initial_guess, lower=lower, upper=upper).param
+                solution = curve_fit(p, bins, hist, weights, initial_guess, lower=lower, upper=upper).param
                 return (
                         points = bins,
                         potential = nothing,
@@ -203,7 +209,7 @@ function fit_potential(timeseries; n_bins=nothing, noise=nothing, initial_guess=
                         # Perturb the initial guess
                         perturbed_guess = initial_guess + β.*randn(3)
                         # Attempt to solve the nonlinear problem
-                        solution = curve_fit(p, bins, hist, perturbed_guess, lower=lower, upper=upper).param
+                        solution = curve_fit(p, bins, hist, weights, perturbed_guess, lower=lower, upper=upper).param
                         return (
                                 points = bins,
                                 potential = nothing,
