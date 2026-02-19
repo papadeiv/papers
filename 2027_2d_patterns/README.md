@@ -2,11 +2,11 @@
 
 ## 🚀 Description 
 
-Time-dependent, reaction-diffusion equations are known to produce spatially patterned solutions as steady states [Peletier and Troy 2001](https://link.springer.com/book/10.1007/978-1-4612-0135-9).
-A systematic way to characterise these solutions is to think of them as spatially localised patterns (pulses) that undergo homoclinic snaking in the bifurcation diagram of the spatial dynamics [Burke and Knobloch 2007](https://www.sciencedirect.com/science/article/pii/S0375960106013612).
-The LLE is a model from quantum physics that underpins the evolution of light pulses with several, important applications in nonlinear optics and laser models [Cardoso et al. 2017](https://www.nature.com/articles/s41598-017-16981-3).
-It has been empirically demonstrated [Parra-Rivas et al. 2018](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.97.042204) that the LLE in one spatial dimension does show homoclinic snaking of pulses in the energy injection (damping) parameter.
-The existence and stability of these stationary pulses was recently proved in [Bengel et al. 2025](https://www.sciencedirect.com/science/article/pii/S0167278925003999).
+Time-dependent, reaction-diffusion equations are known to produce spatially patterned solutions as steady states [[Peletier and Troy 2001]](https://link.springer.com/book/10.1007/978-1-4612-0135-9).
+A systematic way to characterise these solutions is to think of them as spatially localised patterns (pulses) that undergo homoclinic snaking in the bifurcation diagram of the spatial dynamics [[Burke and Knobloch 2007]](https://www.sciencedirect.com/science/article/pii/S0375960106013612).
+The LLE is a model from quantum physics that underpins the evolution of light pulses with several, important applications in nonlinear optics and laser models [[Cardoso et al. 2017]](https://www.nature.com/articles/s41598-017-16981-3).
+It has been empirically demonstrated [[Parra-Rivas et al. 2018]](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.97.042204) that the LLE in one spatial dimension does show homoclinic snaking of pulses in the energy injection (damping) parameter.
+The existence and stability of these stationary pulses was recently proved in [[Bengel et al. 2025]](https://www.sciencedirect.com/science/article/pii/S0167278925003999).
 
 ### ✏️📋 Outline
 
@@ -14,6 +14,8 @@ We investigate the existence of spatial pulse solutions for the LLE in a radiall
 The change of coordinates in the polar frame allows us to rewrite the Laplacian operator in a split-component fashion.
 Because of the radial symmetry, we can parametrise the radial component of the Laplacian and perform a homotopy continuation for a spatial pulse in one dimension, to its counterpart in two dimensions.
 We are able to perform a successfull homotopy continuation in the two dimensional polar domain and investigate the properties of its solution.
+
+This project is currently at a _preliminary investigation_ stage!
 
 ### 🔍📜 How to cite
 

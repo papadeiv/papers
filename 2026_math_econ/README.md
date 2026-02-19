@@ -2,15 +2,17 @@
 
 ## 🚀 Description 
 
-Unified growth theory (UGT) is a model proposed in [Galor and Weil 2000](https://www.aeaweb.org/articles?id=10.1257/aer.90.4.806) and used by macroeconomists to explain the three main stages of population growth and technological progress throughout civilisations.
+Unified growth theory (UGT) is a model proposed in [[Galor and Weil 2000]](https://www.aeaweb.org/articles?id=10.1257/aer.90.4.806) and used by macroeconomists to explain the three main stages of population growth and technological progress throughout civilisations.
 This model's cornestone is the optimisation of a utility function reppresenting the tradeoff between each agaent's choice of allocatin resources to consumption or child-rearing activities.
 Such optimisation problem is dynamic, in the sense that it updates through (discrete-time) iterations for the optimal choice of the agents' number of offspring and level of education of said children at each generation.
 This gives rise to a 4-dimensional, piece-wise defined, non-smooth map whose dynamics is only given in the abstract sense (i.e. no explicit functional form is proposed but rather a set of conditions for them is specified).
-Later efforts [Lagerlöf 2006](https://www.aeaweb.org/articles?id=10.1257/aer.90.4.806) have put this model into numerical simulations to showcase the expected behaviour and properties of the model.
+Later efforts [[Lagerlöf 2006]](https://www.aeaweb.org/articles?id=10.1257/aer.90.4.806) have put this model into numerical simulations to showcase the expected behaviour and properties of the model.
 
 ### ✏️📋 Outline
 
 A systematic , phase space and bifurcation analysis of the model is still lacking from the literature in both mathematics and economics. We seek to fill such gap providing rigorous mathematical grounding to the properties observed by others' simulations while refining some aspects of the model to produce new results.
+
+This project is currently at a _work-in-progress_ stage!
 
 ## 📦 Structure of the repo
 
