@@ -2,15 +2,16 @@
 
 ## 🚀 Description 
 
-_Work in progress_
+Rate-induced tipping (R-tipping) is a mechanism of critical transitions in non-autonomous dynamical systems [Ashwin et al. 2012](https://royalsocietypublishing.org/rsta/article-abstract/370/1962/1166/114607/Tipping-points-in-open-systems-bifurcation-noise?redirectedFrom=fulltext).
+Contrary to bifurcation-induced (B-tipping), the critical transition is manifested by the pullback attractor not being able to track the drift of a quasi-steady equilibrium (QSE) escaping its basing of attraction [[Ashwin et al. 2017]](https://iopscience.iop.org/article/10.1088/1361-6544/aa675b).
+The drift of the QSE in _phase space_ is associated to the rate at which the parameter of a dynamical system is changes.
+As such, the evolution law (__shift__ of the paramater) could reach a critical rate that triggers R-tipping in these non-autonomous systems.
 
-### ✏️📋 Outline
+### 🔬 Outline
 
-_Work in progress_
+In this project we attempt to numerically investigate how the functional properties of non-monotonic, parametric shifts, characterise R-tipping in 1-dimensional, non-autonomous, nonlinear dynamical systems.
 
-### 🔍📜 How to cite
-
-_Work in progress_
+This project is currently at a _preliminary investigate_ stage!
 
 ## 📦 Structure of the repo
 
@@ -18,13 +19,13 @@ This repository is organised as follows
 
 ```bash
 root/
-├── doc/                # LaTeX source code and compiled PDF of the arXiv preprint
-├── inc/                # Include scripts importing local functions in src/
+├── doc/                # LaTeX source code and compiled PDF of the preliminary report 
+├── inc/                # Includes scripts importing local functions in src/
 ├── sim/                # Actual numerical simulations of the work
 └── src/                # Reusable functions implementing the algorithms used in sim/
 ```
 
-### ⚙️🛠️ Organisation of the experiments
+### 🛠️ Organisation of the experiments
 
 There are many numerical experiments in this work. Each of them is made of a `main` script, a `postprocessing` script and a `plotting` script. Therefore the `sim` subdirectory is structured as follows
 
@@ -47,7 +48,7 @@ sim/
     └── exp_n.jl
 ```
 
-### 💡🔬 What does each experiment do?
+### 💡 What does each experiment do?
 
 What follows is a brief description of the numerical experiments so that you can understand their purpose without interpreting it from the code:
 
