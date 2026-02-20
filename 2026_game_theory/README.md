@@ -4,11 +4,11 @@
 
 _Work in progress_
 
-### ✏️📋 Outline
+### ✏️  Outline
 
 _Work in progress_
 
-### 🔍📜 How to cite
+### 📜 How to cite
 
 _Work in progress_
 
@@ -24,7 +24,7 @@ root/
 └── src/                # Reusable functions implementing the algorithms used in sim/
 ```
 
-### ⚙️🛠️ Organisation of the experiments
+### ⚙️  Organisation of the experiments
 
 There are many numerical experiments in this work. Each of them is made of a `main` script, a `postprocessing` script and a `plotting` script. Therefore the `sim` subdirectory is structured as follows
 
@@ -47,7 +47,7 @@ sim/
     └── exp_n.jl
 ```
 
-### 💡🔬 What does each experiment do?
+### 💡 What does each experiment do?
 
 What follows is a brief description of the numerical experiments so that you can understand their purpose without interpreting it from the code:
 

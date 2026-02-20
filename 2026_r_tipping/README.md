@@ -4,10 +4,12 @@
 
 Rate-induced tipping (R-tipping) is a mechanism of critical transitions in non-autonomous dynamical systems [[Ashwin et al. 2012]](https://royalsocietypublishing.org/rsta/article-abstract/370/1962/1166/114607/Tipping-points-in-open-systems-bifurcation-noise?redirectedFrom=fulltext).
 Contrary to bifurcation-induced (B-tipping), the critical transition is manifested by the pullback attractor not being able to track the drift of a quasi-steady equilibrium (QSE) escaping its basing of attraction [[Ashwin et al. 2017]](https://iopscience.iop.org/article/10.1088/1361-6544/aa675b).
-The drift of the QSE in _phase space_ is associated to the rate at which the parameter of a dynamical system is changes.
+The drift of the QSE in _phase space_ is associated to the rate ε at which the parameter μ of a dynamical system is changed.
 As such, the evolution law (__shift__ of the paramater) could reach a critical rate that triggers R-tipping in these non-autonomous systems.
 
-### 🔬 Outline
+### ✏️  Outline
+
+__Collaborators:__ Peter Ashwin (U. of Exeter, UK). 
 
 In this project we attempt to numerically investigate how the functional properties of non-monotonic, parametric shifts, characterise R-tipping in 1-dimensional, non-autonomous, nonlinear dynamical systems.
 

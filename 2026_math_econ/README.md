@@ -8,11 +8,13 @@ Such optimisation problem is dynamic, in the sense that it updates through (disc
 This gives rise to a 4-dimensional, piece-wise defined, non-smooth map whose dynamics is only given in the abstract sense (i.e. no explicit functional form is proposed but rather a set of conditions for them is specified).
 Later efforts [[Lagerlöf 2006]](https://www.aeaweb.org/articles?id=10.1257/aer.90.4.806) have put this model into numerical simulations to showcase the expected behaviour and properties of the model.
 
-### ✏️📋 Outline
+### ✏️  Outline
 
-A systematic , phase space and bifurcation analysis of the model is still lacking from the literature in both mathematics and economics. We seek to fill such gap providing rigorous mathematical grounding to the properties observed by others' simulations while refining some aspects of the model to produce new results.
+__Collaborators:__ Samuel Bolduc St-Aubin (U. of Auckland, New Zealand), Sam Doak (U. of Auckland, New Zealand), Greta Meggiorini (U. of Auckland, New Zealand). 
 
-This project is currently at a _work-in-progress_ stage!
+A systematic, phase space and bifurcation analysis of the model is still lacking from the literature in both mathematics and economics. We seek to fill such gap providing rigorous mathematical grounding to the properties observed by others' simulations while refining some aspects of the model to produce new results.
+
+This project is currently at a _work in progress_ stage!
 
 ## 📦 Structure of the repo
 
@@ -28,7 +30,7 @@ root/
 └── utils/              # Functions used to implement the algorithms used to generate the res/ 
 ```
 
-### ⚙️🛠️ Organisation of the experiments
+### ⚙️  Organisation of the experiments
 
 In `exp` you'll find many subdirs, each associated one-to-one with an important experiment and/or a picture in the paper. The code in each subdir is organised acoording to the following structure
 
@@ -43,7 +45,7 @@ experiment/
 └── main.jl             # File to run to execute the simulation, analyse the results and export the figures
 ```
 
-### 💡🔬 What does each experiment do?
+### 💡 What does each experiment do?
 
 What follows is a brief description of those experiments so that you can gather their functionalities without interpreting the code in it:
 

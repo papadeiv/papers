@@ -8,16 +8,18 @@ The LLE is a model from quantum physics that underpins the evolution of light pu
 It has been empirically demonstrated [[Parra-Rivas et al. 2018]](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.97.042204) that the LLE in one spatial dimension does show homoclinic snaking of pulses in the energy injection (damping) parameter.
 The existence and stability of these stationary pulses was recently proved in [[Bengel et al. 2025]](https://www.sciencedirect.com/science/article/pii/S0167278925003999).
 
-### ✏️📋 Outline
+### ✏️  Outline
+
+__Collaborators:__ Samuel Bolduc St-Aubin (U. of Auckland, New Zealand), Daniel Fassler (Concordia, Canada), Marco Calabrese (UMass Amherst, US). 
 
 We investigate the existence of spatial pulse solutions for the LLE in a radially symmetric 2-dimensional domain.
-The change of coordinates in the polar frame allows us to rewrite the Laplacian operator in a split-component fashion.
-Because of the radial symmetry, we can parametrise the radial component of the Laplacian and perform a homotopy continuation for a spatial pulse in one dimension, to its counterpart in two dimensions.
+The change of coordinates in the polar frame allows us to rewrite the Laplacian operator Δ = ∂xx + ∂yy in a split-component fashion Δr = ∂rr + (1/r)∂r + (1/r^2)∂θ.
+Because of the radial symmetry the last term is set to 0 and we can parametrise the radial component (1/r)∂r with ν to perform a homotopy continuation for a spatial pulse in one dimension, to find its counterpart in two dimensions.
 We are able to perform a successfull homotopy continuation in the two dimensional polar domain and investigate the properties of its solution.
 
 This project is currently at a _preliminary investigation_ stage!
 
-### 🔍📜 How to cite
+### 📜 How to cite
 
 The numerical method underlying the continuation of a discretised PDE is implemented by Daniele Avitabile. Please cite his work as
 
@@ -46,7 +48,7 @@ root/
 └── src/                # Reusable functions implementing the algorithms used in sim/
 ```
 
-### ⚙️🛠️ Organisation of the experiments
+### ⚙️  Organisation of the experiments
 
 The actual numerical continuation algorithm for the pattern-forming PDE is implemented in MATLAB by [Daniele Avitabile](https://www.danieleavitabile.com/numerical-computation-of-coherent-structures-in-spatially-extended-systems/).
 
@@ -57,7 +59,7 @@ sim/
 └── plotting            # Plotting routines of the continuation in 1 and 2 dimensions
 ```
 
-### 💡🔬 What does each experiment do?
+### 💡 What does each experiment do?
 
 What follows is a brief description of the numerical experiments so that you can understand their purpose without interpreting it from the code:
 
