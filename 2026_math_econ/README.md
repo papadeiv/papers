@@ -10,7 +10,7 @@ Later efforts [[Lagerlöf 2006]](https://www.aeaweb.org/articles?id=10.1257/aer.
 
 ### ✏️  Outline
 
-__Collaborators:__ Samuel Bolduc St-Aubin (U. of Auckland, New Zealand), Sam Doak (U. of Auckland, New Zealand), Greta Meggiorini (U. of Auckland, New Zealand). 
+__Collaborators:__ Samuel Bolduc St-Aubin (U. of Auckland, New Zealand), Sam Doak (U. of Auckland, New Zealand) and Greta Meggiorini (U. of Auckland, New Zealand). 
 
 A systematic, phase space and bifurcation analysis of the model is still lacking from the literature in both mathematics and economics. We seek to fill such gap providing rigorous mathematical grounding to the properties observed by others' simulations while refining some aspects of the model to produce new results.
 

@@ -10,7 +10,7 @@ The existence and stability of these stationary pulses was recently proved in [[
 
 ### ✏️  Outline
 
-__Collaborators:__ Samuel Bolduc St-Aubin (U. of Auckland, New Zealand), Daniel Fassler (Concordia, Canada), Marco Calabrese (UMass Amherst, US). 
+__Collaborators:__ Samuel Bolduc St-Aubin (U. of Auckland, New Zealand), Daniel Fassler (Concordia, Canada), Marco Calabrese (UMass Amherst, US) and [Jason Bramburger](https://hybrid.concordia.ca/jbrambur/) (Concordia, Canada). 
 
 We investigate the existence of spatial pulse solutions for the LLE in a radially symmetric 2-dimensional domain.
 The change of coordinates in the polar frame allows us to rewrite the Laplacian operator Δ = ∂xx + ∂yy in a split-component fashion Δr = ∂rr + (1/r)∂r + (1/r^2)∂θ.
