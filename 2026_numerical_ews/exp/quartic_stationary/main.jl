@@ -30,7 +30,7 @@ function main()
                 printstyled("μ=$(μ[m]): solving the weighted least-squares problems\n"; bold=true, underline=true, color=:light_blue)
                 @showprogress for n in 1:length(ensemble.state)
                         # Check for tipping
-                        tipping = find_tipping(ensemble.state[n], check = 0.050, criterion = 0.050, verbose=false)
+                        tipping = find_tipping(ensemble.state[n], check = 0.010, criterion = 0.050, verbose=false)
                         if tipping.check
                                 # Trajectory has tipped => discrad it
                         else

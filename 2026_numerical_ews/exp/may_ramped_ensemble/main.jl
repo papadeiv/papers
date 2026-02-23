@@ -23,6 +23,7 @@ function main()
                 # Solve the ensemble slow-fast SDEs
                 ensemble = evolve(f, η, Λ, x0, steps=Nt, stepsize=δt, particles=Ne)
 
+                #=
                 # Compute the drift of the quasi-steady equilibrium
                 qse = [(get_equilibria(f, μ, domain=[-10,10])).stable[2] for μ in ensemble.parameter]
 
@@ -65,6 +66,7 @@ function main()
 
                 # Export the figure
                 savefig("ramped_ensemble/$glb_idx.png", fig1)
+                =#
 
                 # Update the global index
                 println()
@@ -72,7 +74,7 @@ function main()
         end
 
         # Plot and export the early-warning signal figure
-        plot_ews()
+        #plot_ews()
 end
 
 # Execute the main

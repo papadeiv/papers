@@ -16,6 +16,6 @@ f(x, μ) = -μ + 4*x - 4*x^3                    # Drift
 η(x) = σ                                      # Diffusion
 
 # Simulation parameters
-dt = 5e-2                                     # Timestep
+dt = 1e-1                                     # Timestep
 Nt = 2e5                                      # Total number of steps
-Ne = 2e2                                      # Number of particles in the ensemble 
+Ne = 1e2                                      # Number of particles in the ensemble 
