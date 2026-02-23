@@ -36,7 +36,7 @@ The numerical method underlying the continuation of a discretised PDE is impleme
 }
 ```
 
-This work has been the result of a 2 weeks [Summer School in pattern formation](https://www.siam.org/publications/siam-news/articles/frontiers-in-multidimensional-pattern-formation-recapping-the-2025-gene-golub-siam-summer-school/) organised and funded by the Society of Applied and Industrial Mathematics (SIAM).
+This work has been the result of a 2 weeks [Summer School in pattern formation](https://www.siam.org/publications/siam-news/articles/frontiers-in-multidimensional-pattern-formation-recapping-the-2025-gene-golub-siam-summer-school/) organised and funded by the Society for Applied and Industrial Mathematics (SIAM).
 
 ## 📦 Structure of the repo
 
