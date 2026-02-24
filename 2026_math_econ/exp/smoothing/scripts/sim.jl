@@ -3,13 +3,13 @@
 """
 
 # Number of iterations of the map
-N = convert(Int64, 3e2)
+N = convert(Int64, 5e2)
 
 # Fixed parameters
-τ = 0.150
+τ = 0.15
 ρ = 0.879
-α = 0.600
-γ = 0.225
+α = 0.6
+γ = 0.200
 θ = 1.0
 a_star = 11.42
 c_tilde = 1.0
@@ -25,7 +25,7 @@ u0 = [g0, A0, e0, L0]
 
 # Update rule for gt
 function g(et, Lt)
-        return (et + τ*ρ)*min(θ*Lt, a_star)
+        return (et + τ*ρ)*a_star*tanh((θ*Lt)/a_star)
 end
 
 # Update rule for At
@@ -42,18 +42,27 @@ end
 function L(gt, At, et, Lt)
         # Compute the per-capita income
         zt = z(gt, At, et, Lt)
+        #=
         # Define the piece-wise defined function
         if zt >= z_tilde
+                #println("    zt > z*")
                 return (γ/(τ + e(et, Lt)))*Lt
         elseif zt < z_tilde && zt > c_tilde
+                #println("    c* < zt < z*")
                 return ((1 - c_tilde/zt)/(τ + e(et, Lt)))*Lt
         else
+                #println("    zt < c*")
                 return 0
         end
+        =#
+        return max(0.0,((1 - c_tilde/zt)/(τ + e(et, Lt)))*(γ*Lt))
 end
 
 # Define the 4-dimensional iterated map
 function f(u, μ, n)
+        # Extract the bifurcation parameters
+        # p, q = μ
+        
         # Extract the state 
         gt, At, et, Lt = u 
 

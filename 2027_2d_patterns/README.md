@@ -19,6 +19,9 @@ We are able to perform a successfull homotopy continuation in the two dimensiona
 
 This project is currently at a _preliminary investigation_ stage!
 
+#### 🎓 Acknowledgements
+All authors acknowledge support to attend the [2025 SIAM Gene Golub summer school](https://www.siam.org/publications/siam-news/articles/frontiers-in-multidimensional-pattern-formation-recapping-the-2025-gene-golub-siam-summer-school/) on _‘‘Frontiers in multidimensional pattern formation’’_, where this work was initiated.
+
 ### 📜 How to cite
 
 The numerical method underlying the continuation of a discretised PDE is implemented by Daniele Avitabile. Please cite his work as
@@ -35,8 +38,6 @@ The numerical method underlying the continuation of a discretised PDE is impleme
   url = {https://doi.org/10.5281/zenodo.3821169}
 }
 ```
-
-This work has been the result of a 2 weeks [Summer School in pattern formation](https://www.siam.org/publications/siam-news/articles/frontiers-in-multidimensional-pattern-formation-recapping-the-2025-gene-golub-siam-summer-school/) organised and funded by the Society for Applied and Industrial Mathematics (SIAM).
 
 ## 📦 Structure of the repo
 
