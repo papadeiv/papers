@@ -52,3 +52,9 @@ What follows is a brief description of those experiments so that you can gather 
 - [lagerlof](./exp/lagerlof/): simulations of the "_time-paths_" of the UGT with Lagerlöf explicit function forms to replicate the results shown in [[Lagerlöf 2006]](https://www.sciencedirect.com/science/article/abs/pii/S1094202505000566).
 
 ![](doc/figures/timepaths.png)
+
+- [switching](./exp/switching/): propagation of several initial conditions to investigate robustness of fixed points in Lagerlof's system.
+
+![](doc/figures/swicthing.png)
+
+- [smoothing](./exp/smoothing/): simulations of an alternative system of Galor's family with smooth dynamics.
