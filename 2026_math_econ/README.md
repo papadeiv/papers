@@ -55,6 +55,8 @@ What follows is a brief description of those experiments so that you can gather 
 
 - [switching](./exp/switching/): propagation of several initial conditions to investigate robustness of fixed points in Lagerlof's system.
 
-![](doc/figures/swicthing.png)
+![](doc/figures/switching.png)
 
 - [smoothing](./exp/smoothing/): simulations of an alternative system of Galor's family with smooth dynamics.
+
+![](doc/figures/smoothing.png)

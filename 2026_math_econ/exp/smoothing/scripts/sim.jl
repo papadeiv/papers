@@ -9,7 +9,7 @@ N = convert(Int64, 5e2)
 τ = 0.15
 ρ = 0.879
 α = 0.6
-γ = 0.200
+γ = 0.225
 θ = 1.0
 a_star = 11.42
 c_tilde = 1.0
@@ -40,9 +40,10 @@ end
 
 # Update rule for Lt
 function L(gt, At, et, Lt)
+        return max(0.0,((1 - c_tilde/z(gt, At, et, Lt))/(τ + e(et, Lt)))*(γ*Lt))
+        #=
         # Compute the per-capita income
         zt = z(gt, At, et, Lt)
-        #=
         # Define the piece-wise defined function
         if zt >= z_tilde
                 #println("    zt > z*")
@@ -55,7 +56,6 @@ function L(gt, At, et, Lt)
                 return 0
         end
         =#
-        return max(0.0,((1 - c_tilde/zt)/(τ + e(et, Lt)))*(γ*Lt))
 end
 
 # Define the 4-dimensional iterated map

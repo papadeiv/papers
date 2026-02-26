@@ -21,7 +21,7 @@ function main()
         plot_observables(U)
 
         # Export the figure
-        savefig("timepaths.png", fig)
+        savefig("smoothing.png", fig)
 end
 
 # Execute the main

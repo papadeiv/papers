@@ -14,10 +14,10 @@ function plot_paths(U)
         t = collect(UnitRange(0, N))
 
         # Plot the state variables' time-paths
-        scatterlines!(ax1, t, gt, color = CtpRed, linewidth = 2.0, markersize = 5)
-        scatterlines!(ax2, t, At, color = CtpRed, linewidth = 2.0)
-        scatterlines!(ax3, t, et, color = CtpRed, linewidth = 2.0)
-        scatterlines!(ax4, t, Lt, color = CtpRed, linewidth = 2.0)
+        scatterlines!(ax1, t, gt, color = CtpRed, linewidth = 2.0, markersize = 12)
+        scatterlines!(ax2, t, At, color = CtpRed, linewidth = 2.0, markersize = 12)
+        scatterlines!(ax3, t, et, color = CtpRed, linewidth = 2.0, markersize = 12)
+        scatterlines!(ax4, t, Lt, color = CtpRed, linewidth = 2.0, markersize = 12)
 end
 
 # Plot the observables of the state variables 
@@ -34,10 +34,10 @@ function plot_observables(U)
         t = collect(UnitRange(0, N))
 
         # Plot the state variables' time-paths
-        scatterlines!(ax8, t, ht, color = CtpRed, linewidth = 5.0)
-        scatterlines!(ax9, t, xt, color = CtpRed, linewidth = 5.0)
-        scatterlines!(ax10, t, zt, color = CtpRed, linewidth = 5.0)
+        scatterlines!(ax8, t, ht, color = CtpRed, linewidth = 2.0, markersize = 12)
+        scatterlines!(ax9, t, xt, color = CtpRed, linewidth = 2.0, markersize = 12)
+        scatterlines!(ax10, t, zt, color = CtpRed, linewidth = 2.0, markersize = 12)
 
         # Plot the treshold for the switching dynamics of Lt
-        lines!(ax10, [t[1], t[end]], (1/(1-γ)).*ones(2), color = :black, linestyle = :dash, linewidth = 5.0)
+        lines!(ax10, [t[1], t[end]], (1/(1-γ)).*ones(2), color = (:black, 0.5), linestyle = :dash, linewidth = 5.0)
 end
