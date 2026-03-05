@@ -60,7 +60,7 @@ function normalise(f::Function, parameters; accuracy=1e-8)
         end
 
         # Solve the definite integral by using adaptive Gauss-Kronrod quadrature
-        quadrature = solve(integral, QuadGKJL(; order=100); maxiters=10000, reltol=accuracy, abstol=accuracy)
+        quadrature = solve(integral, QuadGKJL(; order=20000); maxiters=10000, reltol=accuracy, abstol=accuracy)
 
         # Compute the normalisation constant
         N = 1.0::Float64/(quadrature.u)

@@ -10,7 +10,7 @@ include("./figs.jl")
 # Plot the reconstruction of the shifted potential
 function plot_solution(μf)
         # Plot the shifted ground truth
-        domain = collect(LinRange(-1.5, 1.5, 1000))
+        domain = collect(LinRange(-1, 10, 1000))
         lines!(ax1, domain, [U(x, μf) for x in domain], color = :red, linewidth = 5.0)
 
         # Loop over the solutions of the nonlinear least-squares reconstruction
@@ -31,9 +31,9 @@ end
 # Plot the escape rate early-warning signal 
 function plot_ews()
         # Plot the ews of the ground truth
-        μ_range = LinRange(-0.05, 1.35, 1000)
-        Xs = [(get_equilibria(f, μ, domain=[-10,10]).stable)[2] for μ in μ_range]
-        Xu = [(get_equilibria(f, μ, domain=[-10,10]).unstable)[1] for μ in μ_range]
+        μ_range = LinRange(1.8, 2.5, 1000)
+        Xs = [(get_equilibria(f, μ, domain=[0,10]).stable)[2] for μ in μ_range]
+        Xu = [(get_equilibria(f, μ, domain=[0,10]).unstable)[2] for μ in μ_range]
         lines!(ax3, μ_range, [exp(-(U(xu, μ) - U(xs, μ))) for (μ, xs, xu) in zip(μ_range, Xs, Xu)], color = CtpRed, linewidth = 5.0)
 
         # Loop over the parameter values
@@ -61,5 +61,5 @@ function plot_ews()
         end
 
         # Export the figure
-        savefig("ramped_ensemble/ews.png", fig3)
+        savefig("may/ews.png", fig3)
 end

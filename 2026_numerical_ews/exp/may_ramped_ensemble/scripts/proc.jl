@@ -9,8 +9,8 @@ Na = convert(Int64, 1e4)                        # Number of attempts per guess
 β = 1e-2                                        # Std of the guess perturbation 
 
 # Scalar potential of the conservative system 
-U(x, μ) = 1 + μ*x - 2*(x^2) + x^4               # Ground truth
-V(x, c) = c[1]*x + c[2]*(x^2) + c[3]*(x^3)      # Arbitrary cubic potential
+U(x, μ) = -(r/2.0)*x^2 + (r/(3.0*k))*x^3 + μ*(x - sqrt(Vh)*atan(x/sqrt(Vh)))  # Ground truth
+V(x, c) = c[1]*x + c[2]*(x^2) + c[3]*(x^3)                                    # Arbitrary cubic potential
 
 # Data structures
 solutions = Vector{Vector{Float64}}()           # Solutions of the inference method 
@@ -57,7 +57,7 @@ function export_data()
         df = DataFrame(parameter = μ, qse = xs, c1 = c1, c2 = c2, c3 = c3)
 
         # Export the matrix in csv
-        CSV.write("../../res/data/ramped_ensemble/solutions/$glb_idx.csv", df)
+        CSV.write("../../res/data/may/solutions/$glb_idx.csv", df)
  
         # Extract the transformations 
         mat = transpose(reduce(hcat, results))
@@ -67,12 +67,12 @@ function export_data()
         df = DataFrame(parameter = μ, ews = LDP)
 
         # Export the matrix in csv
-        CSV.write("../../res/data/ramped_ensemble/results/$glb_idx.csv", df)
+        CSV.write("../../res/data/may/results/$glb_idx.csv", df)
 end
 
 function import_data(idx)
         # Import the least-squares solution of the potential reconstruction
-        df = CSV.read("../../res/data/ramped_ensemble/solutions/$idx.csv", DataFrame)
+        df = CSV.read("../../res/data/may/solutions/$idx.csv", DataFrame)
         μc = df.parameter
         xs = df.qse
         c1 = df.c1
@@ -80,7 +80,7 @@ function import_data(idx)
         c3 = df.c3
       
         # Import the ews and error timeseries
-        df = CSV.read("../../res/data/ramped_ensemble/results/$idx.csv", DataFrame)
+        df = CSV.read("../../res/data/may/results/$idx.csv", DataFrame)
         μr = df.parameter
         ews = df.ews
 
