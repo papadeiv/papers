@@ -19,7 +19,7 @@ function plot(bins, pdf, coeff, idx)
 
         # Plot the arbitrary (reconstructed) potential and its equilibrium distribution
         lines!(ax1, domain, [p(x, coeff) for x in domain], color = CtpBlue, linewidth = 5.0)
-        lines!(ax2, domain, [1 + V(x, coeff) for x in domain], color = CtpBlue, linewidth = 5.0)
+        lines!(ax2, domain, [c0 + V(x, coeff) for x in domain], color = CtpBlue, linewidth = 5.0)
 
         # Export the figure
         savefig("maxwell/$idx.png", fig1)

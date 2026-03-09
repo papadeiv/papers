@@ -6,22 +6,32 @@ Storage of the definitions of the system alongside all the settings of the probl
 
 # System parameters
 μ = 0.0                                       # Bifurcation parameter value
+λ = -1.0                                      # Bifurcation parameter value
 ε = 0.0                                       # Timescale separation
-σ = 1.5                                       # Noise level (additive)
+σ = 0.25                                      # Noise level (additive)
 D = (σ^2)/2.0                                 # Diffusion level (additive) 
 
+# Polynomial coefficients of the true potential
+c0 = 0.3
+c1 = μ
+c2 = λ 
+c3 = 0.0
+c4 = 2.0
+
 # Dynamical system  
-f(x, μ) = -μ + 4*x - 4*x^3                    # Drift
+f(x, μ) = -(c1 + 2*c2*x + 3*c3*x^2 + 4*c4*x^3)# Drift
 Λ(t) = ε                                      # Shift/Ramp
 η(x) = σ                                      # Diffusion
 
 # Scalar potential of the conservative system 
-U(x, μ) = 1 + μ*x - 2*x^2 + x^4                             # Ground truth
+U(x, μ) = c0 + c1*x + c2*x^2 + c3*x^3 + c4*x^4              # Ground truth
 V(x, c) = c[1]*x + c[2]*(x^2) + c[3]*(x^3) + c[4]*(x^4)     # Arbitrary
 
 # Stationary equilibrium distribution
-Z = 2.07039469152
-ρ(x, μ) = (1/Z)*exp(-(U(x,μ)/D))
+P(x, μ) = exp(-(U(x,μ)/D))
+Z = normalise(P, μ, (-10,10))
+display(Z)
+ρ(x, μ) = Z*P(x, μ)
 
 # Target (arbitrary) distribution 
 g(x, c) = exp(-(1.0::Float64/D)*(V(x, c)))
@@ -34,7 +44,5 @@ x0 = [equilibria.stable[1], μ]
 
 # Simulation parameters
 dt = 5e-2                                     # Timestep
-Nt = 2e5                                      # Total number of steps
-Ne = 2e2                                      # Number of particles in the ensemble 
-β = 1e-3                                      # Std of the guess perturbation 
-Na = convert(Int64, 1e4)                      # Number of attempts per guess 
+Nt = 5e6                                      # Total number of steps
+Ne = 1e1                                      # Number of particles in the ensemble 
