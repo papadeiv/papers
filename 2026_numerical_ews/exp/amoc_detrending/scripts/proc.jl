@@ -5,7 +5,7 @@ Collection of quantities and functions used to postprocess and analyse the resul
 """
 
 # Parameters of the scalar potential method
-window_size = 0.25                              # Relative width of the slinding window
+window_size = 0.4                               # Relative width of the slinding window
 idx = 21000                                     # Time index of the tipping point 
 Na = convert(Int64, 1e4)                        # Number of attempts per guess 
 β = 1e-2                                        # Std of the guess perturbation 

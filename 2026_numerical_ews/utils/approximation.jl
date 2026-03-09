@@ -1,8 +1,7 @@
 """
 Approximation methods to reconstruct the scalar potential of a conservative system from the empirical distribution of a sample path.
 
-Author: Davide Papapicco
-Affil: U. of Auckland
+Author: Davide Papapicco Affil: U. of Auckland
 Date: 26-09-2025
 """
 
@@ -31,7 +30,7 @@ function normalise(f::Function, parameters, domain; accuracy=1e-8)
         end
 
         # Solve the definite integral by using adaptive Gauss-Kronrod quadrature
-        quadrature = solve(integral, QuadGKJL(; order=100); maxiters=10000, reltol=accuracy, abstol=accuracy)
+        quadrature = solve(integral, QuadGKJL(; order=20000); maxiters=10000, reltol=accuracy, abstol=accuracy)
 
         # Compute the normalisation constant
         N = 1.0::Float64/(quadrature.u)
@@ -180,7 +179,7 @@ function fit_potential(timeseries; n_bins=nothing, noise=nothing, initial_guess=
         β = transformation[2]
         d = convert(Int64, transformation[3])
         weights = α .+ β.*(bins .- bins[median_idx]).^d
-        
+
         # First attempt to solve the non-linear least-squares problem
         try
                 solution = curve_fit(p, bins, hist, weights, initial_guess, lower=lower, upper=upper).param
@@ -196,6 +195,8 @@ function fit_potential(timeseries; n_bins=nothing, noise=nothing, initial_guess=
                                             )
                         # No print
                 elseif isa(e, DomainError) || isa(e, LoadError)
+                        # No print
+                elseif isa(e, TaskFailedException) || isa(e, LinearAlgebra.SingularException)
                         # No print
                 else
                         rethrow(e)
@@ -223,6 +224,8 @@ function fit_potential(timeseries; n_bins=nothing, noise=nothing, initial_guess=
                                 tries += 1
                         elseif isa(e, DomainError) || isa(e, LoadError)
                                 tries += 1
+                        elseif isa(e, TaskFailedException) || isa(e, LinearAlgebra.SingularException)
+                                tries += 1
                         else
                                 rethrow(e)
                         end
@@ -231,7 +234,7 @@ function fit_potential(timeseries; n_bins=nothing, noise=nothing, initial_guess=
 
         # Return the linear solution
         if verbose
-                debug("Curve fitting failed after $(tries) attempts.")
+                println("Curve fitting failed after $(tries) attempts.")
         end
 
         return (
