@@ -6,7 +6,7 @@
 include("./figs.jl")
 
 # Array of colors for different trajectories
-colors = [CtpRed, CtpBlue, CtpPeach, CtpMauve, CtpGreen]
+colors = [#=CtpRed, =#CtpBlue, CtpPeach, CtpMauve, CtpGreen]
 
 # Global plotting index
 global plt_idx = 1::Integer

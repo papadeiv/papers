@@ -21,7 +21,7 @@ function main()
         end
 
         # Export the figure
-        savefig("switching.png", fig)
+        savefig("switching.pdf", fig)
 end
 
 # Execute the main

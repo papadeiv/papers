@@ -7,7 +7,7 @@ Storage of the definitions of the system alongside all the settings of the probl
 # System parameters
 μ0 = -1.00                                    # Initial parameter value
 ε = 1e-3                                      # Slow timescale
-σ = 0.500                                     # Noise level (additive)
+σ = 0.100                                     # Noise level (additive)
 D = (σ^2)/2.0                                 # Diffusion level (additive) 
 
 # Dynamical system  

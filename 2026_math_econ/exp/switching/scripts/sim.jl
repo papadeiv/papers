@@ -3,7 +3,7 @@
 """
 
 # Number of iterations of the map
-N = convert(Int64, 6e1)
+N = convert(Int64, 3e1)
 
 # Fixed parameters
 τ = 0.150
@@ -22,11 +22,11 @@ g0 = 0.048
 A0 = 0.870
 e0 = 0.000
 L0 = 0.364
-U0 = [[g0, A0, e0, L0],             # Red
-      [g0, 2*A0, e0, 2*L0],         # Blue
-      [g0, 10*A0, e0, 10*L0],       # Peach 
-      [g0, 10*A0, e0, L0],          # Mauve
-      [g0, 0.85*A0, e0, L0]         # Green
+U0 = [#[g0, A0, e0, L0],       # Red  (Lagerlof's)
+      [g0, 5, e0, 0.5],        # Blue  (white region)
+      [g0, 5, e0, 3.5],        # Green (blue region)
+      [g0, 5, e0, 1.5],        # Peach (pink region) 
+      [g0, 5, e0, 3.0],        # Mauve (white region)
      ]
 
 # Update rule for gt
