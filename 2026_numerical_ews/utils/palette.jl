@@ -7,6 +7,7 @@ Date: 26-09-2025
 """
 
 # Catpuccinn frappe'
+CtpPink = colorant"rgb(244,184,228)"
 CtpMauve = colorant"rgb(202,158,230)"
 CtpTeal = colorant"rgb(129, 200, 190)"
 CtpGreen = colorant"rgb(166, 209, 137)"
