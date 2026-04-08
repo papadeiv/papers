@@ -22,26 +22,31 @@ function main()
         data = NCDataset("../../res/data/amoc/Atlantic_250-500m_year_0001-2200.nc")
         time = data["time"][:]
         latitude = data["lat"][:]
-        observable = data["TEMP"]
-        N = size(observable, 1)
+        temperature = data["TEMP"]
+        salinity = data["SALT"]
+        N = length(latitude)
         
         # Create timeseries figure
         fig = Figure()
-        ax = Axis(fig[1,1], xlabel = L"\textbf{years}", ylabel = L"\textbf{temperature (250-500m)}")
+        ax = Axis(fig[1,1], xlabel = L"\textbf{years}", ylabel = L"\textbf{flow (250-500m)}")
 
         # Loop over the ensemble's sample paths
         ews = Float64[]
         @showprogress for n in 1:N
                 # Extract windowed subseries
                 t = copy(time[1:idx])
-                u = copy(observable[n,1:idx]) 
+                T = copy(temperature[n,1:idx]) 
+                S = copy(salinity[n,1:idx]) 
+
+                # Define the observable (flow)
+                ϕ = T - S
 
                 # Plot the timeseries
-                lines!(ax, t, u, color = n, colormap = :managua, colorrange = (1,N), linewidth = 1.0, label = "$(trunc(Int, latitude[n]))")
-                lines!(ax, time[(idx+1):end], observable[n,(idx+1):end], color = (:black,0.35), linewidth = 1.0)
+                lines!(ax, t, ϕ, color = n, colormap = :managua, colorrange = (1,N), linewidth = 1.0, label = "$(trunc(Int, latitude[n]))")
+                lines!(ax, time[(idx+1):end], temperature[n,(idx+1):end] - salinity[n,(idx+1):end], color = (:black,0.35), linewidth = 1.0)
 
                 # Detrend the timeseries 
-                detrended_solution = detrend(u, alg = "emd", n_modes=1)
+                detrended_solution = detrend(ϕ, alg = "emd", n_modes=1)
                 trend = detrended_solution.trend
                 residual = detrended_solution.residuals
 
@@ -52,11 +57,11 @@ function main()
                 push!(ews, analyse(solution))
                 
                 # Plot the timeseries's stationary distribution and the nonlinear solution
-                plot_solutions(t, u, trend, residual, solution, n)
+                plot_solutions(t, ϕ, trend, residual, solution, n)
         end
 
         # Plot the location of the tipping point
-        lines!(ax, [time[idx], time[idx]], [3, 17], color = :red, linestyle = :dash, linewidth = 2.0)
+        lines!(ax, [time[idx], time[idx]], [-32, -20], color = :red, linestyle = :dash, linewidth = 2.0)
 
         # Plot the legend
         grid = GridLayout(fig[2,1], tellwidth = false)
@@ -70,7 +75,7 @@ function main()
         end
 
         # Export the figure
-        savefig("amoc/temperature.png", fig)
+        savefig("amoc/flow.png", fig)
         savefig("amoc/ews.png", fig2)
 end
 
