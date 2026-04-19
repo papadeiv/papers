@@ -2,6 +2,7 @@ using CairoMakie, Makie.Colors, LaTeXStrings
 using ProgressMeter, Statistics, Polynomials
 using DataFrames, CSV, MAT
 using Base.Threads
+using Integrals
 
 # Avoid re-loading modules 
 if !isdefined(Main, :DataInterface)

@@ -49,8 +49,7 @@ q(Sn) = λ*(α*(Ts - T0) + (β/100.0)*(Sn - Ss))/(1.0 + λ*α*μ)
 # System parameters
 H0 = collect(range(-0.38, stop=0.38, step=0.1))    # Collection of initial bifurcation parameters
 ε = 1e-6                                           # Slow timescale
-σ = 0.100::Float64                                 # Noise level (additive)
-D = (σ^2)/2.0                                      # Diffusion level (additive) 
+σ = 1e-3                                           # Noise level (additive)
 
 # Dynamical system: drift 
 f1_pos(Sn, St, H) = (Υ/Vn)*(q(Sn)*(St/100.0 - Sn/100.0) + Kn*(St/100.0 - Sn/100.0) - Fn(H)*S0)
@@ -70,5 +69,5 @@ g(x, y) = σ
 
 # Simulation parameters
 δt = 5e-2                                     # Timestep
-Nt = 5e5                                      # Total number of steps
-Ne = 2e2                                      # Number of particles in the ensemble 
+Nt = 1e8                                      # Total number of steps
+Ne = 1e0                                      # Number of particles in the ensemble 

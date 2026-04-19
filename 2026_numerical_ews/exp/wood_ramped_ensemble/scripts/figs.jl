@@ -13,9 +13,9 @@ fig1, ax1 = makefig(size = [900,900],
                     bg_out = :white,
                     box_position = [1,1],
                     lab = [L"\mathbf{x}", L"\mathbf{V(x\,;\,\,\mu(t))}"],
-                    limits = ((-15, 15), (-15, 15)),
-                    x_ticks = [-15, 0, 15],
-                    y_ticks = [-15, 0, 15],
+                    limits = ((-0.5, 0.5), (-0.5, 0.5)),
+                    x_ticks = [-0.5, 0, 0.5],
+                    y_ticks = [-0.5, 0, 0.5],
                     ticks_lab_trunc = [0,0]
                    )
 
