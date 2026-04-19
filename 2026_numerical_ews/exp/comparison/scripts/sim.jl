@@ -3,6 +3,16 @@
 
 Storage of the definitions of the system alongside all the settings of the problem.
 """
+# Simulation parameters
+δt = 5e-2                                     # Timestep
+Nt = 2e5                                      # Total number of steps
+ε = 1e-4                                      # Slow timescale
+σ = 0.001::Float64                            # Noise level (additive)
+Λ(t) = ε                                      # Parameter's shift
+
+#----------------------------#
+#            Wood            # 
+#----------------------------#
 
 # Model parameters
 S0 = 0.035
@@ -47,9 +57,7 @@ Sip(Sn, St) = 100.0*(C - (Vn*Sn + Vs*Ss + Vb*Sb + Vt*St)/100.0 - S0*(Vb + Vn + V
 q(Sn) = λ*(α*(Ts - T0) + (β/100.0)*(Sn - Ss))/(1.0 + λ*α*μ)
 
 # System parameters
-H0 = collect(range(-0.38, stop=0.38, step=0.1))    # Collection of initial bifurcation parameters
-ε = 1e-6                                           # Slow timescale
-σ = 1e-3                                           # Noise level (additive)
+H0 = -0.380                                        # Initial value of the bifurcation parameter
 
 # Dynamical system: drift 
 f1_pos(Sn, St, H) = (Υ/Vn)*(q(Sn)*(St/100.0 - Sn/100.0) + Kn*(St/100.0 - Sn/100.0) - Fn(H)*S0)
@@ -60,14 +68,33 @@ f2_neg(Sn, St, H) = (Υ/Vt)*(abs(q(Sn))*(Sn/100.0 - St/100.0) + Ks*(Ss/100.0 - S
 f2(Sn, St, H) = q(Sn) >= 0 ? f2_pos(Sn, St, H) : f2_neg(Sn, St, H)
 f = [f1, f2]
 
-# Dynamical system: shift
-Λ(t) = ε
-
 # Dynamical system: diffusion
 g(x, y) = σ
 η = [g, g]
 
-# Simulation parameters
-δt = 5e-2                                     # Timestep
-Nt = 1e5                                      # Total number of steps
-Ne = 1e0                                      # Number of particles in the ensemble 
+#---------------------------#
+#        Saddle-node        # 
+#---------------------------#
+
+# Rotation coefficients
+θ1 = pi/4 
+θ2 = 0.6*pi 
+a11 = cos(θ1) 
+a12 = sin(θ1) 
+a21 = -sin(θ2) 
+a22 = cos(θ2) 
+A = [a11 a12
+     a21 a22]
+
+# System parameters
+μ0 = 0.65                                        # Initial value of the bifurcation parameter
+
+# Dynamical system: drift
+F1(x, y, p) = a11*(-p + 4*(a11*x+a12*y) - 4*(a11*x+a12*y)^3) - 2*a21*(a21*x+a22*y)
+F2(x, y, p) = a12*(-p + 4*(a11*x+a12*y) - 4*(a11*x+a12*y)^3) - 2*a22*(a21*x+a22*y)
+F = [F1, F2]
+
+# Dynamical system: diffusion
+coeff = 1e2
+G(x, y) = coeff*σ
+ζ = [G, G]
