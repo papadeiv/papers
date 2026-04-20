@@ -9,6 +9,8 @@ Nt = 2e5                                      # Total number of steps
 ε = 1e-4                                      # Slow timescale
 σ = 0.001::Float64                            # Noise level (additive)
 Λ(t) = ε                                      # Parameter's shift
+Λ_null(t) = 0.0                               # Parameter's shift
+n_bins = 50
 
 #----------------------------#
 #            Wood            # 
