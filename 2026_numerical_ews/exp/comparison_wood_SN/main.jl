@@ -32,10 +32,11 @@ function main()
         y = (ensemble.state[1])[:, 2]
         H = ensemble.parameter
         t = ensemble.time
+        T = range(0, 10, length(t))
 
         # Plot the timeseries and phase space trajectory
         ax1 = Axis(fig1[1,1], xlabel = L"S_N", ylabel = L"S_T", title = "Wood's 5-box model'")
-        lines!(ax1, x, y, color = (:magenta,0.35), linewidth = 0.5)
+        lines!(ax1, x, y, color = t, colormap = :viridis, linewidth = 0.5)
         ax2 = Axis(fig2[1,1], ylabel = L"S_N", title = "Wood's 5-box model'")
         lines!(ax2, t, x, color = :red, linewidth = 1.0)
         ax3 = Axis(fig2[2,1], xlabel = L"t", ylabel = L"S_T")
@@ -102,7 +103,7 @@ function main()
 
         # Plot the timeseries and phase space trajectory
         ax4 = Axis(fig1[1,2], xlabel = L"x", ylabel = L"y", title = "Saddle-node normal form")
-        lines!(ax4, x, y, color = (:magenta,0.35), linewidth = 0.5)
+        lines!(ax4, x, y, color = t, colormap = :viridis, linewidth = 0.5)
         ax5 = Axis(fig2[1,2], ylabel = L"x", title = "Saddle-node normal form")
         lines!(ax5, t, x, color = :red, linewidth = 1.0)
         ax6 = Axis(fig2[2,2], xlabel = L"t", ylabel = L"y")
