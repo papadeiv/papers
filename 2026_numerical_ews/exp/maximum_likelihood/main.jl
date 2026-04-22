@@ -194,7 +194,7 @@ function main(equilibrium, N_exp)
                 c = Polynomials.fit(x, U_discrete, 3).coeffs[2:4]
                 =#
 
-                U_discrete = -D .* log.(y ./ N)
+                U_discrete = -D .* log.(y./N)
                 Φ = hcat(ones(length(x)), x, x.^2, x.^3)
                 W = Diagonal(y)
                 c_full = (Φ'*W*Φ)\(Φ'*W*U_discrete)
