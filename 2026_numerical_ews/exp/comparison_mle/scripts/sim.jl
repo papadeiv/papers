@@ -5,7 +5,7 @@ Storage of the definitions of the system alongside all the settings of the probl
 """
 
 # System parameters
-μ_set = collect(range(0.2, stop=1.0, step=0.1))# Set of bifurcation parameter values 
+μ_set = collect(range(0.3, stop=1.0, step=0.1))# Set of bifurcation parameter values 
 ε = 0.0                                       # Timescale separation
 σ = 0.100                                     # Noise level (additive)
 D = (σ^2)/2.0                                 # Diffusion level (additive) 

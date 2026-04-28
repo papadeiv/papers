@@ -28,7 +28,6 @@ function preprocess_solution(timestamps, timeseries, width)
         Ns = window.strides
 
         # Convert the sliding window subseries into an ensemble of timeseries
-        printstyled("Converting the truncated sample path to an ensemble of ", Ns," trajectories of ", Nw, " steps\n"; bold=true, underline=true, color=:light_blue)
         timesteps = [@view t[n:(n+Nw-1)] for n in 1:Ns] 
         ensemble = [@view u[n:(n+Nw-1)] for n in 1:Ns] 
 

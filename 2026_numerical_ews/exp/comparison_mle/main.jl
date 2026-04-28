@@ -10,12 +10,11 @@ include("inc.jl")
 # Import the simulation's scripts
 include("./scripts/sim.jl")
 include("./scripts/proc.jl")
-include("./scripts/plot.jl")
 
 # Main algorithm 
 function main()
         # Loop over the fixed parameters
-        for μ in μ_set
+        for μ in μ_set[1]
                 # Solve the ensemble problem 
                 equilibria = get_equilibria(f, μ, domain=[-10,10])
                 x0 = [equilibria.stable[2], μ]
@@ -33,7 +32,7 @@ function main()
          
                         solution = fit_potential(u, noise=σ, transformation=[0.0,1.0,8.0])
                         V_NLLS = shift_potential(x0[1], solution.fit, μ)
-                        error[n,1] = get_error(V_NLLS, equilibria, μ)
+                        display(solution.fit) error[n,1] = get_error(V_NLLS, equilibria, μ)
 
                         #----------------#
                         #  EM Quasi MLE  #          
