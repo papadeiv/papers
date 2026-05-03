@@ -57,7 +57,7 @@ function main()
                         bins, pdf = fit_distribution(ϕw, n_bins=n_bins)
 
                         # Solve the nonlinear least-squares problem and compute the early-warning signal
-                        solution = fit_potential(residual, transformation=[0.0,1.0,8.0], n_bins=n_bins).fit
+                        solution = fit_potential(ϕw, transformation=[0.0,0.0,16.0], n_bins=n_bins).fit
                         ews[n] = analyse(solution)
 
                         # Plot and export the results
@@ -89,7 +89,11 @@ function main()
                         p(x, c) = Z*ρ(x, c)
                         lines!(ax3, interval, [p(x, solution) for x in interval], color = :red, linewidth = 4.0)
                         lines!(ax4, domain, [V(x, solution) for x in domain], color = :red, linewidth = 2.0)
-                        savefig("amoc/$(latitude[N])/$n.png", fig)
+                        if n == Ne
+                                savefig("amoc/$(N).png", fig)
+                        else
+                                savefig("amoc/$(N)/$n.png", fig)
+                        end
                 end
         end
 end
