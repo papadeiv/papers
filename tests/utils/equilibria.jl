@@ -79,10 +79,13 @@ function get_equilibria(f::Function; domain=[-Inf,Inf])
                ) 
 end
 
-function get_equilibria(f1::Function, f2::Function, μ::Float64; guesses=[[-10.0, -10.0], [0, 0], [-2.0, -2.0], [2.0, 2.0]])
-        # Redefine unparametrised vector field
-        f(x,y) = f1(x,y,μ)
-        g(x,y) = f2(x,y,μ)
+function get_equilibria(f1::Function, f2::Function, μ::Float64; guesses=[[0.0, 0.0], [1.0, 1.0], [-1.0, -1.0], [1.0, -1.0], [-1.0, 1.0]])
+        # Define the vector field
+        function vector_field!(F, u, μ)
+                x, y = u[1], u[2]
+                F[1] = f1(x, y, μ) 
+                F[2] = f2(x, y, μ) 
+        end
 
         # Define empty arrays to separate stable from unstable equilibria
         stable = Vector{Vector{Float64}}()
@@ -90,14 +93,11 @@ function get_equilibria(f1::Function, f2::Function, μ::Float64; guesses=[[-10.0
 
         # Loop over the guesses
         for guess in guesses
-                # Extract the components of the guess
-                x0 = guess[1]
-                y0 = guess[2]
-
-                # Solve f(x,y) = 0 for x, given y0
-                X = find_zero(x -> f(x, y0), x0)
-                # Solve g(x,y) = 0 for y, given x_sol
-                Y = find_zero(y -> g(X, y), y0)
+                # Solve the nonlinear 0-problem
+                prob = NonlinearSolve.NonlinearProblem(vector_field!, guess, μ)
+                sol = NonlinearSolve.solve(prob)
+                X = sol[1] 
+                Y = sol[2] 
 
                 # Avoid exporting duplicates
                 if any(norm([X, Y] - [sx, sy]) < 1e-6 for (sx, sy) in vcat(stable, unstable))
@@ -105,7 +105,7 @@ function get_equilibria(f1::Function, f2::Function, μ::Float64; guesses=[[-10.0
                 end
 
                 # Compute the linearisation (Jacobian)
-                J = ForwardDiff.jacobian(u -> [f(u[1], u[2]), g(u[1], u[2])], [X, Y])
+                J = ForwardDiff.jacobian(u -> [f1(u[1], u[2], μ), f2(u[1], u[2], μ)], [X, Y])
                 # Compute the spectrum of the linear field (eigenvalues of the Jacobian)
                 eigvals_J = eigen(J).values
 

@@ -1,8 +1,7 @@
 """
 Approximation methods to reconstruct the scalar potential of a conservative system from the empirical distribution of a sample path.
 
-Author: Davide Papapicco
-Affil: U. of Auckland
+Author: Davide Papapicco Affil: U. of Auckland
 Date: 26-09-2025
 """
 
@@ -31,13 +30,14 @@ function normalise(f::Function, parameters, domain; accuracy=1e-8)
         end
 
         # Solve the definite integral by using adaptive Gauss-Kronrod quadrature
-        quadrature = solve(integral, QuadGKJL(); maxiters=10000, reltol=accuracy, abstol=accuracy)
+        quadrature = solve(integral, QuadGKJL(; order=20000); maxiters=10000, reltol=accuracy, abstol=accuracy)
 
-        # Return the approximation
-        return 1.0::Float64/(quadrature.u)
+        # Compute the normalisation constant
+        N = 1.0::Float64/(quadrature.u)
+        return N
 end
 
-function normalise(f::Function, parameters; accuracy=1e-12)
+function normalise(f::Function, parameters; accuracy=1e-8)
         # Compute the location of the local minima and maxima
         μ = parameters
         xs = +(1/(3*μ[3]))*(sqrt((μ[2])^2 - 3*μ[1]*μ[3]) - μ[2])
@@ -45,30 +45,10 @@ function normalise(f::Function, parameters; accuracy=1e-12)
 
         # Define the integration interval
         I = (-Inf,Inf)
-
-        # Initialise the interval
         if xs > xu
-                # Avoid numerical cancellation in the quadrature
-                if abs(xu-xs) < 1e1
-                        I = (xu, +Inf) 
-                else
-                        # Find a small enough value of the integrand
-                        subinterval = collect(LinRange(xs,xu,100000))
-                        idx = findfirst(p -> p < 1e-16, [f(x, μ) for x in subinterval])
-                        xu = subinterval[idx]
-                        I = (xu, +Inf)
-                end
+                I = (xu, +Inf) 
         else
-                # Avoid numerical cancellation in the quadrature
-                if abs(xu-xs) < 1e1
-                        I = (-Inf, xu)
-                else
-                        # Find a small enough value of the integrand
-                        subinterval = collect(LinRange(xs,xu,100000))
-                        idx = findfirst(p -> p < 1e-16, [f(x, μ) for x in subinterval])
-                        xu = subinterval[idx]
-                        I = (-Inf, xu)
-                end
+                I = (-Inf, xu) 
         end
 
         # Define the integral problem over the domain
@@ -79,12 +59,11 @@ function normalise(f::Function, parameters; accuracy=1e-12)
         end
 
         # Solve the definite integral by using adaptive Gauss-Kronrod quadrature
-        quadrature = solve(integral, QuadGKJL(; order=1000); maxiters=100000, reltol=accuracy, abstol=accuracy)
+        quadrature = solve(integral, QuadGKJL(; order=20000); maxiters=10000, reltol=accuracy, abstol=accuracy)
 
-        #display(1.0::Float64/(quadrature.u))
-        
-        # Return the approximation
-        return 1.0::Float64/(quadrature.u)
+        # Compute the normalisation constant
+        N = 1.0::Float64/(quadrature.u)
+        return N
 end
 
 """
@@ -143,10 +122,11 @@ function fit_potential(bins, distribution, degree, noise::Float64; N = nothing)
                )
 end
 
-function fit_potential(timeseries; n_bins=nothing, noise=nothing, initial_guess=nothing, optimiser=1e-2, attempts=1000, verbose = false)
+function fit_potential(timeseries; n_bins=nothing, noise=nothing, initial_guess=nothing, transformation = [1.0, 0.0, 0.0], optimiser=1e-2, attempts=1000, verbose = false)
         # Number of bins for the histogram
         if n_bins == nothing
-                n_bins = convert(Int64, floor(0.02*length(timeseries)))
+                # Scott's rule (1985)
+                n_bins = convert(Int64, ceil(abs(maximum(timeseries)-minimum(timeseries))/(3.49*std(timeseries)*(length(timeseries))^(-1.0/3.0))))   
         end
         Nb = n_bins
 
@@ -162,9 +142,14 @@ function fit_potential(timeseries; n_bins=nothing, noise=nothing, initial_guess=
         # Fit an empirical distribution to the timeseries data
         bins, hist = fit_distribution(timeseries, n_bins=Nb+1)
 
+        # Find the median of the empirical distribution (for centering the polynomial weighting)
+        dx = bins[2] - bins[1]
+        cdf = cumsum(hist)*dx
+        median_idx = findfirst(>=(0.5), cdf)
+
         # Initial guess for the non-linear 0-problem 
         if initial_guess == nothing
-                initial_guess = (fit_potential(bins, hist, 3, σ)).fit[2:4]
+                initial_guess = (fit_potential(bins, hist, 3, σ)).fit[2:(4)]
         end
 
         # Define the stochastic diffusion
@@ -188,13 +173,19 @@ function fit_potential(timeseries; n_bins=nothing, noise=nothing, initial_guess=
         # Define the lower and upper bounds for the coefficients
         lower = [-45.0, -25.0, -40.0] 
         upper = [45.0, 25.0, 40.0]
-        
+
+        # Define the polynomial weighting
+        α = transformation[1]
+        β = transformation[2]
+        d = convert(Int64, transformation[3])
+        weights = α .+ β.*(bins .- bins[median_idx]).^d
+
         # First attempt to solve the non-linear least-squares problem
         try
-                solution = curve_fit(p, bins, hist, initial_guess, lower=lower, upper=upper, show_trace=true).param
+                solution = curve_fit(p, bins, hist, weights, initial_guess, lower=lower, upper=upper).param
                 return (
                         points = bins,
-                        guess = initial_guess,
+                        potential = nothing,
                         fit = solution
                        )
         catch e
@@ -203,7 +194,9 @@ function fit_potential(timeseries; n_bins=nothing, noise=nothing, initial_guess=
                                              occursin("Initial guess must be within bounds", e.msg)
                                             )
                         # No print
-                elseif isa(e, DomainError)
+                elseif isa(e, DomainError) || isa(e, LoadError)
+                        # No print
+                elseif isa(e, TaskFailedException) || isa(e, LinearAlgebra.SingularException)
                         # No print
                 else
                         rethrow(e)
@@ -217,10 +210,10 @@ function fit_potential(timeseries; n_bins=nothing, noise=nothing, initial_guess=
                         # Perturb the initial guess
                         perturbed_guess = initial_guess + β.*randn(3)
                         # Attempt to solve the nonlinear problem
-                        solution = curve_fit(p, bins, hist, perturbed_guess, lower=lower, upper=upper).param
+                        solution = curve_fit(p, bins, hist, weights, perturbed_guess, lower=lower, upper=upper).param
                         return (
                                 points = bins,
-                                guess = initial_guess,
+                                potential = nothing,
                                 fit = solution
                                )
                 catch e
@@ -229,7 +222,9 @@ function fit_potential(timeseries; n_bins=nothing, noise=nothing, initial_guess=
                                                      occursin("Initial guess must be within bounds", e.msg)
                                                     )
                                 tries += 1
-                        elseif isa(e, DomainError)
+                        elseif isa(e, DomainError) || isa(e, LoadError)
+                                tries += 1
+                        elseif isa(e, TaskFailedException) || isa(e, LinearAlgebra.SingularException)
                                 tries += 1
                         else
                                 rethrow(e)
@@ -239,12 +234,12 @@ function fit_potential(timeseries; n_bins=nothing, noise=nothing, initial_guess=
 
         # Return the linear solution
         if verbose
-                debug("Curve fitting failed after $(tries) attempts.")
+                println("Curve fitting failed after $(tries) attempts.")
         end
 
         return (
                 points = bins,
-                guess = initial_guess,
+                potential = nothing,
                 fit = initial_guess
                )
 end

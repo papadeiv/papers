@@ -32,7 +32,22 @@ function main()
          
                         solution = fit_potential(u, noise=σ, transformation=[0.0,1.0,8.0])
                         V_NLLS = shift_potential(x0[1], solution.fit, μ)
-                        display(solution.fit) error[n,1] = get_error(V_NLLS, equilibria, μ)
+                        error[n,1] = get_error(V_NLLS, equilibria, μ)
+                        #=
+                        I = (-Inf,Inf)
+                        if xs(solution.fit) > xu(solution.fit)
+                                I = (xu(solution.fit), +Inf) 
+                        else
+                                I = (-Inf, xu(solution.fit)) 
+                        end
+                        n_bins = convert(Int64, ceil(abs(maximum(good)-minimum(good))/(3.49*std(good)*(length(good))^(-1.0/3.0))))
+                        bins, pdf = fit_distribution(good, n_bins=n_bins)
+                        binning = LinRange(minimum(bins), maximum(bins), 1000)
+                        integral = IntegralProblem(ρ, I, solution.fit)
+                        quadrature = solve(integral, QuadGKJL(; order=20000); maxiters=10000)
+                        p(x, c) = ρ(x, c)/(quadrature.u)
+                        lines!(ax11, binning, [p(x, solution.fit) for x in binning], color = :red, linewidth = 4.0)
+                        =#
 
                         #----------------#
                         #  EM Quasi MLE  #          

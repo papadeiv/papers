@@ -5,7 +5,7 @@ Collection of quantities and functions used to postprocess and analyse the resul
 """
 
 # Parameters of the scalar potential method
-window_size = 0.50                              # Relative width of the slinding window
+window_size = 0.60                              # Relative width of the slinding window
 idx = 1800                                      # Time index of the tipping point 
 Na = convert(Int64, 1e4)                        # Number of attempts per guess 
 β = 1e-2                                        # Std of the guess perturbation 
@@ -14,6 +14,12 @@ Na = convert(Int64, 1e4)                        # Number of attempts per guess
 V(x, c) = c[1]*x + c[2]*(x^2) + c[3]*(x^3)
 xs(C) = +(1/(3*C[3]))*(sqrt((C[2])^2 - 3*C[1]*C[3]) - C[2])
 xu(C) = -(1/(3*C[3]))*(sqrt((C[2])^2 - 3*C[1]*C[3]) + C[2])
+
+# Subsets of latitude analysed
+subsets = [collect(1:45), collect(46:49)]
+
+# Index of emphasized latitude
+N_emph = 46
 
 # Converts the non-stationary timeseries into an ensemble of subseries associated to the strides of a sliding window 
 function preprocess_solution(timestamps, timeseries, width)

@@ -6,7 +6,7 @@ Affil: U. of Auckland
 Date: 03-09-2025
 """
 
-function detrend(timeseries; alg = "exact", timestamps = Float64[], qse = Float64[])
+function detrend(timeseries; alg = "exact", timestamps = Float64[], qse = Float64[], n_modes=0::Integer)
         # Initialise arrays for the trend and the residuals
         trend = Float64[]
         residuals = Float64[]
@@ -27,9 +27,14 @@ function detrend(timeseries; alg = "exact", timestamps = Float64[], qse = Float6
                 trend = X*c
                 residuals = timeseries - trend
 
-        else alg == "exact"
+        elseif alg == "exact"
                 trend = qse 
                 residuals = timeseries - trend
+        else alg == "emd"
+                emd = PyEMD.EMD()
+                imfs = Array(emd(timeseries))
+                trend = sum(imfs[(end-n_modes):end,:], dims=1)[:]
+                residuals = timeseries .- trend
         end
 
         return (

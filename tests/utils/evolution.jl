@@ -22,7 +22,7 @@ The SDEs are characterised by a parametric drift `f`, a parameter shift `Λ` and
 ## Output
 `solutions::Tuple`
 * `solutions.time::Vector{Float64}`: timestamps of the trajectories
-* `solutions.states::Vector{Vector{Float64}}`: trajectories of the ensemble 
+* `solutions.state::Vector{Vector{Float64}}`: trajectories of the ensemble 
 
 ## Example
 """
@@ -164,7 +164,7 @@ function evolve(f::Vector{<:Function}, η::Vector{<:Function}, Λ::Function, u0:
                         end
                 else
                         T_start = 0.0::Real 
-                        T_end = (endparameter-u0[2])/Λ(0)
+                        T_end = (endparameter-u0[3])/Λ(0)
                 end
         else
                 # Compute the time range from the parameter range assuming a linear ramp
