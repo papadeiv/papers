@@ -1,0 +1,107 @@
+\documentclass[openacc]{rsproca_new}
+
+% Type of article
+\jname{rspa} 
+\Journal{Proc R Soc A\ }
+\titlehead{Research}
+
+% Packages
+\usepackage{lipsum}
+
+% Custom RSPA environments
+\newtheorem{theorem}{\bf Theorem}[section]
+\newtheorem{condition}{\bf Condition}[section]
+\newtheorem{corollary}{\bf Corollary}[section]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%               Main text               % 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\title{Robust numerical inference and early warnings of tipping from timeseries}
+
+\author{Davide Papapicco$^{1}$, Lauren Smith$^{1}$ and Graham Donovan$^{1}$}
+\address{$^{1}$Department of Mathematics, University of Auckland, New Zealand}
+\corres{Graham Donovan\\ \email{g.donovan@auckland.ac.nz}}
+
+\subject{applied mathematics, differential equations, statistical physics}
+\keywords{early warning signals, tipping points, numerical methods}
+
+\begin{abstract}
+        \lipsum[1] 
+        \absbreak 
+\end{abstract}
+
+%\rsbreak
+
+\begin{fmtext}
+        \section{Introduction}
+        \lipsum[2]
+\end{fmtext}
+
+\maketitle
+
+%\section{Introduction}
+\lipsum[3] Cite section~\ref{sec2.1}.
+
+\section{Fingerprints of tipping}\label{sec2.1}
+\lipsum[4] Cite source \cite{HJ2}.
+\subsection{Tipping mechanisms}
+\subsection{Timescale separations}
+
+\section{Saddle-escapes as a large deviation principle}
+\lipsum[5] Cite source \cite{BF}.
+\subsection{Large deviation theory}
+\subsection{Invariant solution of the Fokker-Plank equation}
+
+\section{Likelihood based estimators}
+\lipsum[6] Cite source \cite{BHJ}.
+\subsection{Existing techniques}
+\subsection{A customised numerical method}
+
+\section{Applications}
+\subsection{One-dimensional, bistable saddle-node tipping}
+\subsubsection{Comparison of different estimators}
+\subsubsection{A model from ecosystems dynamics}
+\subsection{Observables of higher-dimensional conservative systems}
+\subsubsection{Simplified two-box model of the AMOC}
+\subsubsection{Large-scale circulation model of the AMOC}
+
+\section{Conclusions}
+\lipsum[7] Cite source \cite{K}. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%               Declarations               % 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vskip6pt
+\enlargethispage{20pt}
+
+\dataccess{The code used to generate the figures is available at the repository \url{https://github.com/papadeiv/papers/tree/master/2026_numerical_ews}.}
+\aucontribute{D.P.: did okay; L.S.: did fantastic; G.D.: did amazing.\\ All authors gave final approval for publication and agreed to be held accountable for the work performed
+therein.}
+\conflict{We declare we have no competing interests.}
+\funding{D.P. has received support from Marsden grant n.XXX-XXX.}
+\ack{We thank (hopefully!) the reviewers.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%               Appendix               % 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Appendix A}
+\subsection{Something important}
+\lipsum[8]
+\subsection{Something even more important}
+\lipsum[9]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%               Bibliography               % 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vskip2pc
+
+\bibliographystyle{RS}
+\bibliography{references}
+
+\end{document}
