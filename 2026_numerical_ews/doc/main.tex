@@ -45,18 +45,57 @@
 %\section{Introduction}
 \lipsum[3] Cite section~\ref{sec2.1}.
 
-\section{Fingerprints of tipping}\label{sec2.1}
-\lipsum[4] Cite source \cite{HJ2}.
-\subsection{Tipping mechanisms}
-\subsection{Timescale separations}
+\section{Anthology/Geneaology of early-warning signals}\label{sec2.1}
+The theory of early-warning signals of critical transitions was motivated by applications in climate science and ecology.
+Since the mid 2000s the need to quantify and predict catastrophic tipping points in ecosystems led to a number of empircal indicators being proposed.
+While not exhaustive, what follows is a brief review of the existing literature of the field.
+
+\subsection{Early developments}
+The loss of resilience of ecosystems in recovering from external perturbations (such as lakes etc...) was initially noted to be captured by an increase in the variance of the species' population \cite{Carpenter2006, VanNes2007}.
+Shortly after the same property was linked to the similar types of catastrophic transitions in changing climates \cite{Dakos2008}.
+In both cases this loss of resilience was associated to a phenomenon known in dynamical systems and statistical mechanics as \textit{critical slowing down} (CSD).
+In these early works the authors argued that a complex system evolving over time and in a state of equilibrium should, if stochastically perturbed, show slower recovery rates as the attracting state weakens.
+This slower return to equilibrium should result in an increase in variance and autocorrelation of the timeseries of the state due to loss of resilience by the system in absorbing perturbations.
+Later on it was noted that, in bi- or multi-stable systems, the presence of alternative attractors naturally distorts any symmetry in the basin of attraction of the observed state which entails that an increase in the asymmetry of the timeseries should be registered as the basin of attractions shrinks.
+Such behaviour would thus ideally be captured by an increase or decrease in the skewness of the timeseries \cite{Guttal2008}.
+
+\subsection{Reviews, comparisons and performance/robustness/statistical significance}
+With increasing interest towards the problem more and more indicators had been proposed. 
+Eventually a review of the state of the art was published in 2009 \cite{Scheffer2009} by some of the major contributors thus far. 
+In this work it was suggested that generic early-warning signals should exist for a variety of collapses in complex systems.
+A subsequent paper \cite{Dakos2012} compared the performace of these generic indicators on a dataset of two synthetic timeseries of a bi-stable, biomass collapse subject to increasing harvesting.
+Leading indicators were thereby grouped into \textit{metric-based}, meant to capture characteristic changes of timeseries data with no a-priori knowledge of the model generating it, and \textit{model-based}, which conversely attempted to fit some model parameters in order to infere incoming tipping points. 
+In the same year a similar comparison \cite{Lenton2012} addressed the issue of robustness of detected signals when applied to paleoclimate records of ancient climate trasitions as well as complicated ocean model experiments. 
+
+\subsection{Extension to high-dimensional systems}
+While the initial efforts of detecting tipping points have focused on univariate timeseries in low-dimensions, the emphasis eventually shifted to address how these techniques should be amended to cope with increased dimensionality and complexity of the underlying systems. 
+Spatio-temporal early-warning signals \cite{Dakos2010, Liang2017, Chen2019, Donovan2022} have been proposed with the aim of capturing the emergence of heterogeneities in lattice and networked models from ecology and lung phisiology.
+Other works later focused on the derivation of characteric signals in higher-dimensions by e.g. leveraging the nonzero curl flux of the drift term of a stochastic process to drive nonequilibrium phase transitions \cite{Xu2023} or by exploiting the reduced structure of the (known) bifurcation manifold to make more robust predictions of incoming tipping points in spatial aggregations \cite{Dylewsky2024}.
+
+\subsection{Mathematical foundations}
+As increasingly more attention gathered around the potential applicability of EWS to predict and overt incoming catastrophes, mathematical grounding of the mechanisms underlying the tipping behaviour remained scarce.
+Characterisation of the statistical properties of the proposed signals remained absent from the literature if not restricted to empirical observations from syntehtic datasets.
+Questions regarding the robustness and generality of such precursors remained unanswered for some time, while the lack of clarifications of how dimensionality reduction affected the capturing of CSD of observables of high-dimensional systems still persists to this day.
+In the following we briefly recall the major mathematical advancements in understanding and characterising different tipping events and the presence (or lack thereof) of robust EWS.
+
+\subsubsection{Tipping mechanisms}
+To the best of the authours' knowledge, the first attempt in categorising tipping points in a mathematical framework, as well as providing reasonably rigorous justifications for the presence of EWS preceeding those transitions, came in 2011 in the seminal paper \cite{Kuehn2011}, later expanded in 2013 \cite{Kuehn2013}.
+Following that, another foundational work in 2012 \cite{Ashwin2012} introduced a new type of critical transition associated to the failure of nonautonomous systems to adiabatically track drifting stable states proposing the now well-established classification of bifurcation-induced (B-tipping), rate-induced (R-tipping) and noise-induced (N-tipping).
+The study of rate-induced tipping in complex system gained momentum in the late 2010s \cite{Ashwin2017, Ritchie2017} with later works in the early 2020s \cite{Vanselow2019, OSullivan2023} linking its analysis with recent advances on multiscale dynamics from geometric singular perturbation theory \cite{Wechselberger2020}.
+
+\subsubsection{Early-warning signals}
+\begin{itemize}
+     \item \cite{Ritchie2016};
+     \item \cite{Donovan2024}.
+\end{itemize}
 
 \section{Saddle-escapes as a large deviation principle}
-\lipsum[5] Cite source \cite{BF}.
+\lipsum[5]
 \subsection{Large deviation theory}
 \subsection{Invariant solution of the Fokker-Plank equation}
 
 \section{Likelihood based estimators}
-\lipsum[6] Cite source \cite{BHJ}.
+\lipsum[6]
 \subsection{Existing techniques}
 \subsection{A customised numerical method}
 
@@ -65,11 +104,12 @@
 \subsubsection{Comparison of different estimators}
 \subsubsection{A model from ecosystems dynamics}
 \subsection{Observables of higher-dimensional conservative systems}
+\textit{``If one measures the system state along a direction that is orthogonal to the bifurcation manifold the signs of an incoming tipping point can be completely obscured (silent catastrophe)''} \cite[p. 3]{Dylewsky2024}.
 \subsubsection{Simplified two-box model of the AMOC}
 \subsubsection{Large-scale circulation model of the AMOC}
 
 \section{Conclusions}
-\lipsum[7] Cite source \cite{K}. 
+\lipsum[7] 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %               Declarations               % 
