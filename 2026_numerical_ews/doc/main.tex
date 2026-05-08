@@ -7,6 +7,7 @@
 
 % Packages
 \usepackage{lipsum}
+\usepackage{float}
 
 % Custom RSPA environments
 \newtheorem{theorem}{\bf Theorem}[section]
@@ -66,6 +67,14 @@ In this work it was suggested that generic early-warning signals should exist fo
 A subsequent paper \cite{Dakos2012} compared the performace of these generic indicators on a dataset of two synthetic timeseries of a bi-stable, biomass collapse subject to increasing harvesting.
 Leading indicators were thereby grouped into \textit{metric-based}, meant to capture characteristic changes of timeseries data with no a-priori knowledge of the model generating it, and \textit{model-based}, which conversely attempted to fit some model parameters in order to infere incoming tipping points. 
 In the same year a similar comparison \cite{Lenton2012} addressed the issue of robustness of detected signals when applied to paleoclimate records of ancient climate trasitions as well as complicated ocean model experiments. 
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[keepaspectratio, width=\textwidth]{./figures/traditional_ews_comparison.pdf}
+    \caption{Most used early-warning signals applied to a slowly ramped harvested population model following a bistable saddle-node bifurcation.}
+    \label{fig:traditional_ews_comparison}
+\end{figure}
+
 
 \subsection{Extension to high-dimensional systems}
 While the initial efforts of detecting tipping points have focused on univariate timeseries in low-dimensions, the emphasis eventually shifted to address how these techniques should be amended to cope with increased dimensionality and complexity of the underlying systems. 
