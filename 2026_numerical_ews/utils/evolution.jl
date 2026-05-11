@@ -102,7 +102,7 @@ function evolve(f::Function, η::Function, Λ::Function, u0::Vector; endparamete
         ensemble = EnsembleProblem(dynamics)
 
         # Solve the problem forward in time
-        solutions = solve(ensemble, SOSRA(), dt=δt, verbose=false, EnsembleDistributed(), trajectories=Ne)
+        solutions = solve(ensemble, EM(), dt=δt, verbose=false, EnsembleDistributed(), trajectories=Ne)
 
         # Extract the trajectories of the state 
         state = Vector{Vector{Float64}}() 
@@ -208,7 +208,7 @@ function evolve(f::Vector{<:Function}, η::Vector{<:Function}, Λ::Function, u0:
         ensemble = EnsembleProblem(dynamics)
 
         # Solve the problem forward in time
-        solutions = solve(ensemble, SOSRA(), dt=δt, verbose=false, EnsembleDistributed(), trajectories=Ne)
+        solutions = solve(ensemble, EM(), dt=δt, verbose=false, EnsembleDistributed(), trajectories=Ne)
 
         # Extract the trajectories of the state 
         state = Vector{Matrix{Float64}}() 

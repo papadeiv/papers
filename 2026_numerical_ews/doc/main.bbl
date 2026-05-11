@@ -1,5 +1,22 @@
 \begin{thebibliography}{99}
 
+\bibitem{Kuehn2012}
+Meisel C, Kuehn C. 2012  Scaling effects and spatio-temporal multilevel
+  dynamics in epileptic seizures. {\em PLOS ONE} pp. 1--11.
+(\href{http://dx.doi.org/doi:10.1371/journal.pone.0030371}{doi:10.1371/journal.pone.0030371})
+
+\bibitem{Donovan2015}
+Donovan GM, Kritter T. 2015  Spatial formation in the lung. {\em J. Math.
+  biol.} \textbf{70}, 1119--1149.
+(\href{http://dx.doi.org/doi:10.1007/s00285-014-0792-9}{doi:10.1007/s00285-014-0792-9})
+
+\bibitem{Donovan2017}
+Donovan G. 2017  Inter-airway structural heterogeneity interacts with dynamic
+  heterogeneity to determine lung function and flow patterns in both asthmatic
+  and control simulated lungs. {\em Journal of Theoretical Biology}
+  \textbf{435}, 98--105.
+(\href{http://dx.doi.org/doi:10.1016/j.jtbi.2017.08.024}{doi:10.1016/j.jtbi.2017.08.024})
+
 \bibitem{Carpenter2006}
 Carpenter SR, Brock WA. 2006  Rising variance: a leading indicator of
   ecological transition. {\em Ecol. Lett.} \textbf{9}, 311--318.
@@ -46,6 +63,11 @@ Dakos V, van Nes EH, Donangelo R, Fort H, Scheffer M. 2010  Spatial correlation
   as leading indicator of catastrophic shifts. {\em Theor. Ecol.} \textbf{3},
   163--174.
 (\href{http://dx.doi.org/doi:10.1007/s12080-009-0060-6}{doi:10.1007/s12080-009-0060-6})
+
+\bibitem{Kuehn2015}
+Kuehn C, Zschaler G, Gross T. 2015  Early warning signs for saddle-escape
+  transitions in complex networks. {\em Sci. Rep.} \textbf{5}.
+(\href{http://dx.doi.org/doi:10.1038/srep13190}{doi:10.1038/srep13190})
 
 \bibitem{Liang2017}
 Liang J, Hu Y, Chen G, Zhou T. 2017  A universal indicator of critical state
@@ -122,10 +144,38 @@ Ritchie P, Sieber J. 2016  Early-warning indicators for rate-induced tipping.
   {\em Chaos} \textbf{26}, 093116.
 (\href{http://dx.doi.org/doi:10.1063/1.4963012}{doi:10.1063/1.4963012})
 
+\bibitem{Shizgal2016}
+Shizgal BD. 2016  Pseudospectral solution of the Fokker–Planck qquation with
+  equilibrium bistable states: the eigenvalue spectrum and the approach to
+  equilibrium. {\em J. Stat. Phys.} \textbf{164}, 1379--1393.
+(\href{http://dx.doi.org/doi:10.1007/s10955-016-1594-9}{doi:10.1007/s10955-016-1594-9})
+
 \bibitem{Donovan2024}
 Donovan GM. 2024  Characterising early warning signals for critical transitions
   using a distribution moment approximation for the Fokker–Planck equation.
   {\em Physica A} \textbf{646}.
 (\href{http://dx.doi.org/doi:10.1016/j.physa.2024.129868}{doi:10.1016/j.physa.2024.129868})
+
+\bibitem{Kuehn2018}
+Kuehn C, Malavolta G, Rasmussen M. 2018  Early-warning signals for bifurcations
+  in random dynamical systems with bounded noise. {\em J. Math. Anal. Appl.}
+  \textbf{464}, 58--77.
+(\href{http://dx.doi.org/doi:10.1016/j.jmaa.2018.03.066}{doi:10.1016/j.jmaa.2018.03.066})
+
+\bibitem{Gottwald2020}
+Gottwald GA, Gugole F. 2020  Detecting Regime Transitions in Time Series Using
+  Dynamic Mode Decomposition. {\em J. Stat. Phys.} \textbf{179}, 1028--1045.
+(\href{http://dx.doi.org/doi:10.1007/s10955-019-02392-3}{doi:10.1007/s10955-019-02392-3})
+
+\bibitem{Kuehn2013b}
+Kuehn C. 2013  Warning signs for wave speed transitions of noisy Fisher–KPP
+  invasion fronts. {\em Theor. Ecol.} \textbf{6}, 295--308.
+(\href{http://dx.doi.org/doi:10.1007/s12080-013-0189-1}{doi:10.1007/s12080-013-0189-1})
+
+\bibitem{Gowda2015}
+Gowda K, Kuehn C. 2015  Early-warning signs for pattern-formation in stochastic
+  partial differential equations. {\em Commun. Nonlinear Sci. Numer. Simul.}
+  \textbf{22}, 55--69.
+(\href{http://dx.doi.org/doi:10.1016/j.cnsns.2014.09.019}{doi:10.1016/j.cnsns.2014.09.019})
 
 \end{thebibliography}
