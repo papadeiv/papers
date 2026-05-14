@@ -57,15 +57,15 @@ function main()
                 end
 
                 # Plot the results
-                lines!(ax1, μ, x, color = (:black, 0.05), linewidth = 1.0)
+                lines!(ax1, μ, x, color = (:black, 0.02), linewidth = 1.0)
                 #scatter!(ax1, μt[end], x[tipping_index], markersize = 20, color = :yellow, strokewidth = 1.0, strokecolor = :black)
                 #lines!(ax1, [μt[end], μt[end]], [minimum(x), maximum(x)], color = (:black,1.5), linestyle = :dash, linewidth = 3.0)
                 #lines!(ax2, [μt[end], μt[end]], [minimum(residuals), maximum(residuals)], color = (:black,0.5), linestyle = :dash, linewidth = 3.0)
-                lines!(ax2, μt, residuals, color = (:black, 0.05), linewidth = 1.0)
+                lines!(ax2, μt, residuals, color = (:black, 0.02), linewidth = 1.0)
                 lines!(ax3L, ews[:,1], ews[:,2], color = (:black, 0.15), linewidth = 1.0)
                 lines!(ax4L, ews[:,1], ews[:,3], color = (:black, 0.15), linewidth = 1.0)
                 lines!(ax3R, ews[:,1], ews[:,4], color = (:black, 0.15), linewidth = 1.0)
-                lines!(ax4R, ews[:,1], ews[:,5], color = (:blue, 0.10), linewidth = 1.0)
+                lines!(ax4R, ews[:,1], ews[:,5], color = (:blue, 0.05), linewidth = 1.0)
         end
 
         save("../../res/fig/traditional_ews_comparison.pdf", fig)
