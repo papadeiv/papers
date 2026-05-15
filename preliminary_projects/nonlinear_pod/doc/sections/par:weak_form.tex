@@ -1,0 +1,27 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\paragraph{Weak/variational form}\label{par:weak_form}
+
+In the following we will use $\mathcal{M}=V$ for the (weak) solution space of the IBVP and $\mathcal{M}_{h}=V_{h}$ for its (high-order) subspace.
+Instead of looking for a strong solution of \eqref{eq:ibvp} (i.e. a solution satisfying the IBVP pointwise in the spatial and temporal domain) we formulate a variational problem whose solution satisfies the PDE in the weak sense.
+Consider $\mathcal{L}_{\mu}: \mathcal{M}\mapsto \newprime{\mathcal{M}}$ and $f\in \newprime{\mathcal{M}}$, then the problem reads
+
+\begin{equation}\label{eq:variational_problem}
+     \text{find}\;\;u\in\mathcal{M}\;\;\text{s.t.}\;\;m(u,\,v) + a(u,\,v) = b(v)\,,\quad\forall v\in \mathcal{M}\quad\text{and}\quad u(x,0)=u_{0}(x)\in\mathcal{M}\,,
+\end{equation}
+
+where we identify the linear $b:\mathcal{M}\to\mathbb{R}$ and bilinear $a:\mathcal{M}\times \mathcal{M}\to \mathbb{R}$, $m:\mathcal{M}_{\text{piv}}\times \mathcal{M}\to \mathbb{R}$ forms 
+
+\begin{align*}
+      m(u,v) &:= \partial_{t}\langle u,v\rangle_{\mathcal{M}_{\text{piv}}} = \langle  \partial_{t}u,v\rangle_{\mathcal{M}} = \int_{\Omega}^{}(\partial_{t}u)\,v\;dx \\
+      a(u,v) &:= \langle \mathcal{L}_{\mu}u,v\rangle_{\mathcal{M}} = \int_{\Omega}^{}(\mathcal{L}_{\mu}u)\,v\;dx \,, \\ 
+      b(v) &:= \langle f,v\rangle_{\mathcal{M}} = \int_{\Omega}^{}f(x,u,\mu)\,v\;dx\,,
+\end{align*}
+
+through the inner product $\langle\cdot,\cdot\rangle_{\mathcal{M}}$ equipping $\mathcal{M}$ (i.e. the same of $H^{1}(\Omega)$ since $\mathcal{M}$ is a subspace of it).
+$\mathcal{M}_{\text{piv}}$ is the (self dual) pivot space in the Gelfand triple
+\begin{equation*}
+     \mathcal{M}\hookrightarrow\mathcal{M}_{\text{piv}}\cong\mathcal{M}_{\text{piv}}^{'}\hookrightarrow \mathcal{M}^{'}\,.
+\end{equation*}
+
+\end{document}

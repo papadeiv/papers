@@ -1,0 +1,82 @@
+\documentclass[a4paper,fleqn]{cas-sc}
+
+\usepackage[numbers]{natbib}
+\usepackage{lipsum}
+
+\def\tsc#1{\csdef{#1}{\textsc{\lowercase{#1}}\xspace}}
+\tsc{DP}
+\tsc{LS}
+\tsc{GD}
+
+\begin{document}
+\let\WriteBookmarks\relax
+\def\floatpagepagefraction{1}
+\def\textpagefraction{.001}
+\shorttitle{}
+\shortauthors{D. Papapicco et~al.}
+
+\title [mode = title]{Statistical and numerical analysis of an early-warning signal approximation method based on large deviation theory}
+
+\author[1]{Davide Papapicco}[type=editor, orcid=0000-0001-0000-0000]
+\credit{Conceptualization of this study, Methodology, Software}
+
+\author[1]{Lauren Smith}[type=editor, orcid=0000-0001-0000-0000]
+\credit{Data curation, Writing - Original draft preparation}
+
+\author[1]{Graham Donovan}[type=editor, orcid=0000-0001-0000-0000]
+\credit{Data curation, Writing - Original draft preparation}
+
+\cormark[1]
+\cortext[cor1]{Corresponding author}
+\ead{g.donovan@auckland.ac.nz}
+
+\affiliation[1]{organization={Department of Mathematics, University of Auckland},
+                city={Auckland},
+                country={New Zealand}}
+
+\begin{abstract}
+        This is a placeholder. \lipsum[1]
+\end{abstract}
+
+%\begin{graphicalabstract}
+%\includegraphics{figs/cas-grabs.pdf}
+%\end{graphicalabstract}
+
+%\begin{highlights}
+%\item Research highlights item 1
+%\item Research highlights item 2
+%\item Research highlights item 3
+%\end{highlights}
+
+\begin{keywords}
+Early warning signals \sep 
+Tipping points \sep 
+Large deviation theory \sep
+Numerical method
+\end{keywords}
+
+\maketitle
+
+\section{Introduction}
+This is a placeholder \cite{Carpenter2006}.
+
+\appendix
+\section{My Appendix}
+This is a placeholder. \lipsum[3]
+
+\printcredits
+
+\section*{Declaration of competing interest}
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+\section*{Data availability}
+The code used to generate the figures is available at the repository \url{https://github.com/papadeiv/papers/tree/master/2026_phys_a}.
+
+\section*{Acknowledgements}
+This wark was supported by the Royal Society of New Zealand, Te Ap\={a}rangi, Marsden funds n.XXX-XXX and n.YYY-YYY.
+
+% Bibliography
+\bibliographystyle{cas-model2-names}
+\bibliography{references}
+
+\end{document}

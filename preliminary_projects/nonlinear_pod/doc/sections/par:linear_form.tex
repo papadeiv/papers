@@ -1,0 +1,30 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\paragraph{Finite-dimensional linear form}\label{par:linear_form}
+
+Following a partition of the spatial domain $\Omega\to \Omega_{h}$ we identify a (finite-dimensional) set of $N_{h}$ localised functions $(\varphi_{j})_{j=1,\dots,N_{h}}$.
+Each of these functions is associated (and often associated to) a degree of freedom (DOF).
+This set of DOFs forms a basis for the subspace $\mathcal{M}_{h}\subset\mathcal{M}$ i.e.
+
+\begin{equation*}
+        \mathcal{M}_{h} = \bigg\{\boldsymbol{u}\in \mathbb{R}^{N_{h}}\;:\;\boldsymbol{u}(t,\mu)=\sum_{j=1}^{N_{h}}u_{j}(t,\mu)\boldsymbol{\varphi}_{j}\,,\;\mu\in \mathcal{P}\bigg\}\,,
+\end{equation*}
+
+where $\boldsymbol{\varphi}_{j}=\Pi_{\mathbb{R}^{N_{h}}}\varphi_{j}$ is a vector representation of the $j-$th localised basis function.
+This projection naturally leads to a, generically nonlinear, system of algebraic equations in $\mathbb{R}^{N_{h}}$
+
+\begin{equation}\label{eq:dynamical_system}
+        \frac{d}{dt}\boldsymbol{u}_{h} =: \dot{\boldsymbol{u}}_{h} = \underbrace{\boldsymbol{M}^{-1}\boldsymbol{A}}_{\boldsymbol{L}}\boldsymbol{u}_{h} + \underbrace{\boldsymbol{M}^{-1}\boldsymbol{b}(\boldsymbol{u}_{h})}_{\boldsymbol{c}(\boldsymbol{u}_{h})}\,,
+\end{equation}
+
+where $\boldsymbol{M},\,\boldsymbol{A},\,\boldsymbol{b}$ are the discretisation of the bilinear $m$, $a$ and linear $b$ forms respectively.
+\begin{align*}
+     M_{j,k} =& \, m(\varphi_{j},\varphi_{k}) \,, \nonumber \\
+     A_{j,k} =& \, a(\varphi_{j},\varphi_{k}) \,, \nonumber \\
+     b_{j}   =& \, b(\varphi_{j}) \,. \nonumber
+\end{align*}
+
+Notice that while $f$ could be nonlinear in the solution $u$ it is linear in the test function $v$; the linearity in $u$ only entails that $\boldsymbol{b}(\boldsymbol{u}_{h})=\boldsymbol{B}\boldsymbol{u}_{h}$.
+If instead the source term is state-independent (i.e. $f(x,u,\mu)=f(x,\mu)$) then $\boldsymbol{b}(\boldsymbol{u}_{h}) = \boldsymbol{b}$.
+
+\end{document}

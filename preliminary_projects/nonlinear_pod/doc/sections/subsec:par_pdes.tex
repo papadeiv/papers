@@ -1,0 +1,19 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsection{Parametrised PDEs}\label{subsec:par_pdes}
+
+Parametrized PDEs arise in many scientific and engineering problems whose solutions depend on parameters representing physical properties, boundary conditions or geometric configurations. 
+In the following, without loss of generality, we consider a parameter $\mu\in \mathcal{P}\equiv \mathbb{R}$ and a parametriesed evolution PDE described as an initial boundary value problem (IBVP)
+\begin{equation}\label{eq:ibvp}
+   \begin{cases}
+           \partial_{t}u + \mathcal{L}_{\mu}u = f(x,u,\mu)\,, \quad x\in\mathring{\Omega}\,,\;t\in(0,T]\,,\\
+       u(x,t) = g(x)\,,\quad x\in\partial\Omega\,,\;t\in(0,T]\,,\\ 
+       u(x,0) = u_{0}(x)\,,\quad x \in\mathring{\Omega}\,,
+   \end{cases}
+\end{equation}
+where the specified Dirichlet boundary conditions (BCs) and a certain initial condition (IC).
+Notice that \eqref{eq:ibvp} is autonomous in the sense that neither the PDE nor the BCs depend explicitly on time.
+In an engineering setting \eqref{eq:ibvp} models some physical behaviour that is parametrised by $\mu$.
+A canonical example is for \eqref{eq:ibvp} to be incompressible Navier-Stokes and $\mu$ to be the viscosity $\nu$ of a given fluid.
+
+\end{document}

@@ -1,0 +1,26 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsubsection{Projection onto the ROM}\label{subsubsec:projection}
+
+The coefficients $\bar{u}_{j}(t,\mu)$ are defined by projection of the semi-discrete, high-dimensional system \eqref{eq:dynamical_system} onto $\mathcal{R}_{h}$ via its inner product (which is the Euclidean product in $\mathbb{R}^{N_{h}}$ since $\mathcal{R}_{h}$ is a subspace of it).
+In the following we drop the dependence of the source term $\boldsymbol{c}$ from the state $\boldsymbol{u}_{h}$ in order to simplify the notation.
+Nonetheless we consider such term nonlinear in $\boldsymbol{u}_{h}$ in full generality.
+The projected problem reads
+
+\begin{align}
+     0 &= \big\langle \dot{\boldsymbol{u}}_{h} - \boldsymbol{L}\boldsymbol{u}_{h} - \boldsymbol{c},\,\boldsymbol{v}_{k}\big\rangle_{\mathbb{R}^{N_{h}}} \stackrel{\eqref{eq:ansatz}}{=} \nonumber \\ 
+       &= \sum_{j=1}^{N_{r}}\bigg(\big\langle\boldsymbol{v}_{j},\boldsymbol{v}_{k}\big\rangle_{\mathbb{R}^{N_{h}}}\dot{\bar{u}}_{j} - \big\langle\boldsymbol{L}\boldsymbol{v}_{j},\boldsymbol{v}_{k}\big\rangle_{\mathbb{R}^{N_{h}}}\bar{u}_{j} - \big\langle\boldsymbol{c},\boldsymbol{v}_{k}\big\rangle_{\mathbb{R}^{N_{h}}}\bigg) = \nonumber \\
+       &= \sum_{j=1}^{N_{r}}\bigg(\Big(\boldsymbol{v}_{j}\cdot\boldsymbol{v}_{k}\Big)\,\dot{\bar{u}}_{j} - \Big((\boldsymbol{L}\boldsymbol{v}_{j})\cdot\boldsymbol{v}_{k}\Big)\,\bar{u}_{j} - \boldsymbol{c}\cdot\boldsymbol{v}_{k}\bigg)\,,\quad\forall\boldsymbol{v}_{k}\in\text{col}(\boldsymbol{V}_{r})\,. \label{eq:galerkin_projection}
+\end{align}
+
+Using the orthogonality of the singular vectors ($\boldsymbol{V}_{r}^{T}\boldsymbol{V}_{r}=\boldsymbol{I}_{r}$) we can rewrite \eqref{eq:galerkin_projection} in a more convenient compactified form
+
+\begin{align}\label{eq:reduced_dynamical_system}
+        \frac{d}{dt}\,\bar{\boldsymbol{u}} =: \dot{\bar{\boldsymbol{u}}} =& \, \boldsymbol{V}_{r}^{T}\Big(\boldsymbol{L}(\boldsymbol{V}_{r}\bar{\boldsymbol{u}}) + \boldsymbol{c}\Big) = \nonumber \\
+        =& \, \underbrace{\boldsymbol{V}_{r}^{T}\boldsymbol{L}\boldsymbol{V}_{r}}_{\boldsymbol{L}_{r}}\,\boldsymbol{\bar{u}} - \underbrace{\boldsymbol{V}_{r}^{T}\boldsymbol{c}}_{\boldsymbol{c}_{r}}\,. 
+\end{align}
+
+which is a nonlinear, low-dimensional dynamical system in $\mathbb{R}^{N_{r}}$.
+In particular $\boldsymbol{L}_{r}$ is a reduced-order representation of the linear operator $\boldsymbol{L}$ (which is itself a high, but finite-dimensional discretisation of the linear operator $\mathcal{L}_{\mu}$) and $\boldsymbol{c}_{r} = \boldsymbol{c}_{r}(\boldsymbol{u}_{h})$ is a nonlinear vector field.
+
+\end{document}

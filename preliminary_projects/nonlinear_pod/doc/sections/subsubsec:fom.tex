@@ -1,0 +1,39 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsubsection{Full-order model}\label{subsubsec:fom}
+
+The high-dimensional solutions $\boldsymbol{u}_{h}\in \mathbb{R}^{N_{h}}$ of \eqref{eq:dynamical_system} identify the first of the two subspaces $\mathcal{M}_{h}=\{\boldsymbol{u}_{h}(t,\mu)\in \mathbb{R}^{N_{h}}\;:\;t\in \mathbb{R}^{+},\,\mu\in \mathcal{P}\}\subset \mathcal{M}$ called the full-order manifold (FOM) or full-order model.
+Consider a time partition $\{0<t_{1},\,\dots,t_{N_{T}}\leq T\}$ inducing a sequence $\Big(\boldsymbol{u}_{h}(t_{j})\Big)_{j=1,\dots,N_{T}}$ of solutions in the FOM $\mathcal{M}_{h}$.
+Now consider a set of parameter instances $P:=\{\mu_{1},\dots,\mu_{N_{\mu}}\}\subset \mathcal{P}$; this identifies a set of sequences in $\mathcal{M}_{h}$
+\begin{equation*}
+        \mathcal{X}_{h}:=\bigg\{\Big(\boldsymbol{u}_{h}(t_{j},\,\mu_{k})\Big)_{j=1,\dots,N_{T}}\;:\;k=1,\dots,N_{\mu}\bigg\}\subset \mathcal{M}_{h}\,.
+\end{equation*}
+By setting $N_{f}:=N_{T}N_{\mu}$ and $\boldsymbol{u}_{h}^{(k)}:=\Big(\boldsymbol{u}_{h}(t_{j},\,\mu_{k})\Big)_{j=1,\dots,N_{T}}$ we can get a matrix representation of $\mathcal{X}_{h}$
+
+\begin{equation}\label{eq:snapshot_mat}
+        \boldsymbol{X} = \bigg[\boldsymbol{u}_{h}^{\big((k-1)\,N_{T} + j\big)}\bigg]_{j=1,\dots,N_{T},\,k=1,\dots,N_{\mu}} = \bigg[u_{h}^{(n,m)}\bigg]_{n=1,\dots,N_{h}}^{m=1,\dots,N_{f}}\,,  
+\end{equation}
+
+called the \textbf{snapshot matrix}.
+This representation essentially amounts to stack the time-sequences of solutions at different parameter values as columns of $\boldsymbol{X}$, which we also report explicitly
+
+\begin{align*}
+        \boldsymbol{X} =& \bigg[\underbrace{\boldsymbol{u}_{h}(t_{1}),\,\dots,\,\boldsymbol{u}_{h}(t_{N_{T}})}_{\mu_{1}},\,\underbrace{\boldsymbol{u}_{h}(t_{1}),\,\dots,\,\boldsymbol{u}_{h}(t_{N_{T}})}_{\mu_{2}},\,\dots,\,\underbrace{\boldsymbol{u}_{h}(t_{1}),\,\dots,\,\boldsymbol{u}_{h}(t_{N_{T}})}_{\mu_{N_{\mu}}}\bigg] = \\
+        =& \begin{bmatrix}
+                \vdots & \vdots & & \vdots & & \vdots\\
+                u_{h}^{(n,1)} & u_{h}^{(n,2)} & \dots & u_{h}^{(n,m)} & \dots & u_{h}^{(n,N_{f})} \\
+                \vdots & \vdots & & \vdots & & \vdots 
+        \end{bmatrix}\in \mathbb{R}^{N_{h}\times N_{f}}\,.
+\end{align*}
+
+Generically we have $N_{h}>>N_{f}$ so that $\boldsymbol{X}$ is tall and skinny.
+We now perform the singular value decomposition (SVD) $\boldsymbol{X}=\boldsymbol{V}\boldsymbol{\Sigma}\boldsymbol{W}^{T}$ of \eqref{eq:snapshot_mat} where $\boldsymbol{\Sigma}=\text{diag}(\sigma_{1},\,\dots,\,\sigma_{\min(N_{h},N_{f})})\in \mathbb{R}^{N_{h}\times N_{f}}$ is a rectangular diagonal matrix storing the singular values of $\boldsymbol{X}$ and $\boldsymbol{V}\in \mathbb{R}^{N_{h}\times N_{h}}$ is a square unitary matrix containing the (left) singular vectors of $\boldsymbol{X}$ as its columns.
+Considering an ordered sequence of singular values $\sigma_{1} < \sigma_{2} < \dots < \sigma_{N_{r}}$, with $N_{r} < \min(N_{h},N_{f})$, and an associate truncation of singular vectors $\boldsymbol{V}_{r}\in \mathbb{R}^{N_{h}\times N_{r}}$ we define a reduced order manifold (ROM) or reduced-order model for the IBVP \eqref{eq:ibvp}
+
+\begin{equation}\label{eq:reduced_manifold}
+        \mathcal{R}_{h} := \text{col}(\boldsymbol{V}_{r}) = \text{span}\big(\{\boldsymbol{v}_{1},\,\dots,\,\boldsymbol{v}_{N_{r}}\}\big)\subset\mathcal{M}_{h}\,.
+\end{equation}
+
+In \eqref{eq:reduced_manifold} we essentially build a linear subspace of the FOM that is spanned by $N_{r} < \min(N_{h},N_{f})$ singular vectors of $\boldsymbol{V}$ associated to the largest $N_{r}$ singular values in $\boldsymbol{\Sigma}$.
+
+\end{document}

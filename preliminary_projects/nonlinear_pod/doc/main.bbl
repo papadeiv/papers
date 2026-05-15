@@ -1,0 +1,113 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{yant/global//global/global}
+    \entry{Reiss18}{article}{}
+      \name{author}{4}{}{%
+        {{hash=2fc3e82f91e4982528b6a960c4d5932c}{%
+           family={Reiss},
+           familyi={R\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+        {{hash=f9a03f63a59fdd06fa1d6e3b3477aee8}{%
+           family={Schulze},
+           familyi={S\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+        {{hash=11d3791441ef6778f038981c1922dd7a}{%
+           family={Sesterhenn},
+           familyi={S\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+        {{hash=db94e1b6e47dcb0571171cfc9255d8c7}{%
+           family={Mehrmann},
+           familyi={M\bibinitperiod},
+           given={V.},
+           giveni={V\bibinitperiod}}}%
+      }
+      \strng{namehash}{baaaa554f7ac43a8ae285ecded5ad78a}
+      \strng{fullhash}{0d4542f0122223178bd234ccf398da6a}
+      \strng{bibnamehash}{0d4542f0122223178bd234ccf398da6a}
+      \strng{authorbibnamehash}{0d4542f0122223178bd234ccf398da6a}
+      \strng{authornamehash}{baaaa554f7ac43a8ae285ecded5ad78a}
+      \strng{authorfullhash}{0d4542f0122223178bd234ccf398da6a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{{SIAM} {J}. {S}ci. {C}omp.}
+      \field{number}{3}
+      \field{title}{The Shifted Proper Orthogonal Decomposition: A Mode Decomposition for Multiple Transport Phenomena}
+      \field{volume}{40}
+      \field{year}{2018}
+      \verb{doi}
+      \verb 10.1137/17M1140571
+      \endverb
+    \endentry
+    \entry{Papapicco22}{article}{}
+      \name{author}{5}{}{%
+        {{hash=41e35bb0de65f67f799a3b51da24a9f4}{%
+           family={Papapicco},
+           familyi={P\bibinitperiod},
+           given={Davide},
+           giveni={D\bibinitperiod}}}%
+        {{hash=3c47ca78d602a04a5032d8cf2632e688}{%
+           family={Demo},
+           familyi={D\bibinitperiod},
+           given={Nicola},
+           giveni={N\bibinitperiod}}}%
+        {{hash=520367a5d985493400708f17d30231c1}{%
+           family={Girfoglio},
+           familyi={G\bibinitperiod},
+           given={Michele},
+           giveni={M\bibinitperiod}}}%
+        {{hash=9a69c86e7fc7f632d9d462e3f454656a}{%
+           family={Stabile},
+           familyi={S\bibinitperiod},
+           given={Giovanni},
+           giveni={G\bibinitperiod}}}%
+        {{hash=2b969effc2e931cc3f6118c144824d3f}{%
+           family={Rozza},
+           familyi={R\bibinitperiod},
+           given={Gianluigi},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{56e7de8a40cf1eea5ebeb4446353c20b}
+      \strng{fullhash}{db3971212e056f7da486ed6ac0973278}
+      \strng{bibnamehash}{db3971212e056f7da486ed6ac0973278}
+      \strng{authorbibnamehash}{db3971212e056f7da486ed6ac0973278}
+      \strng{authornamehash}{56e7de8a40cf1eea5ebeb4446353c20b}
+      \strng{authorfullhash}{db3971212e056f7da486ed6ac0973278}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Comput. {M}ethods {A}ppl. {M}ech. {E}ng.}
+      \field{title}{The neural network shifted-proper orthogonal decomposition: a machine learning approach for non-linear reduction of hyperbolic equations}
+      \field{volume}{392}
+      \field{year}{2022}
+      \verb{doi}
+      \verb 10.1016/j.cma.2022.114687
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

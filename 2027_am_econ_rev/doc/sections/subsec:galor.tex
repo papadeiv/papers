@@ -1,0 +1,19 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsection{Galor-Weil's model}\label{subsec:galor}
+
+Being a discrete-time dynamical system we expect a finite collection of state variables which we denote by the state vector $X_{t}\in \mathbb{R}^{n}$, where subscript $t$ denotes the iteration counter and $n$ denotes the dimensionality of the state space (i.e. the number of state variables defined for our system). 
+To evolve the state of the system from iteration $t$ to iteration $t+1$ we specify an update rule $f:\,\mathbb{R}^{n}\,\to \mathbb{R}^{n}$ such that (s.t.)
+\begin{equation}\label{eq:map}
+     X_{t+1} = f(X)\,.
+\end{equation}
+The first order difference equation \eqref{eq:map} thus propagates initial conditions $X_{0}$ forward into the future by composition, i.e.
+\begin{equation}\label{eq:forward_map}
+     X_{t+1} = f(X_{t}) = f(f(X_{t-1})) = \dots = \underbrace{(f\circ f)}_{t-\text{times}}(X_{0}) =: f^{(t)}(X_{0})\,.
+\end{equation}
+The system \eqref{eq:map} is deterministic in the sense that there is a unique sequence $\{X_{s}\}_{t=1,...,t}$ of states in $\mathbb{R}^{n}$ associated to a datum $X_{0}$, often called the initial condition (IC), and such sequence is given by the images of the datum under the composition of the map in \eqref{eq:forward_map}.
+
+\subfile{subsubsec:state_variables}
+\subfile{subsubsec:constrained_dynamics}
+
+\end{document}

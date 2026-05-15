@@ -1,0 +1,14 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\section{Shifted-POD (sPOD)}\label{sec:sPOD}
+
+The main take away from Section \ref{sec:setup}, aside from the principles of POD-Galerkin methods, is that transport-dominated models struggle to be represented in ROM.
+The principal reason for this is the slow Kolmogoroff $n-$width decay as depicted in Figure \ref{fig:conservation_decay}.
+While a rigorous mathematical justification for slow Kolmogoroff $n-$width is pathological for hyperbolic PDEs is available in the literature, it remains outside of the scope of this paper and will thus rely on the qualitative description given below.
+The advection operator generates snapshots that, in the case of localised pulses as in \eqref{eq:conservation}, move around the domain.
+The singular vectors forming the reduced manifold basis will thus be forced to capture this localisation as depicted in Figure \ref{fig:conservation_rom}, hence the slow decay.
+
+% Overcoming the slow decay 
+\subfile{subsec:overcoming_slow_decay}
+
+\end{document}

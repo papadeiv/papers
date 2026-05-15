@@ -1,0 +1,27 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsubsection{Hyperbolic problem: conservation law}\label{subsubsec:conservation}
+
+Finally for the hyperbolic test case in $1-$d ($a= -b = 1$) we consider a conservation law of a transported scalar quantity $u(x,t)$ with linear and homogeneous advection field $\phi(t,\mu) = \mu\cos(\pi\,t)$.
+From \eqref{eq:ibvp} we set $\mathcal{L}_{\mu} = \phi\frac{d}{dx} + \newprime{\phi}$, with $\newprime{\phi} = 0$, and $f(x,u,\mu) = 0$.
+Choosing a localised pulse $u(x,0) = \text{sech}(\alpha x + \beta)$ as IC, with $\alpha=20$ and $\beta=0$, and homogeneous Dirichlet BCs, then the IBVP reads
+
+\begin{equation}\label{eq:conservation}
+   \begin{cases}
+           \dot{u} = \mu\cos(\pi\,t)\,\newprime{u} \,,\quad x\in(-1,1)\,,\;t\in(0,T]\,, \\
+           u(x,0) = \text{sech}(20x)\,, \quad x\in(-1,1)\,, \\
+           u(-1,t) = u(1,t) = 0\,, \quad t\in(0,T]\,, \\
+   \end{cases}
+\end{equation}
+
+models the rigid, oscillatory transport of such pulse across $\Omega=[-1,1]$.
+Differently from problem $2.$ for the parabolic case, here we choose only one parameter value to train our FOM at online stage, specifically $P=\{\mu=1\}\subset \mathcal{P}$, and collect $N_{t}=10^{3}$ snapshots corresponding to the time evolution of the solution of \eqref{eq:conservation} from the prescribed IC to $T=1$.
+Notice that \eqref{eq:conservation} does not have a stable steady-state in the sense of infinite-dimensional local attractor as we observed for the heat equation.
+Instead the solution settles onto a limit cycle (periodic orbit) of period $1$.
+
+% Offline solutions
+\subfile{par:conservation_fom}
+% Online solutions 
+\subfile{par:conservation_rom}
+
+\end{document}

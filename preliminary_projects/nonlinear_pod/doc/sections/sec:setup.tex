@@ -1,0 +1,17 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\section{Theoretical setup}\label{sec:setup}
+
+We illustrate the core ideas and principles behind projection-based ROMs. 
+Consider a simple toy model \eqref{eq:ibvp} with linear operator $\mathcal{L}_{\mu}$ and (possibly nonlinear) state-dependent source $f$, where $\mu\in\mathcal{P}$ models the parametric dependence of the solution field $u(x,t)$ defined over the $d-$dimensional domain $\Omega$ and over time $T>0$.
+We introduce a manifold $\mathcal{M}:=\{u(\mu)\in H^{1}(\Omega)\times\mathbb{R}^{+}\;:\; \mu\in \mathcal{P}\}$ of (weak) solutions of the parametric IBVP \eqref{eq:ibvp} and two, finite-dimensional, subspaces $\mathcal{M}_{h} \subset \mathcal{M}$ for the high-fidelity approximation and $\mathcal{R}_{h} \subset \mathcal{M}_{h}$ for the reduced approximation.
+The classical workflow of projection-based ROMs is divided in two main stages: at first a training phases finds high-order numerical solutions in $\mathcal{M}_{h}$ which will populate a sample set for various parameter values; at the end of the training set we construct a reduced-order solution set $\mathcal{R}_{h}$ by projection.
+
+% Offline/training phase 
+\subfile{subsec:offline}
+% Online/generalisation phase 
+\subfile{subsec:online}
+% Results 
+\subfile{subsec:classical_results}
+
+\end{document}

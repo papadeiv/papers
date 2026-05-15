@@ -1,0 +1,32 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsection{Results}\label{subsec:classical_results}
+
+Notoriously we have
+\begin{itemize}
+     \item elliptic problems have the fastest $n-$width decay;
+     \item parabolic problems have slower but still fast decay;
+     \item hyperbolic problems have pathologically slow decay.
+\end{itemize}
+
+The last point generalises to non-hyperbolic or quasi-hyperbolic problems in the cases of ``\textit{dominant advection}'' or ``\textit{transport-dominated}''.
+To convince ourselves of this generic trait, let us look at one toy model for each of the above classes and compute the Kolmogoroff $n-$width alongside the \textit{a-posteriori} error of the ROM we obtain.
+Using \eqref{eq:ibvp} as a reference, for all the cases we will consider the same numercial setup. 
+In particular:
+\begin{enumerate}
+        \item $1-$dimensional, finite spatial domain $\Omega=[a,b]\subset \mathbb{R}$;
+     \item $1-$dimensional parameter space $\mathcal{P}\subseteq \mathbb{R}$;
+     \item constant and homogeneous Dirichlet's BCs $g(x=a) = g_{a}$, $g(x=b) = g_{b}$;
+     \item with the exception of the elliptic case (which is not time-dependent) the IC will be in $\mathcal{M}_{h}$,
+     \item we will collect the same amount ($N_{f}=10^{3}$) of high-dimensional ($N_{h}=10^{4}$) snapshots and compute $N_{r}$ based on the fixed treshold $\varepsilon=0.01$.
+\end{enumerate}
+In what follows we will adopt the short-hand notation of $\newprime{f}=\frac{d}{dx}f(x)$ to denote the spatial derivative to discern it from the already used notation $\dot{g} = \frac{d}{dt}g(t)$ for the time derivative.
+
+% Elliptic problem: Poisson's equation
+\subfile{subsubsec:poisson}
+% Parabolic problem: heat equation
+\subfile{subsubsec:heat}
+% Hyperbolic problem: conservation law
+\subfile{subsubsec:conservation}
+
+\end{document}
