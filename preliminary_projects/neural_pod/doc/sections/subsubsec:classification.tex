@@ -1,0 +1,27 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsubsection{Classification}\label{subsubsec:classification}
+
+There are many ROMs that have been developed in the past $2$ decades.
+Despite the subtle differences among those they all achieve the same goal of \textbf{dimensionality reduction} of the solution manifold of (certain types of) parametrised PDEs of the form \eqref{eq:ibvp}.
+We can distinguish two major families of these algorithms: 
+\begin{enumerate}
+     \item \textbf{projection-based} or \textbf{intrusive};
+             \begin{itemize}
+                  \item reduced basis method (RBM);
+                  \item proper orthogonal decomposition (POD);
+             \end{itemize}
+     \item \textbf{data-driven} or \textbf{non-intrusive}.
+             \begin{itemize}
+                  \item autoencoders (AEs), physics-informed neural networks (PINNs) and other machine-learning based inference methods;
+                  \item dynamic mode decomposition (DMD);
+                  \item sparse identification of nonlinear dynamics (SINDy);
+                  \item radial basis function (RBF) and empirical interpolation methods (EIM).
+             \end{itemize}
+\end{enumerate}
+The main difference between the two is that while $1.$ requires full knowledge of the parametrised system \eqref{eq:ibvp} to reconstruct a low-dimensional (i.e. reduced) subspace of the solution manifold via projection, $2.$ does not rely on access to the model but rather \textit{learns} the reduced subspace using data alone. 
+While projection-based methods are theoretically grounded and (relatively) easy to analyse, they tend to underperfom in complicated models where nonlinearities become dominant (e.g. Navier-Stokes).
+On the contrary data-driven methods offer significant flexibility given their black-box approach but offer little to no insight into the analysis of errors and similar, important aspects of both the theory and its applications.
+While the method proposed in \cite{Papapicco22} is a hybridisation of the two families (i.e. a data-driven construction of the reduced subspace based on a projection-based method) in the following we will solely focus on intrusive algorithms listed in $1.$ since those are the ones for which the theory has been developed.
+
+\end{document}

@@ -1,0 +1,15 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsection{Reduced order methods (ROMs)}\label{subsec:roms}
+
+In engineering design workflows it is often the case that one requires to understand the parameter dependence on the solution of \eqref{eq:ibvp}.
+An immediate example that follows from the Navier-Stokes case introduced above is that an aeronautics engineer would like to optimise the design of an airfoil to maximise the lift (given by the pressure field solving the Navier-Stokes equations) in a range of altitudes in the atmosphere (making the density of the fluid $\rho$ the parameter of the PDE).
+Since no analytical solution is available to the engineer, numerical simulations are necessary for the design.
+As the optimisation process requires solving the PDE for a range of densities, the engineer would need to run a numerical simulation at each of the desired parameter values.
+This procedure is computationally very expensive and inefficient since each single run could take several hours to complete (depending on the complexity of the model).
+A ROM is a numerical technique whose aim is to approximate the solution space (i.e. a manifold of numerical solutions of \eqref{eq:ibvp} with parameters in $\mathcal{P}$) with low-dimensional subspaces, enabling fast and accurate evaluations for an arbitrary number of parameter values.
+
+% Classification 
+\subfile{subsubsec:classification}
+
+\end{document}

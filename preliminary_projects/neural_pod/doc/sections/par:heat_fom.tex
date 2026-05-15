@@ -1,0 +1,29 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\paragraph{Offline solutions}\label{par:heat_fom}
+
+Following the spatial discretisation of the diffusion term we will obtain a high-dimensional (linear) dynamical system \eqref{eq:dynamical_system} with no source term $\boldsymbol{b}$
+
+\begin{equation*}
+        \dot{\boldsymbol{u}}_{h}=\boldsymbol{M}^{-1}\boldsymbol{A}\boldsymbol{u}_{h} = \boldsymbol{L}\boldsymbol{u}_{h}\,,
+\end{equation*}
+
+since we assumed homogeneous heat diffusion (i.e. $f=0$ across the domain $\Omega$).
+Solutions of \eqref{eq:dynamical_system} are found numerically by deploying time-stepping algorithms; here we consider the Euler implicit scheme since it guarantuess unconditional stability on the timestep $\delta t$
+
+\begin{equation}\label{eq:euler_implicit}
+     \frac{d}{dt}\boldsymbol{u}_{h}=f(\boldsymbol{u}_{h})\quad\Rightarrow\quad \frac{\boldsymbol{u}_{h}(t_{n+1}) - \boldsymbol{u}_{h}(t_{n})}{\delta t} = f(\boldsymbol{u}_{h}(t_{n+1}))\,,
+\end{equation}
+
+which, applied to our (linear) FOM, gives
+
+\begin{equation}\label{eq:heat_fom}
+        \boldsymbol{u}_{h}(t_{n+1}) = \delta t \boldsymbol{L}\boldsymbol{u}_{h}(t_{n+1}) + \boldsymbol{u}_{h}(t_{n})\quad\Rightarrow\quad \boldsymbol{u}_{h}(t_{n+1}) = (\boldsymbol{I}_{N_{h}} - \delta t \boldsymbol{L})^{-1}\boldsymbol{u}_{h}(t_{n})\,.
+\end{equation}
+
+% Problem 1
+\subfile{subpar:problem1_fom}
+% Problem 2
+\subfile{subpar:problem2_fom}
+
+\end{document}

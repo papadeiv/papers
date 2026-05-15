@@ -1,0 +1,28 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsubsection{Kolmogoroff $n-$width decay}\label{subsubsec:kol_decay}
+
+Solving the reduced-order dynamical system \eqref{eq:reduced_dynamical_system} is significantly less expensive than solving the full-order system in \eqref{eq:dynamical_system}.
+Observe in fact that the full-order system's phase space is in $\mathbb{R}^{N_{h}}$, where $N_{h}$ comes from the discretisation of the spatial operator and can thus range from $10^{3}$ to $10^{9}$. 
+On the other hand, the reduced-order system lives in $\mathbb{R}^{N_{r}}$, where $N_{r}$ is the number of singular vectors extracted from the SVD of the snaphsot matrix thus ranging from $10^{0}$ to $10^{2}$.
+This loss in DOFs to be solved for online evaluations of the solution's behaviour at several parameter values is the core aim of projection-based reduction techniques (like POD-Galerkin) and reduced-order methods in general.
+How much exaclty is the dimensionality reduction ultimately depends by the user; indeed it is the user that decides both the number of DOFs $N_{h}$ at full-order (i.e. how fine or coarse the discretisation $\Omega_{h}$ is) and the truncation number $N_{r}$ of vectors from the SVD that will form the basis of $\mathcal{R}_{h}$.
+This is obviously not a satisfactory argument since error estimates and uncertainty quantification for numerical methods help the user in picking $N_{h}$ depending of the model at hand.
+Similarly, in ROMs we can quantify the error induced by the dimensionaliy reduction \eqref{eq:dynamical_system} $\mapsto$ \eqref{eq:reduced_dynamical_system} to avoid picking $N_{r}$ arbitrarly.
+Despite the rich and detailed literature on error estimation for ROMs we will only consider the most naive metric of the Kolmogoroff $n-$width.
+This is because of the issue specifically addressed by \cite{Papapicco22} that is pathological for hyperbolic and quasi-hyperbolic PDEs.
+
+\begin{definition}[Kolomogoroff $n-$width]\label{def:kolmogoroff_n_width}
+        Let $\varepsilon\in(0,1)$, $N_{f}<N_{h}\in \mathbb{N}$ and $\boldsymbol{\Sigma}=\text{diag}(\sigma_{1},\dots,\sigma_{N_{f}})$ be the rectangular diagonal factor of the SVD of a snapshot matrix $\boldsymbol{X}\in\mathbb{R}^{N_{h}\times N_{f}}$, with $0<\sigma_{N_{f}}<\sigma_{N_{f}-1}<\dots<\sigma_{2}<\sigma_{1}<1$, then we call
+        \begin{equation*}
+                N_{r} = \min\Bigg\{N=1,\dots,N_{f}\quad\text{s.t.}\quad\frac{\sum_{n=1}^{N}\sigma_{n}}{\sum_{n=1}^{N_{f}}\sigma_{n}}\leq 1 - \varepsilon\Bigg\}\,,
+        \end{equation*}
+        the Kolmogoroff $n-$width of $\boldsymbol{X}$ (or, more generally, of the problem that generated $\boldsymbol{X}$).
+\end{definition}
+
+By Definition \ref{def:kolmogoroff_n_width}, the (sensible) choice of the treshold $\varepsilon$ uniquely determines the Kolmogoroff $n-$width and thus the number of basis vectors to span the ROM $\mathcal{R}_{h}$. 
+Loosely speaking, by fixing a low value of $\varepsilon$ (say for example $0.01$ or $1\%$) the user will use the minimum number of basis functions $N_{r}\in[1,N_{f}]\subset\mathbb{N}$ s.t. the ROM retains the information of the solution at FOM with high-accuracy (in our example $99\%$ of it).
+Furthermore, recall that since $0<\sigma_{N_{f}}<\sigma_{N_{f}-1}<\dots<\sigma_{2}<\sigma_{1}<1$ then the bigger the differences $\sigma_{n-1}-\sigma_{n} > 0$ the smaller $N_{r}$ will be.
+This is usually referred to a the Kolmogoroff $n-$width decay; problems with fast decay have a low-dimensional ROM (i.e. $N_{r}$ is very small and few basis vectors are required to capture most of the information of the FOM $\mathcal{M}_{h}$) whereas problems with slow decay will have high(er)-dimensional reduced manifolds $\mathcal{R}_{h}$ (i.e. $N_{r}$ is big(ger) but still smaller than $N_{f}$ and $N_{h}$) leading to less optimal and convenient reduced-order methods.
+
+\end{document}

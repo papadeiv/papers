@@ -1,4 +1,4 @@
-# Likelihood estimation of an interpretable early-warning sign of critical transitions
+# Statistical and numerical analysis of an early-warning signal approximation method based on large deviation theory
 
 ## 🚀 Description 
 
@@ -44,4 +44,4 @@ experiment/
 
 What follows is a brief description of those experiments so that you can gather their functionalities without interpreting the code in it:
 
-- [model_may_ramped_windowed](./exp/model_may_ramped_windowed/): comparison of the MLE of the escape rate early-warning signal (EWS) with the traditional EWS applied to an ensemble of slowly ramped solutions of [May's biomass collapse model](https://www.nature.com/articles/269471a0) on a rolling window. 
+- [2d_rotation_stationary_sweep](./exp/2d_rotation_stationary_sweep/): application of the NLLS solution approximating the escape likelihood EWS to an ensemble of stationary solutions of a 2-dimensional double-well saddle-node system with rotated and skewed coordinates.

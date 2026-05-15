@@ -1,0 +1,12 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsection{Overcoming the slow decay}\label{subsec:overcoming_slow_decay}
+
+In 2018, Reiss and colleagues \cite{Reiss18} proposed a pre-processing technique called shifted-POD (sPOD) to overcome at least the slow Kolmogoroff $n-$width decay for more efficient model reduction of transport-dominated PDEs.
+It proposes to take each non-stationary solution generated at offline stage and map it (shift) back to the IC.
+In this way, intuitevely, the pre-processed snapshot matrix $\boldsymbol{X}_{s}$ will feature a much faster decay of the singular values and only very few basis functions will be needed to span $\mathcal{R}_{h}$. 
+
+% Nonlinear advection 
+\subfile{subsubsec:nonlinear_advection}
+
+\end{document}

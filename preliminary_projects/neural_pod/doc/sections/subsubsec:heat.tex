@@ -1,0 +1,41 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsubsection{Parabolic problem: heat equation}\label{subsubsec:heat}
+
+We consider the non-stationary heat diffusion in $1$ spatial dimension ($a=-b=1$) .
+With reference to \eqref{eq:ibvp} we set $\mathcal{L}_{\mu} = \mu\frac{d^{2}}{dx^{2}}$ and $f(x,u,\mu) = 0$ (i.e. we consider homogeneous heat diffusion).
+Including stationary BCs $g_{a}=1$ and $g_{b}=2$ and IC $u(x,0)=\Big(\frac{g_{a}}{2}(1-x)+\frac{g_{b}}{2}(1+x)\Big) + \sin(3\pi x)$ the IBVP reads 
+
+\begin{equation}\label{eq:heat}
+   \begin{cases}
+           \dot{u} = \mu\,\pprime{u} \,,\quad x\in(-1,1)\,,\;t\in(0,T]\,, \\
+           u(-1,t) = 1\,, \quad t\in(0,T]\,, \\
+           u(1,t) = 2\,, \quad t\in(0,T]\,, \\ 
+           u(x,0) = \frac{1}{2}(x+3) + \sin(3\pi x)\,, \quad x\in(-1,1)\,. 
+   \end{cases}
+\end{equation}
+
+Our parameter $\mu\in\mathcal{P}$ models the homogeneous but unsteady heat diffusion over a $1-$dimensional rod $\Omega=[-1,1]$ kept at constant temperature values at its extremes.
+Over time the IC should thus decay towards a homogeneous steady state $u(x,t) \to u_{\text{eq}}(x) = 0$, $t\to\infty$. 
+Given the time-dependence of the problem and the existence of a locally stable steady-state we can formulate $2$ types of ROM problems:
+\begin{enumerate}
+     \item \textbf{parametrised steady-state}: we would like to study how the asymptotic steady-state is affected by the diffusion value. 
+             For this we can ignore the transient behaviour and as such:             \begin{enumerate}
+                  \item we pick $\mathcal{P} = [0.025,0.1]$ and sample $N_{\mu}=10^{3}$ values uniformly in $\mathcal{P}$ to form the training set $P$;
+                  \item for each $\mu\in P$ we solve the discretised FOM in a time interval $[0,T=1]$;
+                  \item we pick the steady state solution $\boldsymbol{u}_{h}(t=T,\mu\in P)$ and stack it as a snapshot in $\boldsymbol{X}$.
+             \end{enumerate}
+     \item \textbf{parametrised time evolution}:we want to study the parametric dependence (on the diffusion value) of the time-decay of the IC onto the steady-state 
+             \begin{enumerate}
+                     \item we pick $\mathcal{P}= [0.1,0.25]$ and just as in problem $1.$ we uniformly sample parameter values to generate $P$, although this time we only pick $N_{\mu} = 10$ values;
+                  \item same as in problem $1.$;
+                  \item we pick $N_{t}=10^{2}$ transient solutions (from the IC to the steady-state) and stack them as snapshots in $\boldsymbol{X}$.
+             \end{enumerate}
+\end{enumerate}
+
+% Offline solutions
+\subfile{par:heat_fom}
+% Online solutions 
+\subfile{par:heat_rom}
+
+\end{document}

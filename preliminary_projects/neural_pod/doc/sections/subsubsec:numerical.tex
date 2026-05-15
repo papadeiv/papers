@@ -1,0 +1,18 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsubsection{High-order numerical solutions}\label{subsubsec:numerical}
+
+The abstract procedure of a numerical method for an IBVP is to find a finite-dimensional subspace $V_{h}$ of the functional set $V$ (usually a Banach or Hilbert space) where the solution $u$ of the PDE lives.
+This is usually achieved by converting the differential problem into an algebraic one by means of operator discretisation.
+There are several numerical schemes to achieve this purpose of which we mention, in descending order of rigorousness, finite elements (FEs), finite volumes (FVs) and finite differences (FDs).
+Despite the choosen method, the end result is common: generate a high-dimensional linear system of equations in $\mathbb{R}_{N_{h}}$ whose solution $\boldsymbol{u}_{h}$ is a high-fidelity approximation of $u\in V$.
+In the following we briefly describe the main steps of a generic Galerkin method in which the approximate solution $\boldsymbol{u}_{h}$ sought in $\mathbb{R}^{N_{h}}$ is optimal in the sense that minimises the distance with respect to (w.r.t.) the functional space $V$.
+This task is pursued by requiring that the residual of this finite-dimensional approximation is orthogonal to the subspace $\mathbb{R}^{N_{h}}$ (known as \textit{Galerkin orthogonality}), i.e. its inner product w.r.t. each of the basis vectors of the subspace must yield $0$.
+We outline the specific steps of the approximation schemes mentioned above in the Appendix \ref{sec:appendix}.
+
+% Weak/variational form
+\subfile{par:weak_form}
+% Finite-dimensional linear form 
+\subfile{par:linear_form}
+
+\end{document}

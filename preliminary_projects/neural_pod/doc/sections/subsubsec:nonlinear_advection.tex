@@ -1,0 +1,24 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsubsection{Nonlinear advection}\label{subsubsec:nonlinear_advection}
+
+To illustrate the sPOD algorithm we consider once more a toy case in $1$ spatial dimension.
+We will study the time-evolution of solutions of the Burgers' equation with homogeneous Dirichlet BCs and localised IC
+
+\begin{equation}\label{eq:burgers}
+   \begin{cases}
+           \dot{u} = \mu \pprime{u} - u\newprime{u} \,,\quad x\in(-1,1)\,,\;t\in(0,T]\,, \\
+           u(x,0) = \text{sech}(20x)\,, \quad x\in(-1,1)\,, \\
+           u(-1,t) = u(1,t) = 0\,, \quad t\in(0,T]\,. \\
+   \end{cases}
+\end{equation}
+
+where $\mu\in \mathcal{P}\subset \mathbb{R}$ models diffusion. 
+To simulate a transport-dominated solution we will consider $\mathcal{P}=(0,p)$, with $p<<1$ s.t. the scale of the advection term dominates the scale of the diffusion one. 
+
+% Offline 
+\subfile{par:burgers_fom}
+% Online 
+\subfile{par:burgers_rom}
+
+\end{document}

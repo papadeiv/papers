@@ -1,0 +1,18 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsection{Online/generalisation phase}\label{subsec:online}
+Now that we have assembled a ROM we aim at producing new solutions for unseen values of the parameter $\mu\in \mathcal{P}\setminus P$ by exploiting this reduction.
+To describe a low-dimensional solution in the ROM we formulate the following ansatz
+
+\begin{equation}\label{eq:ansatz}
+        \boldsymbol{u}_{h}(t,\mu)\approx\Pi_{\mathcal{R}_{h}}\boldsymbol{u}_{h} = \sum_{j=1}^{N_{r}}\bar{u}_{j}(t,\mu)\,\boldsymbol{v}_{j} = \boldsymbol{V}_{r}\,\bar{\boldsymbol{u}}\,.
+\end{equation}
+
+We can compute a representation of the solution $\boldsymbol{u}_{h}$ in the ROM $\mathcal{R}_{h}$ via \eqref{eq:ansatz} if we can uniquely determine the coefficients $\bar{\boldsymbol{u}}\in \mathbb{R}^{N_{r}}$ of the basis $\text{col}(\boldsymbol{V}_{r})$.
+
+% Projection onto the ROM 
+\subfile{subsubsec:projection}
+% Kolmogoroff n-width decay 
+\subfile{subsubsec:kol_decay}
+
+\end{document}

@@ -1,0 +1,23 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsubsection{Elliptic problem: Poisson's equation}\label{subsubsec:poisson}
+
+In $1$ spatial dimension ($a=-b=1$) Poisson's equation reduces to an ODE since $\mathcal{L}_{\mu} = \frac{d^{2}}{dx^{2}}$ and we drop the time derivative since the problem is stationary.
+With reference to \eqref{eq:ibvp} we set $f(x,u,\mu)=\sin(\pi x) + \mu\cos(2\pi x)$ which is state-independent.
+Our model, completed with homogeneous BCs $g_{a}=g_{b}=0$, thus reads
+
+\begin{equation}\label{eq:poisson}
+   \begin{cases}
+           \pprime{u} = \sin(\pi x) + \mu\cos(2\pi x)\,,\quad x\in(-1,1)\,, \\
+           u(-1) = u(1) = 0 \,.
+   \end{cases}
+\end{equation}
+
+Our parameter space is $\mathcal{P}=[0.1,1]$ and we sample $N_{f}=10^{3}$ linearly spaced values from it to generate the training set and assemble the snaspshot matrix $\boldsymbol{X}$.
+
+% Offline solutions
+\subfile{par:poisson_fom}
+% Online solutions 
+\subfile{par:poisson_rom}
+
+\end{document}
