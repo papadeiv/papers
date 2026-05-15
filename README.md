@@ -27,7 +27,7 @@ _In progress_ gives a list of repositories whose work is already been typed in a
 - [Likelihood estimation of an interpretable early-warning sign of critical transitions](./2026_phys_a/) (2026, estimated).
 - [Robust numerical inference and early-warnings of tipping points from timeseries](./2026_proc_r_soc_a/) (2026, estimated).
 - [Statistical and numerical analysis of an early-warning signal approximation method based on large deviaton theory](./2027_commun_nonlinear_sci_numer_simul/) (2027, estimated).
-- [A systematic analysis of the dynamics of a model of unified growth](./2027_am_econ_rev/) (2027, estimated).
+- [A systematic analysis of the dynamics of a model of unified growth](./2027_j_econ_dyn_control/) (2027, estimated).
 
 ### Preliminary investigation
 
