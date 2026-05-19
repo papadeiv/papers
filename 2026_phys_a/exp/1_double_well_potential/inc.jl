@@ -1,7 +1,10 @@
 using CairoMakie, Makie.Colors, LaTeXStrings
-using Polynomials, Statistics, LsqFit
-using ProgressMeter, Revise
-using DataFrames, CSV
+
+# Avoid re-loading DataInterface 
+if !isdefined(Main, :DataInterface)
+        include("../../src/DataInterface.jl")
+        using .DataInterface
+end
 
 # Avoid re-loading SystemAnalysis 
 if !isdefined(Main, :SystemAnalysis)

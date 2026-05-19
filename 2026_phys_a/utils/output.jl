@@ -25,3 +25,12 @@ function writeout(data, filename; path="../../res/data/")
         # Write the input data to a csv file
         CSV.write(fullpath, Tables.table(data), delim=',', writeheader=false)
 end
+
+function savefig(path, fig)
+        # Create the export directory if it doesn't exist
+        fullpath = "../../res/fig/" * path 
+        mkpath(dirname(fullpath))
+
+        # Export the figure
+        save(fullpath, fig)
+end

@@ -8,10 +8,9 @@ using DocStringExtensions
 CairoMakie.activate!(; px_per_unit = 2)
 
 # Import utility functions
-include("../utils/layouts.jl")
 include("../utils/palette.jl")
 
 # Export namespaces
-export makefig, savefig 
+export savefig 
 
 end # module
