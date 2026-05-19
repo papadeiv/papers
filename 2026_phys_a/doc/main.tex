@@ -63,11 +63,11 @@ We will adopt a fast-slow framework to model B-tipping events.
 Consider a SDE of the form
 
 \begin{align}\label{eq:fast_slow_sde}
-        dx_{t} &= f(x,\mu)dt + \sigma dW_{t}\,,\\
+        dX_{t} &= f(X_{t},\mu)dt + \sigma dW_{t}\,,\\
         d\mu &= \varepsilon dt\,,
 \end{align}
 
-where $x_t$ denotes a random variable (r.v.) modelling the state of a system of interest in $\mathbb{R}^{d}$ while $\mu\in \mathbb{R}^{p}$ denotes a parameter vector.
+where $X_t$ denotes a random variable (r.v.) modelling the state of a system of interest in $\mathbb{R}^{d}$ while $\mu\in \mathbb{R}^{p}$ denotes a parameter vector.
 The time evolution of the r.v. follows a deterministic drift, described by the parametrised vector field $f:\mathbb{R}^{d}\times \mathbb{R}^{p}\to \mathbb{R}^{d}$, and a stochastic diffusion of intensity $\sigma\in\mathbb{R}$, modelled by a $d-$dimensional Wiener process $W_{t}$ with zero mean and Gaussian distributed increments (i.e. $W_{s} - W_{t}\sim\mathcal{N}(0,s-t)$).
 For simplicity, we will assume that the stochastic fluctuations are state-independent (i.e. ~\ref{eq:fast_slow_sde} is an additive noise SDE).
 Importantly, the parameter characterising the vector field of the dynamics is not stationary but it evolves according to a slow (deterministic) linear ramp of slope $0 < \varepsilon \ll 1$.
@@ -85,7 +85,7 @@ In particular, globally stable equilibria of $f$ will correspond to local minima
 This allows for a useful interpretation of the solution of ~\ref{eq:fast_slow_sde} as the motion of an overdamped particle governed by Langevin equation
 
 \begin{equation}\label{eq:langevin}
-        dx_{t} = -\nabla V(x_{t})dt + \sqrt{2D}dW_{t}\,,\quad D=\frac{\sigma^{2}}{2}\,.
+        dX_{t} = -\nabla V(X_{t};\mu)dt + \sqrt{2D}dW_{t}\,,\quad D=\frac{\sigma^{2}}{2}\,.
 \end{equation}
 
 If the process is stationary (i.e. $\varepsilon\to0$) then, for a given configuration of the potential $V$ at parameter value $\mu$, the long term behaviour of a solution of the standard Langevin dynamics ~\ref{eq:langevin} is described by the random fluctuations of diffusion $\sqrt{2D}$ around local minima of $V$.
@@ -116,7 +116,7 @@ Given a double-well potential $V$ with desirable local minimum $x=a$ and unstabl
         R_{a\to b} = \frac{\sqrt{|V''(b)|V''(a)}}{2\pi}\exp\bigg(-\frac{\Delta V_{a\to b}}{D}\bigg)\,.
 \end{equation}
 
-where $\Delta V_{a\to b} = V(b) - V(a)$ quantifies the energy barrier that the Langevin overdamped particle has to overcome in order to escape.
+where $\Delta V_{a\to b} = V(b) - V(a)$ quantifies the energy barrier that the Langevin overdamped particle has to overcome in order to escape and $V''$ denotes second-order differentiation of $V$ with respect to the state variable.
 
 \subsection{An interpretable EWS}
 Among the many EWS that have long been used throughout the literature, the increase in variance and autocorrelation have been the more reliable.
@@ -175,6 +175,24 @@ The popularity of canonical EWS in the literature is in part due to their simpli
 The increase in variance and autocorrelation in fact can be readily extracted from the timeseries of a single realisation of ~\ref{eq:langevin}.
 In order for our proposed, interpretable EWS to applicable in the real-world we must be able to compute it from the solution data alone, without relying on prior knowledge of the system that generates it.
 Here we describe one way to achieve this using established techniques in statistical inference. 
+Suppose our sample $\{X_{n}\}_{n=0,1,\dots,N}$ is made of $N+1$ observations of the stationary state ~\ref{eq:langevin} from time $t=0$ to time $t=T$.
+Suppose also that each observation is sampled at homogeneous frequency of time intervals $\Delta t = T/N$.
+We can then approximate the entire sample path, beside the initial condition $X_{0}$, using Euler-Maruyama.
+This defines an iterated, stochatic map of the form
+
+\begin{equation}\label{eq:euler_maruyama}
+        X_{n+1} = X_{n} -V'(X_{n};\theta)\Delta t + \sqrt{2D\Delta t}\,\xi\,,\quad \xi\sim\mathcal{N}(0,1)\,,
+\end{equation}
+
+where $V'$ denotes the first derivative (gradient) of the potential with respect to the state variable and $\theta\in\mathbb{R}^{p}$ is a vector of coefficients parameterising the potential.
+We rearrange ~\ref{eq:euler_maruyama} to define the first-order time increments
+
+\begin{equation}\label{eq:increments}
+        Y_{n} := \frac{X_{n+1} - X_{n}}{\Delta t} = -V'(X_{n};\theta) + \sqrt{\frac{2D}{\Delta t}}\,\xi = -V'(X_{n};\theta) + \epsilon\,,\quad\epsilon\sim\mathcal{N}\bigg(0,\frac{2D}{\Delta t}\bigg)\,.
+\end{equation}
+
+Notice now how ~\ref{eq:increments} defines a regression to a model $V'$ of some data $\{X_{n}\}$ given a set of $N$ observations $\{Y_{n}\}$ perturbed by some Gaussian noise $\epsilon$.
+This sets-up a parameter estimation problem in which one wishes to find an optimal parametrisation $\theta^*$ of the potential s.t. the residual between the model predictions $V'(X_{n};\theta^*)$ and the observations $Y_{n}$ is minimised in some sense.
 
 \section{Applications}\label{sec:applications}
 
