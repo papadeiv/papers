@@ -101,8 +101,12 @@ Using this analogy, we will frame tipping phenomena of complex systems as saddle
 
 \begin{figure}[t]
 	      \centering
-	      \includegraphics[keepaspectratio, width=\textwidth]{figures/double_well_potential.pdf}
-        \caption{(a): only one well (global minima) exists: the particle is trapped at the bottom of this well for long times; (b) two wells are present but with different depths: the particle's motion explores the bottom of the starting well for some time before escaping over the saddle and reaching the alternative well; (c) two wells are present with equal depths: known as the Maxwell point, both wells are equiprobable and therefore the particle will equally visit the bottoms of each well for long enough time.}
+	      \includegraphics[keepaspectratio, width=0.9\textwidth]{figures/double_well_potential.pdf}
+        \caption{Different configurations of the potential lead to qualitatively different trajectories of ~\ref{eq:langevin}.
+                 The top panels of each column show the shape of the confining potential; the middle panels display a representative sample path of an overdamped particle starting from the rightmost well; the bottom panels are a representation of the sample distribution of the realisations above using histograms.
+                 In the leftmost column the particle is confined by a high potential barrier and does escape its basin of attraction within the simulation time.
+                 In the middle column the system is at a Maxwell point (both well are equiprobable from a stationary perspective) and thus the particle visits both wells multiple times during the simulation (the histogram becomes bimodal).
+                 In the rightmost column the starting well is shallower and flatter than the alternative one: as such the particle escapes it early, never to return before the simulation ends.}
         \label{fig:double_well_potential}
 \end{figure}
 
@@ -160,11 +164,11 @@ In Figure ~\ref{fig:escape_ews} we depict such result for a bistable model of bi
 
 \begin{figure}[t]
 	      \centering
-	      \includegraphics[keepaspectratio, width=.3\textwidth]{figures/double_well_potential.png}
-        \caption{(Top): bifurcation diagram of a model of ecosystem collapse with the state $x$ (biomass) degrading as the forcing parameter $\mu$ (harvesting rate) is increased \cite{May1977}; branches of stable equilibria ($x=a$ and $x=c$) are in blue, the unstable branch ($x=b$) is in red and the vertical black thin lines indicate slices of the state of the system at different parameter values. The bistability, bounded by two SN bifurcations, is shaded in gray.
-        (Middle) Configurations of the potential $V(x;\mu) = $ of the system at different parameter values (slices of the bifurcation diagram). 
-        (Bottom) Modified escape EWS ~\ref{eq:escape_ews} computed out of the potential $V(x;\mu)$ between stable state $x=a$ and saddle $x=b$ within the bistability region.}
-        \label{fig:double_well_potential}
+	      \includegraphics[keepaspectratio, width=0.9\textwidth]{figures/escape_ews.pdf}
+        \caption{(Top): bifurcation diagram of a model of ecosystem collapse with the state $x$ (biomass) degrading as the forcing parameter $\mu$ (harvesting rate) is increased \cite{May1977}; branches of stable equilibria ($x=a$ and $x=c$) are in blue while the unstable branch ($x=b$) is in red; the region of bistability, bounded by two SN bifurcations (yellow dots), is shaded in gray.
+        (Middle) Different configurations of the potential $V(x;\mu) = $ of the system at different parameter values corresponding to the ticks of the orizontal axes of the top and bottom plots. 
+        (Bottom) Modified escape EWS ~\ref{eq:escape_ews} computed out of the potential $V(x;\mu)$ between the stable state $x=a$ and the saddle $x=b$ within the bistability region.}
+        \label{fig:escape_ews}
 \end{figure}
 
 Finally we notice that by restricting ourselves to regions of the parameter space such that the potential barrier $\Delta V$ has range $[0,+\infty)$, the proposed EWS defines a probability measure.

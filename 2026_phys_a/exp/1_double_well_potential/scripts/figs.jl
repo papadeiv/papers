@@ -5,10 +5,7 @@ Generation of the layouts and formats of the figures.
 """
 
 # Specify the figure dimensions and style
-fig = Figure(; size = (1200, 1200), 
-             #figure_padding = (60,60,30,30), 
-             #backgroundcolor = :white
-            )
+fig = Figure(; size = (1200, 1200))
 
 # Set thickness and size of axes elements 
 border = 2.0
@@ -184,4 +181,3 @@ axes = [[ax1_top, ax1_mid, ax1_bot], [ax2_top, ax2_mid, ax2_bot], [ax3_top, ax3_
 
 # Adjust whitespace between columns and rows
 colgap!(fig.layout, 120)
-#rowgap!(fig.layout, 10)
