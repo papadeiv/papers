@@ -17,9 +17,3 @@ if !isdefined(Main, :StatisticalMethods)
         include("../../src/StatisticalMethods.jl")
         using .StatisticalMethods
 end
-
-# Avoid re-loading PlottingTools
-if !isdefined(Main, :PlottingTools)
-        include("../../src/PlottingTools.jl")
-        using .PlottingTools
-end

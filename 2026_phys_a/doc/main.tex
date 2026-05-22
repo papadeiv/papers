@@ -274,6 +274,16 @@ The limiting stationary density of the OUP (assuming a long enough realisation i
 
 and it depends on the local curvature of the potential well around $x=a$.
 Notice that the stationary density of the OUP is of Boltzmann-like form ~\ref{eq:invariant_pdf} with partition function $Z = \sqrt{\pi D/\alpha}$ and, crucially, quadratic potential $V(x) = \alpha(x-a)^{2}$.
+The Gaussian probability distribution in ~\ref{eq:oup_density} is parametrised by $\theta = (\alpha,\,a,\,D)$ and MLE of its parameters has been shown to be asymptotically normal \cite{Sahalia2002}.
+
+\begin{figure}[t]
+    \centering 
+    \includegraphics[keepaspectratio, width=\textwidth]{./figures/oup_mle.pdf}
+    \caption{Empirical distribution of the MLE of the parameters $\theta = (\alpha,\, a,\, D)$ of an ensemble of $1000$ sample paths solving ~\ref{eq:oup}.
+            In each of the plots we report the true value of the parameter used to generate the data while at the top we report the standard error of the distribution.
+    }
+    \label{fig:oup_mle}
+\end{figure}
 
 \subsection{Euler-Maruyana least-squares regression}\label{subsec:euler}
 We can then approximate the entire sample path, beside the initial condition $X_{0}$, using Euler-Maruyama.

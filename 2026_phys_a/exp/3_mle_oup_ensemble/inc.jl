@@ -1,7 +1,7 @@
-using ProgressMeter, BifurcationKit, Statistics, StatsBase
+using PyCall, ProgressMeter
+using BifurcationKit, Statistics, StatsBase
 using CairoMakie, Makie.Colors, LaTeXStrings
 
-# Avoid re-loading modules 
 if !isdefined(Main, :DataInterface)
         include("../../src/DataInterface.jl")
         using .DataInterface
