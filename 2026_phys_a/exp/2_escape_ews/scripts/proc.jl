@@ -17,7 +17,6 @@ function compute_bif_diag(initial_condition)
 
         # Compute the branches of the diagram
         bifurcation_diagram = continuation(zero_problem, PALC(), ContinuationPar(p_min = c0, p_max = cf, dsmax = 0.01, max_steps=1000))
-        #display(propertynames(bifurcation_diagram))
 
         # Store the bifurcation diagram in the appropriate data structure
         branch = Matrix{Float64}(undef, length(bifurcation_diagram.sol), 3)

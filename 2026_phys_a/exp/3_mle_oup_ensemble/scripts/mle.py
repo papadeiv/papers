@@ -10,9 +10,8 @@ def infer(sample, dt):
     model = OrnsteinUhlenbeck()
 
     # Provide an initial guess and parameter space
-    #guess = np.array([1, 0.1, 0.4])
-    guess = np.random.rand(3)
-    bounds = [(-10, 10), (-10, 10), (0.00001, 10)] 
+    guess = np.array([5, 0.5, 0.5])
+    bounds = [(0, 12), (-1, 1), (0, 10)] 
 
     # Solve the MLE
     estimate = AnalyticalMLE(sample, bounds, dt, density = EulerDensity(model)).estimate_params(guess)

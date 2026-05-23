@@ -262,31 +262,37 @@ Stationarity in the distribution naturally entails that the nonlinear system ~\r
 We can thus approximate its dynamics by linearising the deterministic drift of the nonlinear vector field around said equilibrium, yielding the well known Ornstein-Uhlenbeck process (OUP)
 
 \begin{equation}\label{eq:oup}
-        dX_{t} = \alpha(X_{t} - a)dt + \sqrt{2D}dW_{t},
+        dX_{t} = \alpha(a - X_{t})dt + \sqrt{2D}dW_{t},
 \end{equation}
 
-where $\alpha = f'(x=a) = -V''(x=a)$.
+where $\alpha = f'(x=a) = -V''(x=a) > 0$.
 The limiting stationary density of the OUP (assuming a long enough realisation is observed and the transient out of the initial condition has died out) is Gaussian \cite[Ch. 3, p. 74]{Gardiner2009}
 
 \begin{equation}\label{eq:oup_density}
-        p(x) = \sqrt{\frac{\alpha}{\pi D}}\exp\bigg(-\frac{\alpha(x-a)^{2}}{D}\bigg)\,,
+        p(x) = \sqrt{\frac{\alpha}{\pi D}}\exp\bigg(-\frac{\alpha(a - x)^{2}}{D}\bigg)\,,
 \end{equation}
 
 and it depends on the local curvature of the potential well around $x=a$.
-Notice that the stationary density of the OUP is of Boltzmann-like form ~\ref{eq:invariant_pdf} with partition function $Z = \sqrt{\pi D/\alpha}$ and, crucially, quadratic potential $V(x) = \alpha(x-a)^{2}$.
-The Gaussian probability distribution in ~\ref{eq:oup_density} is parametrised by $\theta = (\alpha,\,a,\,D)$ and MLE of its parameters has been shown to be asymptotically normal \cite{Sahalia2002}.
+Notice that the stationary density of the OUP is of Boltzmann-like form ~\ref{eq:invariant_pdf} with partition function $Z = \sqrt{\pi D/\alpha}$ and, crucially, quadratic potential $V(x) = \alpha(a - x)^{2}$.
+The Gaussian probability distribution in ~\ref{eq:oup_density} is parametrised by $\theta = (\alpha,\,a,\,D)$ and MLE of its parameters has been shown to be asymptotically normal \cite{Sahalia2002} as demonstrated in Figure ~\ref{fig:oup_mle}.
 
 \begin{figure}[t]
     \centering 
     \includegraphics[keepaspectratio, width=\textwidth]{./figures/oup_mle.pdf}
-    \caption{Empirical distribution of the MLE of the parameters $\theta = (\alpha,\, a,\, D)$ of an ensemble of $1000$ sample paths solving ~\ref{eq:oup}.
-            In each of the plots we report the true value of the parameter used to generate the data while at the top we report the standard error of the distribution.
+    \caption{Empirical distribution of the MLE of the parameters $\theta = (\alpha,\, a,\, D)$ of an ensemble of $10000$ sample paths solving ~\ref{eq:oup} for two different configurations of the potential $V(x) = \alpha(a - x)^{2}$: a deep, strongly confined well with $\alpha = 10$ (top row); a shallow well with $\alpha = 0.5$ (bottom row).
+            In each of the plots the true value of the parameter used to generate the data is depicted (blue line) while at the top we report the standard error of the distribution.
+            Notice how, as the SN bifurcation of the linearised vector field is approached $\alpha = f'(x=a)\to0$, the distribution of the estimators of the linear coefficient becomes more skewed despite the symmetry in the confining potential.
+            These solutions have been computed using the pymle package \cite{Kirby2025}.
     }
     \label{fig:oup_mle}
 \end{figure}
 
 \subsection{Euler-Maruyana least-squares regression}\label{subsec:euler}
-We can then approximate the entire sample path, beside the initial condition $X_{0}$, using Euler-Maruyama.
+The numerical estimation of the transition density in ~\ref{eq:inv_log_likelihood} using the OUP assumption presents a viable procedure to compute our modified escape EWS.
+However limitations concerning the accurcacy and performance of existing MLE techniques \textbf{[CITE PAPERS]} when the linearisation coefficient approaches $0$ (i.e. nearby a bifurcation) suggest the development of alternative, ad-hoc numerical methods that more robustly capture tipping-related phenomena, e.g. CSD.
+Here we propose one such alternative which reduces the MLE problem into a linear-least squares (LLS) regression using the discrete observations.
+As usual, we assume our sample path $\mathcal{X} = \{X_{0},\dots,X_{N}\}$ to be a solution of ~\ref{eq:langevin} under the stationarity restriction.
+We can then approximate the entire sample path, beside the initial condition $X_{0}$, using the Euler-Maruyama time-stepping scheme.
 This defines an iterated, stochatic map of the form
 
 \begin{equation}\label{eq:euler_maruyama}
@@ -301,7 +307,16 @@ We rearrange ~\ref{eq:euler_maruyama} to define the first-order time increments
 \end{equation}
 
 Notice now how ~\ref{eq:increments} defines a regression to a model $V'$ of some data $\{X_{n}\}$ given a set of $N$ observations $\{Y_{n}\}$ perturbed by some Gaussian noise $\epsilon$.
-This sets-up a parameter estimation problem in which one wishes to find an optimal parametrisation $\theta^*$ of the potential s.t. the residual between the model predictions $V'(X_{n};\theta^*)$ and the observations $Y_{n}$ is minimised in some sense.
+This sets up a parameter estimation problem in which one wishes to find an optimal parametrisation $\theta^*$ of the potential s.t. the residual between the model predictions $V'(X_{n};\theta^*)$ and the observations $Y_{n}$ is minimised in some sense.
+As anticipated above, we formulate a LLS problem by interpreting the noise $\epsilon$ in the solution of the sample path to be an unresolved fluctuation error in the observed data from a specified model:
+
+\begin{equation}\label{eq:lls_problem}
+        \theta^{*} = \arg\min_{\theta\in \mathbb{R}^{3}}\sum_{n=1}^{N-1}\big(Y_{n} + V'(X_{n};\theta)\big)^{2} \,.
+\end{equation}
+
+Notice that by fitting the minimal working model of a SN B-tipping (i.e. we assume $V(x;\theta)$ is a cubic polynomial of coefficients $\theta = (\theta_{1},\, \theta_{2},\, \theta_{3})$), the problem ~\ref{eq:lls_problem} is linear in $\theta$.
+This allows us to write the solution explicitly\dots
+
 
 \section{Applications}\label{sec:applications}
 
