@@ -1,8 +1,6 @@
 \documentclass[a4paper,fleqn]{cas-sc}
 
 \usepackage[numbers]{natbib}
-\usepackage{lipsum}
-\usepackage{float}
 
 \def\tsc#1{\csdef{#1}{\textsc{\lowercase{#1}}\xspace}}
 \tsc{DP}
@@ -64,43 +62,43 @@ Stochastic dynamics \sep
 
 \section{Introduction}
 Over the past two decades much attention has been gathered in the study of catastrophic collapses of complex systems under time-varying forcing.
-Initially described as \textit{``loss of resilience''} in ecosystems and climate models, these critical transitions, and their prediction, have been the subject of investigation across many disciplines.
+Initially described as \textit{``loss of resilience''} in ecosystems \cite{Ives1995, Scheffer2009}, climate models \cite{Lenton2012} and even social dynamics \cite{Scheffer2021}, these critical transitions, and their prediction, have been the subject of investigation across many disciplines \cite{Feng2014,Kuehn2015,Liang2017,Xu2023,Dylewsky2024}.
 The general consensus has been the modelling of these events as abrupt tipping of the solutions of multiscale stochastic differential equations (SDEs) subject to slow forcing \cite{Kuehn2011}.
-For finite-dimensional system, these are usually presented in the form
+For finite-dimensional systems, these are usually presented in the form
 
 \begin{align}\label{eq:fast_slow_sde}
         dX_{t} &= f(X_{t},\mu)dt + \sigma dW_{t}\,,\\
         d\mu &= \varepsilon dt\,,
 \end{align}
 
-where $X_t$ denotes a random variable (r.v.) modelling the state of a system of interest in $\mathbb{R}^{d}$ while $\mu\in \mathbb{R}^{p}$ denotes a parameter vector.
+where $X_t$ denotes a random variable (r.v.) modelling the state of the system of interest in $\mathbb{R}^{d}$ while $\mu\in \mathbb{R}^{p}$ denotes a parameter vector.
 The time evolution of the r.v. follows a deterministic drift, described by the parametrised vector field $f:\mathbb{R}^{d}\times \mathbb{R}^{p}\to \mathbb{R}^{d}$, and a stochastic diffusion of intensity $\sigma\in\mathbb{R}$, modelled by a $d-$dimensional Wiener process $W_{t}$ with zero mean and Gaussian distributed increments (i.e. $W_{s} - W_{t}\sim\mathcal{N}(0,s-t)$).
-For simplicity, we will assume that the stochastic fluctuations are state-independent (i.e. ~\ref{eq:fast_slow_sde} is an additive noise SDE).
+For simplicity, we will assume that the stochastic fluctuations are state-independent (i.e.~\ref{eq:fast_slow_sde} is an additive noise SDE).
 Importantly, the parameter characterising the vector field of the dynamics is not stationary but it evolves according to a slow (deterministic) linear ramp of slope $0 < \varepsilon \ll 1$.
-This allows us to slowly changing the state of the system thus reflecting the multiscale time-varying forcing of real-world complex systems.
-Different types of tipping events can be registered by sample paths of ~\ref{eq:fast_slow_sde} depending on the underlying mechanism that generated them. A generally accepted \cite{Ashwin2012} classification of those is the following:
+This allows us to slowly change the state of the system thus reflecting the multiscale time-varying forcing of real-world complex systems.
+Different types of tipping events can be registered by sample paths of~\ref{eq:fast_slow_sde} depending on the underlying mechanism that generated them. A generally accepted \cite{Ashwin2012} classification of those is the following:
 \begin{itemize}
-        \item bifurcation-induced (B-)tipping are abrupt transitions of the state $X_{t}$ once a critical treshold of the slowly changing bifurcation paramter $\mu=\mu_c$ is crossed. These types of tipping events are generally associated to saddle-node (SN) bifurcation;
-     \item rate-induced (R-)tipping are instead a manifestation of the nonautonomous character of ~\ref{eq:fast_slow_sde} and are due to the failure of the state $X_t$ to track the drift of the quasi-steady equilibrium. The mechanism generating the tipping phenomenon here is fundamentally different from B-tipping as it is the rate of change at which the bifurcation parameter is ramped that causes the tipping, rather than its value \cite{Ashwin2017}. Notice that the favorable state needs not to undergo a global nor local bifurcation for R-tipping to occur;
+        \item bifurcation-induced (B-)tipping are abrupt transitions of the state $X_{t}$ once a critical treshold of the slowly changing bifurcation parameter $\mu=\mu_c$ is crossed. These types of tipping events are generally associated to saddle-node (SN) bifurcations;
+     \item rate-induced (R-)tipping are instead a manifestation of the nonautonomous nature of~\ref{eq:fast_slow_sde} and are due to the failure of the state $X_t$ to track the drift of a quasi-steady equilibrium. The mechanism generating these tipping phenomena is fundamentally different from B-tipping as it is the rate of change at which the bifurcation parameter is ramped that causes the tipping, rather than its value \cite{Ashwin2017}. Notice that the favorable state needs not to undergo a global nor local bifurcation for R-tipping to occur;
      \item noise-induced (N-)tipping events are entirely due to stochastically driven jumps of the state $X_{t}$ outside the basin attraction of the desirable steady-state and are thus entirely unpredictable. Notice that N-tipping need not time-varying forcing of the bifurcation parameter and can be observed in systems at full stationarity.
 \end{itemize}
-Many catastrophic collapses in ecosystems, biology and the climate are known to exhibit multistability in which alternative, stable equilibria coexist simultaneously.
+Many catastrophic collapses in ecosystems \cite{May1977, Guttal2008}, biology \cite{Donovan2015} and ocean currents \cite{Lohmann2024,VanWesten2025} are known to exhibit multistability in which alternative, stable equilibria coexist simultaneously.
 The loss of stability or the vanishing of one of such equilibria are modelled using bifurcation normal forms.
 In B-tipping, the time changing bifurcation parameter $\mu$ eventually reaches a critical treshold $\mu=\mu_c$ at which the observed, often favorable, steady-state of the system (node) collides with an unstable equilibrium (saddle) causing annihilation of the two.
-The resulting trajectory of the system (solution of ~\ref{eq:fast_slow_sde}) will tip abruptly to settle on other alternative stable equilibria which results in critical transitions with potentially catastrophic repercussions for the health of the system.
+The resulting trajectory of the system (solution of~\ref{eq:fast_slow_sde}) will tip abruptly and settle on other alternative stable equilibria which results in critical transitions with potentially catastrophic repercussions for the health of the system.
 Due to the disruptive nature of tipping events, efforts have tried to formulate strategies that can predict these events by monitoring the state evolution $X_{t}$.
-Early-warning signals (EWS) are (often statistical) quantities that can be extracted from sample paths of ~\ref{eq:fast_slow_sde} with the intention of informing how likely and how close a critical transition is.
-These precursors often rely on mechanistic fatures of the system approaching B-tipping of which \textit{critical slowing down} (CSD) has been by far the most widely exploited.
+Early-warning signals (EWS) are (often statistical) quantities that can be extracted from sample paths of~\ref{eq:fast_slow_sde} with the intention of informing how likely and how close a critical transition is.
+These precursors often rely on mechanistic fatures of the system approaching B-tipping of which \textit{critical slowing down} (CSD) has been by far the most widely exploited \cite{VanNes2007, Dakos2008}.
 CSD quantifies slower recovery to equilibrium from perturbations as the leading eigenvalue of the linearised system approaches the immaginary axis.
-This has been proposed to be captured in a increases in variance and autocorrelation of the realisations of sample paths as the system is driven closer to B-tipping.
-Despite the many efforts, EWS are still largely plagued by a lack interpretability and a relative difficulty in assessing their robustness to real-world data.
+This has been proposed to be captured as an increases in variance and autocorrelation of the realisations of sample paths as the system is driven closer to B-tipping.
+Despite the many efforts, EWS are still largely plagued by a lack interpretability \cite{Ditlevsen2010, Donovan2026} and a relative difficulty in assessing their robustness to real-world data \cite{Dakos2012, Ashwin2025}.
 In this paper we reframe the problem of detecting critical transitions of solutions of slowly-forced SDEs through the lenses of statistcal mechanics by leveraging known results from large deviations such as Kramer's formula.
-A full computational pipeline also accompanies the proposed new measure that can be readily applied to input timeseries without prior knowledge of the model generating it.
-This manuscript is organised in the following structure: in Section ~\ref{sec:escape_rate} we introduce the new EWS as a modified version of Kramer's law for the escape rate of overdamped particles across a potential barrier; 
-in Section ~\ref{sec:mle} we derive a numerical method to approximate the EWS from timeseries data based on maximum likelihood principles; 
-this is followed by comparisons of the robustness and optimality of the escape EWS with respect to the canonical EWS that are found in the literature in Section ~\ref{sec:applications}.
+A full computational pipeline also accompanies the proposed new measure, which can be readily applied to input timeseries without prior knowledge of the model generating it.
+This manuscript is organised in the following structure: in Section~\ref{sec:escape_rate} we introduce the new EWS as a modified version of Kramer's law for the escape rate of overdamped particles across a potential barrier; 
+in Section~\ref{sec:mle} we discuss numerical strategies to extract the proposed EWS from timeseries data based on maximum likelihood estimators; 
+this is followed by comparisons of the robustness and optimality of the escape EWS with respect to the canonical EWS that are found in the literature in Section~\ref{sec:applications}.
 Applications in this section include a famous model of vegetation biomass collapse in ecosystems subject to increasing harvesting and an equally popular model of the Atlantic Meridional Overturning Circulation (AMOC) collapse under increasing freshwater forcing in the North-Atlantic. 
-We conclude with further discussions and future directions based on the presented techniques in Section ~\ref{sec:discussion}.
+We conclude with further discussions and future directions based on the presented techniques in Section~\ref{sec:discussion}.
 
 \section{Escape rate across a potential barrier}\label{sec:escape_rate}
 In the following, and for the rest of this paper, we will assume that, for fixed parameters $\mu\in \mathbb{R}^{p}$ the (frozen) deterministic drift is a conservative vector field, i.e. there exist a scalar potential $V(x;\mu):\mathbb{R}^{d}\to \mathbb{R}$ such that $f(x;\mu) = -\nabla V(x;\mu)$.
