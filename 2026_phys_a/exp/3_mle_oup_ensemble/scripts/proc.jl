@@ -4,7 +4,6 @@
 Collection of quantities and functions used to postprocess and analyse the results of a simulation.
 """
 
-
 # Import all the exported solutions
 function analyse(case::Integer, θ)
         # Define the counting index
@@ -16,13 +15,11 @@ function analyse(case::Integer, θ)
                 # Import solutions
                 solutions = readin("α=$(α[case])/$index.csv")
 
-                # Define the bounding index
+                # Computing the bounding index
                 finish = (start - 1) + convert(Integer, Ne)
 
                 # Loop over the columns of the imported solution matrix
                 for (col_idx, col) in enumerate(eachcol(solutions))
-                        # Compute the bounding index 
-
                         # Append the column in the larger matrix
                         coefficients[start:finish, col_idx] = col
                 end

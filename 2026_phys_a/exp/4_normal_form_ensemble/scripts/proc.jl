@@ -4,24 +4,27 @@
 Collection of quantities and functions used to postprocess and analyse the results of a simulation.
 """
 
-# Parameters of the scalar potential method
-Nb = convert(Int64, floor(0.010*Nt))            # Number of bins in the histogram
-Nc = convert(Int64, 3e0)                        # Solution space dim. of the method 
-Na = convert(Int64, 1e4)                        # Number of attempts per guess 
-β = 1e-3                                        # Std of the guess perturbation 
-
 # Scalar potential of the conservative system 
 U(x, μ) =  + μ*x + (1.0/3.0)*x^3                # Potential (ground truth)
-Uxx(x, μ) = + 2*x                               # Second derivative ( == Jacobian) 
-
-# Reconstructed dynamics 
 V(x, c) = c[1]*x + c[2]*(x^2) + c[3]*(x^3)      # Potential
-Vxx(x, c) = 2*c[2] + 6*c[3]*x                   # Second derivative
- 
-# Data structures
-solutions = Vector{Vector{Float64}}()           # Solutions of the inference method 
-results = Vector{Vector{Float64}}()             # Statistical distribution over the ensemble
 
+# SOlve the LLS problem
+function solve_lls(solution)
+        # Define the observation vectors 
+        Xn = solution[1:end-1]
+        Y  = (solution[2:end] .- solution[1:end-1])./dt
+
+        # Assemble the model matrix
+        A = hcat(ones(length(Xn)), Xn, Xn.^2)
+
+        # Solve the (linear) least-squares problem
+        β = A\Y
+
+        # Compute the coefficients of the potential
+        θ = [-β[1], -β[2]/2, -β[3]/3]
+        return θ 
+end
+ 
 # Shift the reconstructed potential to match the local minimum of the ground truth
 function shift_potential(U::Function, x0, c)
         # Compute the stable equilibrium (center of the shift)
@@ -37,6 +40,7 @@ function shift_potential(U::Function, x0, c)
         return xs, Vs
 end
 
+#=
 # Numerical error of the potential reconstruction (trapezoid rule on L2-norm)
 function get_error(Vs; Nh=1000)
         # Create uniform partition of the domain of integration
@@ -89,3 +93,4 @@ function analyse(solutions)
         # Return the shifted potential (for plotting)
         return Vs 
 end
+=#
