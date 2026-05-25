@@ -131,7 +131,8 @@ Using this analogy, we will frame tipping phenomena of complex systems as saddle
                  The top panels of each column show the shape of the confining potential; the middle panels display a representative sample path of an overdamped particle starting from the rightmost well; the bottom panels are a representation of the sample distribution of the realisations above using histograms.
                  In the leftmost column the particle is confined by a high potential barrier and does escape its basin of attraction within the simulation time.
                  In the middle column the system is at a Maxwell point (both well are equiprobable from a stationary perspective) and thus the particle visits both wells multiple times during the simulation (the histogram becomes bimodal).
-                 In the rightmost column the starting well is shallower and flatter than the alternative one: as such the particle escapes it early, never to return before the simulation ends.}
+                 In the rightmost column the starting well is shallower and flatter than the alternative one: as such the particle escapes it early, never to return before the simulation ends.
+                 The solutions of the associated Langevin equations of motions for each configuration have been computed using the DifferentialEquations.jl package \cite{Rackauckas2017}.}
         \label{fig:double_well_potential}
 \end{figure}
 
@@ -194,7 +195,8 @@ In Figure ~\ref{fig:escape_ews} we depict such property for a bistable model of 
 	      \includegraphics[keepaspectratio, width=0.9\textwidth]{figures/escape_ews.pdf}
         \caption{(Top): bifurcation diagram of a model of ecosystem collapse with the state $x$ (biomass) degrading as the forcing parameter $\mu$ (harvesting rate) is increased \cite{May1977}; branches of stable equilibria ($x=a$ and $x=c$) are in blue while the unstable branch ($x=b$) is in red; the region of bistability, bounded by two SN bifurcations (yellow dots), is shaded in gray.
         (Middle) Different configurations of the potential $V(x;\mu) = $ of the system at different parameter values corresponding to the ticks of the orizontal axes of the top and bottom plots. 
-        (Bottom) Modified escape EWS ~\ref{eq:escape_ews} computed out of the potential $V(x;\mu)$ between the stable state $x=a$ and the saddle $x=b$ within the bistability region.}
+        (Bottom) Modified escape EWS ~\ref{eq:escape_ews} computed out of the potential $V(x;\mu)$ between the stable state $x=a$ and the saddle $x=b$ within the bistability region.
+        The bifurcation diagram has been computed using the BifurcationKit.jl package \cite{Veltz2020}.}
         \label{fig:escape_ews}
 \end{figure}
 
@@ -209,17 +211,27 @@ Since the modified escape rate in ~\ref{eq:escape_ews} depends on the potential 
 To do so we must be able to approximate the local shape of the potential $V(x;\mu)$ between $x=a$ and $x=b$.
 As we are trying to infer the likelihood of a SN B-tipping, the minimum model that we can fit to a timeseries is that of a cubic polynomial $V(x;\theta) = \sum_{k=1}^{3}\theta_{k}x^{k}$ with real coefficients $\{\theta_{1},\theta_{2},\theta_{3}\}$.
 While different choices are available, a cubic polynomial form for our inference problem is minimal in the sense that it allows for the presence of one local minimum $x=a$ and one local maximum $x=b$ (from which $\Delta V = V(b) - V(a)$ can be computed) without inflating the dimensionaity of the parameter space.
-One way to achieve this is to use established techniques in statistical inference such as maximum likelihood estimation (MLE).
+The inference of the polynomial coefficients of the potential $V$ is, at its core, a parameter estimation problem of the deterministic drift term of a SDE from a sequence of its realizations.
+This is a well-established problem in statistical inference \cite[Ch. 11, p. 234]{Sarkka2019}; in the following we quickly formulate the setup for the problem without delving into its technicalities and instead redirect interested readers to reviews of existing techniques in the literature \cite{Nielsen2000, Sorensen2004, Craigmile2022}.
+
+\subsection{Problem formulation}\label{subsec:formulation}
+A starndard technique in statistical inference to estimate the parameters of a model SDE using the solution data is maximum likelihood estimation (MLE).
 Suppose our sample $\mathcal{X}=\{X_{n}\}_{n=0,1,\dots,N}$ is made of $N+1$ observations of the stationary state ~\ref{eq:langevin} from time $t=0$ to time $t=T$.
 Suppose also that each observation is sampled at homogeneous frequency of time intervals $\Delta t = T/N$.
-By denoting $p(X_{n+1}|X_{n},\theta)$ to be the transition probability density to observe state $X_{n+1}$ given the previous state $X_{n}$ we define the likelihood of the sample
+This It\^{o} process is a Markov process \cite[Ch.7, p. 111]{Oksendal2000} which means that the transition probability density to a future state $X_{t+1}$ at any time $t$ solely depends on the current state $X_{t}$ rather than the entire history $\mathcal{X}$.
+This results in the joint distribution of the sample to be written in a factorised form of the (marginal) transition probability densities
 
-\begin{equation}\label{eq:likelihood_function}
-        \mathcal{L}(\theta|\mathcal{X}) = p(X_{0}|\theta)\prod_{n=1}^{N-1}p(X_{n+1}|X_{n},\theta)\,,
+\begin{equation}\label{eq:joint_distribution}
+        p(\mathcal{X}) = p(X_{0})\prod_{n=1}^{N-1}p(X_{n+1}|X_{n})\,.
 \end{equation}
 
-which quantifies how likely the sample $\mathcal{X}=\{X_{0},\dots,X_{N}\}$ is generated by a probability density function $p$ under a choice of parameters $\theta\in\mathbb{R}^{3}$.
-By maximising ~\ref{eq:likelihood_function} one finds the most likely set of parameters $\theta^{*}$ to have generated the observations $\mathcal{X} = \{X_{n}\}_{n=0,\dots,N}$ based on the transition probability density $p(x|\theta)$.
+From ~\ref{eq:joint_distribution} we can define the likelihood of the sample to be generated by a parametrised transition density 
+
+\begin{equation}\label{eq:likelihood_function}
+        \mathcal{L}(\theta|\mathcal{X}) := p(X_{0}|\theta)\prod_{n=1}^{N-1}p(X_{n+1}|X_{n},\theta)\,.
+\end{equation}
+
+By maximising ~\ref{eq:likelihood_function} one finds the most likely set of parameters $\theta^{*}$ of a family of transition densities $p(x|\theta)$ to have generated the observations $\mathcal{X} = \{X_{n}\}_{n=0,\dots,N}$.
 Famously one reformulates this problem in the minimisation of the inverse log-likelihood instead
 
 \begin{equation}\label{eq:inv_log_likelihood}
@@ -233,33 +245,32 @@ as this does not change the stationary point in parameter space
 \end{equation}
 
 Notice that in ~\ref{eq:inv_log_likelihood} we approximate the inverse log-likelihhod by ignoring the conditional probability of the deterministic initial condition $X_{0}$ as this term is negligible compared to the sum of the log-likelihoods of the stochastic observations. 
-The optimisation problem in ~\ref{eq:inv_log_likelihood} requires however some knowledge of the transition density $p(X_{n+1}|X_{n})$, which, for a SDE of the form ~\ref{eq:langevin}, is goverened by the Fokker-Plank equation (FPE)
+The optimisation problem in ~\ref{eq:inv_log_likelihood} requires however knowledge of the transition density $p(X_{n+1}|X_{n},\theta)$, which, for a SDE of the form ~\ref{eq:langevin}, is goverened by the Fokker-Plank equation (FPE)
 
 \begin{equation}\label{eq:fpe}
-        \partial_{t}p(x,t) = \partial_{x}(V'(x)\,p(x,t)) + D\,\partial_{xx}^{2}p(x,t)\,.
+        \partial_{t}p(x,t|\theta) = \partial_{x}(V'(x;\theta)\,p(x,t|\theta)) + D\,\partial_{xx}^{2}p(x,t|\theta)\,.
 \end{equation}
 
-Solutions of the FPE are rarely available in closed form and thus the optimisation ~\ref{eq:inv_log_likelihood} often relies on numerical techniques to approximate $p(x,t)$. 
+Solutions of the FPE are rarely available in closed form and thus the optimisation ~\ref{eq:inv_log_likelihood} often relies on numerical techniques to approximate $p(x,t|\theta)$. 
 
 \subsection{Time-invariant approximation: the Ornstein-Uhlenbeck process}
-One workaround this limitation is to assume that the linear ramp of the forcing parameter is very small, i.e. $\varepsilon\to0$.
+One workaround this limitation is to assume that the linear ramp of the forcing parameter is very slow, i.e. $\varepsilon\to0$.
 This is usually referred to as the singular limit of the fast-slow formulation ~\ref{eq:fast_slow_sde}.
-Under this assumption we can approximate the time-varying solution of ~\ref{eq:fpe} with a time-invariant density $p(x)\approx p(x,t)$ by neglecting the time partial derivative $\partial_{t}p\approx0$.
-This ansatz effectively reduces the parabolic partial differential equation in time and space to a second-order, homogeneous ordinary differential equation in $p(x)$
+Under this assumption we can approximate the time-varying solution of ~\ref{eq:fpe} with a time-invariant density $p(x|\theta)\approx p(x,t|\theta)$ by neglecting the (partial) time derivative $\partial_{t}p\approx0$.
+This ansatz effectively reduces the parabolic partial differential equation in time and space to a second-order, homogeneous ordinary differential equation in $p(x|\theta)$
 
 \begin{equation}\label{eq:stationary_fpe}
-        \partial_{x}(V'(x)\,p(x)) + D\,\partial_{xx}^{2}p(x) = V''(x)\,p(x) + V'(x)\,p'(x) + D\,p''(x) = 0\,.
+        \partial_{x}\big(V'(x;\theta)\,p(x|\theta)\big) + D\,\partial_{xx}^{2}p(x|\theta) = V''(x;\theta)\,p(x|\theta) + V'(x;\theta)\,p'(x|\theta) + D\,p''(x|\theta) = 0\,.
 \end{equation}
 
 The solution of the above (under suitable choices of boundary conditions at $x\to\pm\infty$) yields a Boltzmann-like probability density function \cite[Ch. 5, p. 98]{Risken1989}
 
 \begin{equation}\label{eq:invariant_pdf}
-        p(x) = \frac{1}{Z}\exp\bigg(-\frac{V(x)}{D}\bigg)\,,
+        p(x|\theta) = \frac{1}{Z(\theta)}\exp\bigg(-\frac{V(x;\theta)}{D}\bigg)\,,
 \end{equation}
 
-with the normalisation constant $Z$ playing the role of the partition function of the energy of the system.
-Stationarity in the distribution naturally entails that the nonlinear system ~\ref{eq:langevin} evolving around a stable equilibrium $x=a$. 
-We can thus approximate its dynamics by linearising the deterministic drift of the nonlinear vector field around said equilibrium, yielding the well known Ornstein-Uhlenbeck process (OUP)
+with the normalisation constant $Z(\theta)$ playing the role of the partition function of the energy of the system.
+Stationarity in the distribution naturally entails that we can approximate the nonlinear system ~\ref{eq:langevin} evolving around a stable equilibrium $x=a$ by linearising the deterministic vector field around said equilibrium, yielding the well known Ornstein-Uhlenbeck process (OUP)
 
 \begin{equation}\label{eq:oup}
         dX_{t} = \alpha(a - X_{t})dt + \sqrt{2D}dW_{t},
@@ -269,17 +280,17 @@ where $\alpha = f'(x=a) = -V''(x=a) > 0$.
 The limiting stationary density of the OUP (assuming a long enough realisation is observed and the transient out of the initial condition has died out) is Gaussian \cite[Ch. 3, p. 74]{Gardiner2009}
 
 \begin{equation}\label{eq:oup_density}
-        p(x) = \sqrt{\frac{\alpha}{\pi D}}\exp\bigg(-\frac{\alpha(a - x)^{2}}{D}\bigg)\,,
+        p(x|\theta) = \sqrt{\frac{\alpha}{\pi D}}\exp\bigg(-\frac{\alpha(a - x)^{2}}{D}\bigg)\,,
 \end{equation}
 
 and it depends on the local curvature of the potential well around $x=a$.
-Notice that the stationary density of the OUP is of Boltzmann-like form ~\ref{eq:invariant_pdf} with partition function $Z = \sqrt{\pi D/\alpha}$ and, crucially, quadratic potential $V(x) = \alpha(a - x)^{2}$.
-The Gaussian probability distribution in ~\ref{eq:oup_density} is parametrised by $\theta = (\alpha,\,a,\,D)$ and MLE of its parameters has been shown to be asymptotically normal \cite{Sahalia2002} as demonstrated in Figure ~\ref{fig:oup_mle}.
+Notice that the stationary density of the OUP is of Boltzmann-like form ~\ref{eq:invariant_pdf} with partition function $Z(\theta) = \sqrt{\pi D/\alpha}$ and, crucially, quadratic potential $V(x) = \alpha(a - x)^{2}$.
+The Gaussian probability distribution in ~\ref{eq:oup_density} is parametrised by $\theta = (\alpha,\,a,\,D)$ and the MLE of its parameters has been shown to be asymptotically normal \cite{Sahalia2002} as demonstrated in Figure ~\ref{fig:oup_mle}.
 
 \begin{figure}[t]
     \centering 
     \includegraphics[keepaspectratio, width=\textwidth]{./figures/oup_mle.pdf}
-    \caption{Empirical distribution of the MLE of the parameters $\theta = (\alpha,\, a,\, D)$ of an ensemble of $10000$ sample paths solving ~\ref{eq:oup} for two different configurations of the potential $V(x) = \alpha(a - x)^{2}$: a deep, strongly confined well with $\alpha = 10$ (top row); a shallow well with $\alpha = 0.5$ (bottom row).
+    \caption{Empirical distribution of the MLE of the parameters $\theta = (\alpha,\, a,\, D)$ of an ensemble of $10,000$ sample paths solving ~\ref{eq:oup} for two different configurations of the potential $V(x) = \alpha(a - x)^{2}$: a deep, strongly confined well with $\alpha = 10$ (top row); a shallow well with $\alpha = 0.5$ (bottom row).
             In each of the plots the true value of the parameter used to generate the data is depicted (blue line) while at the top we report the standard error of the distribution.
             Notice how, as the SN bifurcation of the linearised vector field is approached $\alpha = f'(x=a)\to0$, the distribution of the estimators of the linear coefficient becomes more skewed despite the symmetry in the confining potential.
             These solutions have been computed using the pymle package \cite{Kirby2025}.
@@ -288,9 +299,15 @@ The Gaussian probability distribution in ~\ref{eq:oup_density} is parametrised b
 \end{figure}
 
 \subsection{Euler-Maruyana least-squares regression}\label{subsec:euler}
-The numerical estimation of the transition density in ~\ref{eq:inv_log_likelihood} using the OUP assumption presents a viable procedure to compute our modified escape EWS.
-However limitations concerning the accurcacy and performance of existing MLE techniques \textbf{[CITE PAPERS]} when the linearisation coefficient approaches $0$ (i.e. nearby a bifurcation) suggest the development of alternative, ad-hoc numerical methods that more robustly capture tipping-related phenomena, e.g. CSD.
-Here we propose one such alternative which reduces the MLE problem into a linear-least squares (LLS) regression using the discrete observations.
+The numerical estimation of the transition density in ~\ref{eq:inv_log_likelihood} using the OUP assumption presents two important limitations in the computation of the modified escape EWS ~\ref{eq:escape_ews}.
+Due to the quadratic polynomial nature of the confining potential in ~\ref{eq:oup_density}, no local maximum $x=b$ can be estimated.
+Instead, we would like to assume a locally cubic potential $V(x;\theta)$, as mentioned at the beginning of this section, so that $\Delta V = V(b) - V(a)$ can be computed.
+Furthermore, notice how the accurcacy of the MLE of the linear coefficient of the OUP decreases as it approaches $0$, which coincides with the SN bifurcation.
+In order to overcome both limitations we rather approximate the invariant transition density ~\ref{eq:invariant_pdf} using the ansatz $V(x;\theta) = \sum_{k=1}^{3}\theta_{k}x^{k}$.
+Notice that, in order for this to be a solution of the FPE, we need to truncate the domain of the probability density function to be either $[b,+\infty)$ or $(-\infty,b]$, with $x=b$ being the local maximum of $V$, depending on the sign of the cubic coefficient $\theta_{3}$ as well as imposing reflecting boundary conditions at $x=b$.
+A number of computational methods to approximate such density are available \cite{Pedersen1995, Jensen2002, Sahalia2002}.
+Conversely, other techniques have have been devised that do not rely on the numerical approximation of the transition density such as the generalised method of moments (GMM) \cite{Hansen1982}, Markov chain Monte-Carlo (MCMC) algorithms \cite{Roberts2001,Alexander2005} and quasi-maximum likelihood regressions (QML) \cite{Castelle1986, Yoshida1992}.
+Here we focus on the later approach and in particular we describe one QML technique based that reduces the MLE problem into a linear-least squares (LLS) regression.
 As usual, we assume our sample path $\mathcal{X} = \{X_{0},\dots,X_{N}\}$ to be a solution of ~\ref{eq:langevin} under the stationarity restriction.
 We can then approximate the entire sample path, beside the initial condition $X_{0}$, using the Euler-Maruyama time-stepping scheme.
 This defines an iterated, stochatic map of the form
@@ -308,7 +325,8 @@ We rearrange ~\ref{eq:euler_maruyama} to define the first-order time increments
 
 Notice now how ~\ref{eq:increments} defines a regression to a model $V'$ of some data $\{X_{n}\}$ given a set of $N$ observations $\{Y_{n}\}$ perturbed by some Gaussian noise $\epsilon$.
 This sets up a parameter estimation problem in which one wishes to find an optimal parametrisation $\theta^*$ of the potential s.t. the residual between the model predictions $V'(X_{n};\theta^*)$ and the observations $Y_{n}$ is minimised in some sense.
-As anticipated above, we formulate a LLS problem by interpreting the noise $\epsilon$ in the solution of the sample path to be an unresolved fluctuation error in the observed data from a specified model:
+As anticipated above, we formulate a LLS problem by interpreting the noise $\epsilon$ in the solution of the sample path to be an unresolved fluctuation error in the observed data from a specified model.
+We thus minimise the residual between the observations and the fitting model in the least-squares sense
 
 \begin{equation}\label{eq:lls_problem}
         \theta^{*} = \arg\min_{\theta\in \mathbb{R}^{3}}\sum_{n=1}^{N-1}\big(Y_{n} + V'(X_{n};\theta)\big)^{2} \,.
@@ -316,7 +334,6 @@ As anticipated above, we formulate a LLS problem by interpreting the noise $\eps
 
 Notice that by fitting the minimal working model of a SN B-tipping (i.e. we assume $V(x;\theta)$ is a cubic polynomial of coefficients $\theta = (\theta_{1},\, \theta_{2},\, \theta_{3})$), the problem ~\ref{eq:lls_problem} is linear in $\theta$.
 This allows us to write the solution explicitly\dots
-
 
 \section{Applications}\label{sec:applications}
 

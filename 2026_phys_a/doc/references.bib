@@ -8,24 +8,123 @@ year = {1977},
 doi = {10.1038/269471a0},
 }
 
-@book {Risken1989,
+@article{Hansen1982,
+ author = {Lars Peter Hansen},
+ journal = {Econometrica},
+ pages = {1029--1054},
+ title = {Large sample properties of generalized method of moments estimators},
+ volume = {50},
+ doi = {10.2307/1912775},
+ year = {1982}
+}
+
+@article{Castelle1986,
+author = {D. Dacunha-Castelle and D. Florens-Zmirou},
+title = {Estimation of the coefficients of a diffusion from discrete observations},
+journal = {Stochastics},
+volume = {19},
+pages = {263--284},
+year = {1986},
+doi = {10.1080/17442508608833428},
+}
+
+@book{Risken1989,
 author = {Risken, H.},
 title = {The {F}okker-{P}lanck equation: methods of solution and applications},
-edition = {Second},
+edition = {{S}econd},
 publisher = {Springer-Verlag, Berlin},
 series = {Springer Series in Synergetics},
 year = {1989},
 isbn = {3-540-50498-2},
 }
 
+@article{Yoshida1992,
+title = {Estimation for diffusion processes from discrete observation},
+journal = {J. Multivar. Anal.},
+volume = {41},
+pages = {220--242},
+year = {1992},
+doi = {10.1016/0047-259X(92)90068-Q},
+author = {Nakahiro Yoshida},
+}
+
+@article{Pedersen1995,
+author = {Asger Roer Pedersen},
+journal = {Scand. J. Stat.},
+pages = {55--71},
+title = {A new approach to maximum likelihood estimation for stochastic differential equations based on discrete observations},
+volume = {22},
+year = {1995}
+}
+
+@article{Nielsen2000,
+title = {Parameter estimation in stochastic differential equations: an overview},
+journal = {Annu. Rev. Control},
+volume = {24},
+pages = {83--94},
+year = {2000},
+doi = {10.1016/S1367-5788(00)90017-8},
+author = {Jan Nygaard Nielsen and Henrik Madsen and Peter C. Young},
+}
+
+@book{Oksendal2000,
+author = {{\O}ksendal, Bernt},
+title = {Stochastic differential equations: an introduction with applications},
+edition = {{F}ifth},
+publisher = {Springer-Verlag, Berlin},
+series = {Universitext},
+year = {2000},
+isbn = {3-540-04758-1},
+}
+
+@article{Roberts2001,
+author = {Roberts, G. O. and Stramer, O.},
+title = {On inference for partially observed nonlinear diffusion models using the {M}etropolis–{H}astings algorithm},
+journal = {Biometrika},
+volume = {88},
+pages = {603--621},
+year = {2001},
+doi = {10.1093/biomet/88.3.603},
+}
+
+@article{Jensen2002,
+author = {Jensen, Bjarke and Poulsen, Rolf},
+title = {Transition densities of diffusion processes: numerical comparison of approximation techniques},
+year = {2002},
+journal = {J. Derivatives},
+volume = {9},
+pages = {18--32},
+doi = {10.3905/jod.2002.319183},
+}
+
 @article{Sahalia2002,
 author = {Aït-Sahalia, Yacine},
-title = {Maximum Likelihood Estimation of Discretely Sampled Diffusions: A Closed-form Approximation Approach},
+title = {Maximum likelihood estimation of discretely sampled diffusions: a closed-form approximation approach},
 journal = {Econometrica},
 volume = {70},
 pages = {223--262},
 doi = {10.1111/1468-0262.00274},
 year = {2002}
+}
+
+@article{Sorensen2004,
+author = {S{\o}rensen, Helle},
+title = {Parametric inference for diffusion processes observed at discrete points in time: a survey},
+journal = {Int. Stat. Rev.},
+volume = {72},
+pages = {337--354},
+doi = {10.1111/j.1751-5823.2004.tb00241.x},
+year = {2004}
+}
+
+@article{Alexander2005,
+author = {Alexander, Francis J. and Eyink, Gregory L. and Restrepo, Juan M.},
+title = {Accelerated {M}onte {C}arlo for optimal estimation of time series},
+journal = {J. Stat. Phys},
+volume = {119},
+pages = {1331--1345},
+year = {2005},
+doi = {10.1007/s10955-005-3770-1},
 }
 
 @article{Carpenter2006,
@@ -72,7 +171,7 @@ isbn = {978-3-540-70712-7},
 }
 
 @article{Kuehn2011,
-title = {A mathematical framework for critical transitions: Bifurcations, fast–slow systems and stochastic dynamics},
+title = {A mathematical framework for critical transitions: bifurcations, fast–slow systems and stochastic dynamics},
 journal = {Physica D},
 volume = {240},
 number = {12},
@@ -124,15 +223,49 @@ title = {Parameter shifts for nonautonomous systems in low dimension: bifurcatio
 journal = {Nonlinearity},
 }
 
+@article{Rackauckas2017,
+title={Differential{E}quations.jl--a performant and feature-rich ecosystem for solving differential equations in {J}ulia},
+author={Rackauckas, Christopher and Nie, Qing},
+journal={J. Open Research Software},
+volume={5},
+year={2017},
+}
+
+@book{Sarkka2019,
+author = {S\"arkk\"a, Simo and Solin, Arno},
+title = {Applied stochastic differential equations},
+series = {Institute of Mathematical Statistics Textbooks},
+publisher = {Cambridge University Press, Cambridge},
+year = {2019},
+isbn = {978-1-316-64946-6; 978-1-316-51008-7},
+}
+
+@softwareversion{Veltz2020,
+title = {{BifurcationKit.jl}},
+author = {Veltz, Romain},
+url = {https://hal.science/hal-02902346},
+year = {2020},
+}
+
+@article{Craigmile2022,
+author = {Craigmile, Peter and Herbei, Radu and Liu, Ge and Schneider, Grant},
+title = {Statistical inference for stochastic differential equations},
+journal = {WIREs Comput. Stat.},
+volume = {15},
+pages = {e1585},
+doi = {10.1002/wics.1585},
+year = {2023}
+}
+
 @article{Kirby2025,
- title={pymle: A Python package for maximum likelihood estimation and simulation of stochastic differential equations},
- volume={113},
- doi={10.18637/jss.v113.i04},
- number={4},
- journal={J. Stat. Software},
- author={Kirkby, Justin L. and Nguyen, Dang H. and Nguyen, Duy and Nguyen, Nhu},
- year={2025},
- pages={1--40}
+title={pymle: A {P}ython package for maximum likelihood estimation and simulation of stochastic differential equations},
+volume={113},
+doi={10.18637/jss.v113.i04},
+number={4},
+journal={J. Stat. Software},
+author={Kirkby, Justin L. and Nguyen, Dang H. and Nguyen, Duy and Nguyen, Nhu},
+year={2025},
+pages={1--40}
 }
 
  @article{,
