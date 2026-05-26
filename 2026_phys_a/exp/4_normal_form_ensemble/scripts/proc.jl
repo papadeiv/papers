@@ -8,7 +8,7 @@ Collection of quantities and functions used to postprocess and analyse the resul
 U(x, μ) =  + μ*x + (1.0/3.0)*x^3                # Potential (ground truth)
 V(x, c) = c[1]*x + c[2]*(x^2) + c[3]*(x^3)      # Potential
 
-# SOlve the LLS problem
+# Solve the LLS problem
 function solve_lls(solution)
         # Define the observation vectors 
         Xn = solution[1:end-1]
@@ -23,21 +23,6 @@ function solve_lls(solution)
         # Compute the coefficients of the potential
         θ = [-β[1], -β[2]/2, -β[3]/3]
         return θ 
-end
- 
-# Shift the reconstructed potential to match the local minimum of the ground truth
-function shift_potential(U::Function, x0, c)
-        # Compute the stable equilibrium (center of the shift)
-        xs = +(1/(3*c[3]))*(sqrt((c[2])^2 - 3*c[1]*c[3]) - c[2])
-
-        # Compute the shifts
-        δx = x0 - xs 
-        δy = U(x0, μ) - (Polynomial([0.0; c]))(xs)
-
-        # Define the shifted potential
-        Vs(x) = δy + c[1]*(x - δx) + c[2]*(x - δx)^2 + c[3]*(x - δx)^3
-
-        return xs, Vs
 end
 
 #=

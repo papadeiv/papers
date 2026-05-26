@@ -37,8 +37,8 @@
         A critical transition is a sudden, abrupt and potentially unforeseen change in the state of a complex system often associated to catastrophic collapses and irreversability.
         As tipping points (often used interchangibly for critical transitions) have appeared to be ubiquitous in a wide range of different systems, mathematical characterisation and prediction capability has been the subject of intense research since the 2010s.
         This paper aims to contribute to this endevour by introducing a novel, interpretable early-warning signal of bifurcation-induced tipping events.
-        The proposed indicator can be readily computed from timeseries observations by maximum likelihood estimation and it has the advantage of providing immediate insight on the state of the system which insofar lacking from the literature.
-        We showcase its applicability of models of ecosystems and ocean currents collapse.
+        The proposed indicator can be readily computed from timeseries observations by maximum likelihood estimation and it has the advantage of providing immediate insight on the state of the system which is insofar lacking from the literature.
+        We showcase its applicability by comparing its performance and robustness using models of ecosystems and ocean currents collapse.
 \end{abstract}
 
 %\begin{graphicalabstract}
@@ -111,21 +111,21 @@ This allows for a useful interpretation of the solution of ~\ref{eq:fast_slow_sd
         dX_{t} = -\nabla V(X_{t};\mu)dt + \sqrt{2D}dW_{t}\,,\quad D=\frac{\sigma^{2}}{2}\,.
 \end{equation}
 
-If the process is stationary (i.e. $\varepsilon\to0$) then, for a given configuration of the potential $V$ at parameter value $\mu$, the long term behaviour of a solution of the standard Langevin dynamics ~\ref{eq:langevin} is described by the random fluctuations of diffusion $\sqrt{2D}$ around local minima of $V$.
+If the process is stationary (i.e. $\varepsilon\to0$) then, for a given configuration of the potential $V$ at parameter value $\mu$, the long term behaviour of a solution of the standard Langevin dynamics~\ref{eq:langevin} is described by the random fluctuations of diffusion $\sqrt{2D}$ around local minima of $V$.
 
 \subsection{Kramer's escape law}\label{subsec:kramer_escape_formula}
-For simplicity of exposition, let us consider the $1-$dimensional case of ~\ref{eq:langevin} for which we are always guaranteed to have a potential $V$ whose gradient reconstructs the dynamics $f$.
+For simplicity of exposition, let us consider the $1-$dimensional case of~\ref{eq:langevin} for which we are always guaranteed to have a potential $V$ whose gradient reconstructs the dynamics $f$.
 In order to model codim$-1$ SN critical transitions, we will consider the minimum working case of a bistable system with at least one stable equilibrium for any $\mu$.
 The bistability region of our system is characteriesd by a subset $(\mu_1,\mu_2)\in \mathbb{R}$ of the parameter space for which two stable equilibria (nodes) coexist alongside a single globally unstable equilibrium (saddle).
 It follows therefore that the bistability region is bounded by two SN bifurcations at $\mu=\mu_1$ and $\mu=\mu_2$.
 The resulting potential features two local minima (wells) separated by a barrier of one local maximum (hilltop).
-Different configurations of the shape of the potential describe qualitatively different particle dynamics as represented in Figure ~\ref{fig:double_well_potential}.
+Different configurations of the shape of the potential describe qualitatively different particle dynamics as represented in Figure~\ref{fig:double_well_potential}.
 Using this analogy, we will frame tipping phenomena of complex systems as saddle escapes of overdamped particles from a potential well.
 
 \begin{figure}[t]
 	      \centering
 	      \includegraphics[keepaspectratio, width=0.9\textwidth]{figures/double_well_potential.pdf}
-        \caption{Different configurations of a generic double-well potential leading to qualitatively different trajectories of ~\ref{eq:langevin}.
+        \caption{Different configurations of a generic double-well potential leading to qualitatively different trajectories of~\ref{eq:langevin}.
                  The top panels of each column show the shape of the confining potential; the middle panels display a representative sample path of an overdamped particle starting from the rightmost well; the bottom panels are a representation of the sample distribution of the realisations above using histograms.
                  In the leftmost column the particle is confined by a high potential barrier and does escape its basin of attraction within the simulation time.
                  In the middle column the system is at a Maxwell point (both well are equiprobable from a stationary perspective) and thus the particle visits both wells multiple times during the simulation (the histogram becomes bimodal).
@@ -134,7 +134,7 @@ Using this analogy, we will frame tipping phenomena of complex systems as saddle
         \label{fig:double_well_potential}
 \end{figure}
 
-In statistical mechanics, Kramer's formula quantifies the escape rate of particles across energy barriers when subject to Langevin's equation of motion as in ~\ref{eq:langevin}.
+In statistical mechanics, Kramer's formula quantifies the escape rate of particles across energy barriers when subject to Langevin's equation of motion as in~\ref{eq:langevin}.
 It is usually expressed as the reciprocal of the escape time, usually referred to as (mean) first exit time.
 Different derivations of the formula based on different perspectives are available in the literature; we thus redirect the reader to [\textbf{insert citations}] for a coincise overview while in this paper we postulate its validity.
 It must be noted that, while limitations on Kramer's law vailidity do exist \cite{Berglund2013}, our assumptions of stationary, $1-$dimensional dynamics subject to small, additive white noise fall within the applicability cases.
@@ -157,12 +157,12 @@ The major drawback of using the variance as a proxy of likelihood of B-tipping i
 This is particularly important if one only has access to limited data and no ensembles of similar timeseries is available: if we compute the variance from a given sample how can that single information provide us any insight on the current state of the system and, crucially, on the proximity of a B-tipping event.
 It is clear that numerical values of the variance of a sample, if taken by themselves, fail to provide useuful interpretation regarding the likelihood of a critical transition if one does not have access to baseline values of the true variance of the system when at a safe distance from a bifurcation.
 For the rest of this section we argue that a modified version of Kramer's escape formula solves this issue providing an interpretable value to EWS that has been insofar absent.
-Consider a generic SN bifurcation in $d-$dimensions; if the system is conservative and the noise level is small, then ~\ref{eq:kramer_escape_formula} holds well when the state of the system is far enough from the bifurcation.
+Consider a generic SN bifurcation in $d-$dimensions; if the system is conservative and the noise level is small, then~\ref{eq:kramer_escape_formula} holds well when the state of the system is far enough from the bifurcation.
 Assuming the system's observed state is in a region of bistability, this entails that the two wells of the energy potential are well separated and thus the local minimum of the favorable state $x=a$ is much deeper than the local maximum of the saddle in $x=b$. 
 In other words, far from the bifurcation the potential barrier $\Delta V = V(b) - V(a) \gg 0$ (we dropped the transition notation $a\to b$).
 Conversely, as the SN bifurcation is approached, the stable and unstable equilibria of the system become closer and closer, resulting the in the potential barrier to reduce as the favorable well gets shallower and flatter.
 This inevitably results in $\Delta V \approx 0$.
-If we now consider the exponential decay part of ~\ref{eq:kramer_escape_formula}, without including the curvature-depending prefactor, it immediately follows that
+If we now consider the exponential decay part of~\ref{eq:kramer_escape_formula}, without including the curvature-depending prefactor, it immediately follows that
 
 \begin{equation}\label{eq:escape_ews_modified}
         \exp\bigg(-\frac{\Delta V}{D}\bigg) \approx 
@@ -172,7 +172,7 @@ If we now consider the exponential decay part of ~\ref{eq:kramer_escape_formula}
    \end{cases}
 \end{equation}
 
-Because we assumed the Brownian motion to be state-independent (i.e. $D\in \mathbb{R}$ does not depend on $x$), we can drop it from ~\ref{eq:escape_ews_modified} to obtain our candidate indicator $\exp(-\Delta V)$.
+Because we assumed the Brownian motion to be state-independent (i.e. $D\in \mathbb{R}$ does not depend on $x$), we can drop it from~\ref{eq:escape_ews_modified} to obtain our candidate indicator $\exp(-\Delta V)$.
 By denoting $\mu=\mu_{c}$ to be the parameter value at which the a SN bifurctaion involves our favorable state $x=a$ and the unstable saddle $x=b$, we finally write
 
 \begin{equation}\label{eq:escape_ews}
@@ -183,29 +183,29 @@ By denoting $\mu=\mu_{c}$ to be the parameter value at which the a SN bifurctaio
    \end{cases}
 \end{equation}
 
-Notice how the boundedness of ~\ref{eq:escape_ews} in $(0,1]$ conveniently solves the interpretability problem we outlined above.
+Notice how the boundedness of~\ref{eq:escape_ews} in $(0,1]$ conveniently solves the interpretability problem we outlined above.
 As opposed to variance and higher-order moments, a numerical value of the modified escape formula provides direct interpretation of the likelihood of a B-tipping event to manifest in the near future without the need for a baseline to refer to.
 If a system is far from a dangerous transition (SN bifurcation in this case), then the exponential decay of the potential barrier will be close to $0$; conversely, a state that is approaching a said transition would flatten the potential well and the resulting values of the exponential decay will be close to $1$.
-In Figure ~\ref{fig:escape_ews} we depict such property for a bistable model of biomass collapse under increased harvesting.
+In Figure~\ref{fig:escape_ews} we depict such property for a bistable model of biomass collapse under increased harvesting.
 
 \begin{figure}[t]
 	      \centering
 	      \includegraphics[keepaspectratio, width=0.9\textwidth]{figures/escape_ews.pdf}
         \caption{(Top): bifurcation diagram of a model of ecosystem collapse with the state $x$ (biomass) degrading as the forcing parameter $\mu$ (harvesting rate) is increased \cite{May1977}; branches of stable equilibria ($x=a$ and $x=c$) are in blue while the unstable branch ($x=b$) is in red; the region of bistability, bounded by two SN bifurcations (yellow dots), is shaded in gray.
         (Middle) Different configurations of the potential $V(x;\mu) = $ of the system at different parameter values corresponding to the ticks of the orizontal axes of the top and bottom plots. 
-        (Bottom) Modified escape EWS ~\ref{eq:escape_ews} computed out of the potential $V(x;\mu)$ between the stable state $x=a$ and the saddle $x=b$ within the bistability region.
+        (Bottom) Modified escape EWS~\ref{eq:escape_ews} computed out of the potential $V(x;\mu)$ between the stable state $x=a$ and the saddle $x=b$ within the bistability region.
         The bifurcation diagram has been computed using the BifurcationKit.jl package \cite{Veltz2020}.}
         \label{fig:escape_ews}
 \end{figure}
 
 Finally we notice that by restricting ourselves to regions of the parameter space such that the potential barrier $\Delta V$ has range $[0,+\infty)$, the proposed EWS defines a probability measure.
-This yields yet a more powerful interpretation of what discussed so far as values of ~\ref{eq:escape_ews} can be translated in likelihoods of a B-tipping event to occur.
+This yields yet a more powerful interpretation of what discussed so far as values of~\ref{eq:escape_ews} can be translated in likelihoods of a B-tipping event to occur.
 
 \section{Maximum likelihood estimation of the potential}\label{sec:mle}
 As mentioned above, the popularity of canonical EWS is in part due to their simplicity in calculating them from available data.
-The increase in variance for example can be readily detected from the timeseries of a single realisation of ~\ref{eq:langevin}.
+The increase in variance for example can be readily detected from the timeseries of a single realisation of~\ref{eq:langevin}.
 In order for our proposed, interpretable EWS to be applicable in the real-world we must be able to compute it from the solution data without relying on prior knowledge of the system that generates it.
-Since the modified escape rate in ~\ref{eq:escape_ews} depends on the potential barrier $\Delta V$ between the observed steady-state $x=a$ and an unknown unstable equilibrium $x=b$, our aim for this section is to estimate such quantity from a single timeseries. 
+Since the modified escape rate in~\ref{eq:escape_ews} depends on the potential barrier $\Delta V$ between the observed steady-state $x=a$ and an unknown unstable equilibrium $x=b$, our aim for this section is to estimate such quantity from a single timeseries. 
 To do so we must be able to approximate the local shape of the potential $V(x;\mu)$ between $x=a$ and $x=b$.
 As we are trying to infer the likelihood of a SN B-tipping, the minimum model that we can fit to a timeseries is that of a cubic polynomial $V(x;\theta) = \sum_{k=1}^{3}\theta_{k}x^{k}$ with real coefficients $\{\theta_{1},\theta_{2},\theta_{3}\}$.
 While different choices are available, a cubic polynomial form for our inference problem is minimal in the sense that it allows for the presence of one local minimum $x=a$ and one local maximum $x=b$ (from which $\Delta V = V(b) - V(a)$ can be computed) without inflating the dimensionaity of the parameter space.
@@ -214,7 +214,7 @@ This is a well-established problem in statistical inference \cite[Ch. 11, p. 234
 
 \subsection{Problem formulation}\label{subsec:formulation}
 A starndard technique in statistical inference to estimate the parameters of a model SDE using the solution data is maximum likelihood estimation (MLE).
-Suppose our sample $\mathcal{X}=\{X_{n}\}_{n=0,1,\dots,N}$ is made of $N+1$ observations of the stationary state ~\ref{eq:langevin} from time $t=0$ to time $t=T$.
+Suppose our sample $\mathcal{X}=\{X_{n}\}_{n=0,1,\dots,N}$ is made of $N+1$ observations of the stationary state~\ref{eq:langevin} from time $t=0$ to time $t=T$.
 Suppose also that each observation is sampled at homogeneous frequency of time intervals $\Delta t = T/N$.
 This It\^{o} process is a Markov process \cite[Ch.7, p. 111]{Oksendal2000} which means that the transition probability density to a future state $X_{t+1}$ at any time $t$ solely depends on the current state $X_{t}$ rather than the entire history $\mathcal{X}$.
 This results in the joint distribution of the sample to be written in a factorised form of the (marginal) transition probability densities
@@ -229,7 +229,7 @@ From ~\ref{eq:joint_distribution} we can define the likelihood of the sample to 
         \mathcal{L}(\theta|\mathcal{X}) := p(X_{0}|\theta)\prod_{n=1}^{N-1}p(X_{n+1}|X_{n},\theta)\,.
 \end{equation}
 
-By maximising ~\ref{eq:likelihood_function} one finds the most likely set of parameters $\theta^{*}$ of a family of transition densities $p(x|\theta)$ to have generated the observations $\mathcal{X} = \{X_{n}\}_{n=0,\dots,N}$.
+By maximising~\ref{eq:likelihood_function} one finds the most likely set of parameters $\theta^{*}$ of a family of transition densities $p(x|\theta)$ to have generated the observations $\mathcal{X} = \{X_{n}\}_{n=0,\dots,N}$.
 Famously one reformulates this problem in the minimisation of the inverse log-likelihood instead
 
 \begin{equation}\label{eq:inv_log_likelihood}
@@ -242,19 +242,19 @@ as this does not change the stationary point in parameter space
         \theta^{*}(\mathcal{X}) = \arg\max_{\theta\in \mathbb{R}^{3}}\mathcal{L}(\theta|\mathcal{X}) = \arg\min_{\theta\in \mathbb{R}^{3}}\ell(\theta|\mathcal{X})\,.
 \end{equation}
 
-Notice that in ~\ref{eq:inv_log_likelihood} we approximate the inverse log-likelihhod by ignoring the conditional probability of the deterministic initial condition $X_{0}$ as this term is negligible compared to the sum of the log-likelihoods of the stochastic observations. 
-The optimisation problem in ~\ref{eq:inv_log_likelihood} requires however knowledge of the transition density $p(X_{n+1}|X_{n},\theta)$, which, for a SDE of the form ~\ref{eq:langevin}, is goverened by the Fokker-Plank equation (FPE)
+Notice that in~\ref{eq:inv_log_likelihood} we approximate the inverse log-likelihhod by ignoring the conditional probability of the deterministic initial condition $X_{0}$ as this term is negligible compared to the sum of the log-likelihoods of the stochastic observations. 
+The optimisation problem in~\ref{eq:inv_log_likelihood} requires however knowledge of the transition density $p(X_{n+1}|X_{n},\theta)$, which, for a SDE of the form~\ref{eq:langevin}, is goverened by the Fokker-Plank equation (FPE)
 
 \begin{equation}\label{eq:fpe}
         \partial_{t}p(x,t|\theta) = \partial_{x}(V'(x;\theta)\,p(x,t|\theta)) + D\,\partial_{xx}^{2}p(x,t|\theta)\,.
 \end{equation}
 
-Solutions of the FPE are rarely available in closed form and thus the optimisation ~\ref{eq:inv_log_likelihood} often relies on numerical techniques to approximate $p(x,t|\theta)$. 
+Solutions of the FPE are rarely available in closed form and thus the optimisation~\ref{eq:inv_log_likelihood} often relies on numerical techniques to approximate $p(x,t|\theta)$. 
 
 \subsection{Time-invariant approximation: the Ornstein-Uhlenbeck process}
 One workaround this limitation is to assume that the linear ramp of the forcing parameter is very slow, i.e. $\varepsilon\to0$.
-This is usually referred to as the singular limit of the fast-slow formulation ~\ref{eq:fast_slow_sde}.
-Under this assumption we can approximate the time-varying solution of ~\ref{eq:fpe} with a time-invariant density $p(x|\theta)\approx p(x,t|\theta)$ by neglecting the (partial) time derivative $\partial_{t}p\approx0$.
+This is usually referred to as the singular limit of the fast-slow formulation~\ref{eq:fast_slow_sde}.
+Under this assumption we can approximate the time-varying solution of~\ref{eq:fpe} with a time-invariant density $p(x|\theta)\approx p(x,t|\theta)$ by neglecting the (partial) time derivative $\partial_{t}p\approx0$.
 This ansatz effectively reduces the parabolic partial differential equation in time and space to a second-order, homogeneous ordinary differential equation in $p(x|\theta)$ with non-constant coefficients
 
 \begin{equation}\label{eq:stationary_fpe}
@@ -268,7 +268,7 @@ The solution of the above (under suitable choices of boundary conditions at $x\t
 \end{equation}
 
 with the normalisation constant $Z(\theta)$ playing the role of the partition function of the energy of the system.
-Stationarity in the distribution naturally entails that we can approximate the nonlinear system ~\ref{eq:langevin} evolving around a stable equilibrium $x=a$ by linearising the deterministic vector field around said equilibrium, yielding the well known Ornstein-Uhlenbeck process (OUP)
+Stationarity in the distribution naturally entails that we can approximate the nonlinear system~\ref{eq:langevin} evolving around a stable equilibrium $x=a$ by linearising the deterministic vector field around said equilibrium, yielding the well known Ornstein-Uhlenbeck process (OUP)
 
 \begin{equation}\label{eq:oup}
         dX_{t} = \alpha(a - X_{t})dt + \sqrt{2D}dW_{t},
@@ -282,13 +282,13 @@ The limiting stationary density of the OUP (assuming a long enough realisation i
 \end{equation}
 
 and it depends on the local curvature of the potential well around $x=a$.
-Notice that the stationary density of the OUP is of Boltzmann-like form ~\ref{eq:invariant_pdf} with partition function $Z(\theta) = \sqrt{\pi D/\alpha}$ and, crucially, quadratic potential $V(x) = \alpha(a - x)^{2}$.
-The Gaussian probability distribution in ~\ref{eq:oup_density} is parametrised by $\theta = (\alpha,\,a,\,D)$ and the MLE of its parameters has been shown to be asymptotically normal \cite{Sahalia2002} as demonstrated in Figure ~\ref{fig:oup_mle}.
+Notice that the stationary density of the OUP is of Boltzmann-like form~\ref{eq:invariant_pdf} with partition function $Z(\theta) = \sqrt{\pi D/\alpha}$ and, crucially, quadratic potential $V(x) = \alpha(a - x)^{2}$.
+The Gaussian probability distribution in~\ref{eq:oup_density} is parametrised by $\theta = (\alpha,\,a,\,D)$ and the MLE of its parameters has been shown to be asymptotically normal \cite{Sahalia2002} as demonstrated in Figure~\ref{fig:oup_mle}.
 
 \begin{figure}[t]
     \centering 
     \includegraphics[keepaspectratio, width=\textwidth]{./figures/oup_mle.pdf}
-    \caption{Empirical distribution of the MLE of the parameters $\theta = (\alpha,\, a,\, D)$ of an ensemble of $10,000$ sample paths solving ~\ref{eq:oup} for two different configurations of the potential $V(x) = \alpha(a - x)^{2}$: a deep, strongly confined well with $\alpha = 10$ (top row); a shallow well with $\alpha = 0.5$ (bottom row).
+    \caption{Empirical distribution of the MLE of the parameters $\theta = (\alpha,\, a,\, D)$ of an ensemble of $10,000$ sample paths solving~\ref{eq:oup} for two different configurations of the potential $V(x) = \alpha(a - x)^{2}$: a deep, strongly confined well with $\alpha = 10$ (top row); a shallow well with $\alpha = 0.5$ (bottom row).
             In each of the plots the true value of the parameter used to generate the data is depicted (blue line) while at the top we report the standard error of the distribution.
             Notice how, as the SN bifurcation of the linearised vector field is approached $\alpha = f'(x=a)\to0$, the distribution of the estimators of the linear coefficient becomes more skewed despite the symmetry in the confining potential.
             These solutions have been computed using the pymle package \cite{Kirby2025}.
@@ -297,16 +297,16 @@ The Gaussian probability distribution in ~\ref{eq:oup_density} is parametrised b
 \end{figure}
 
 \subsection{Euler-Maruyana least-squares regression}\label{subsec:euler}
-The numerical estimation of the transition density in ~\ref{eq:inv_log_likelihood} using the OUP assumption presents two important limitations in the computation of the modified escape EWS ~\ref{eq:escape_ews}.
-Due to the quadratic polynomial nature of the confining potential in ~\ref{eq:oup_density}, no local maximum $x=b$ can be estimated.
+The numerical estimation of the transition density in~\ref{eq:inv_log_likelihood} using the OUP assumption presents two important limitations in the computation of the modified escape EWS~\ref{eq:escape_ews}.
+Due to the quadratic polynomial nature of the confining potential in~\ref{eq:oup_density}, no local maximum $x=b$ can be estimated.
 Instead, we would like to assume a locally cubic potential $V(x;\theta)$, as mentioned at the beginning of this section, so that $\Delta V = V(b) - V(a)$ can be computed.
 Furthermore, notice how the accurcacy of the MLE of the linear coefficient of the OUP decreases as it approaches $0$, which coincides with the SN bifurcation.
-In order to overcome both limitations we rather approximate the invariant transition density ~\ref{eq:invariant_pdf} using the ansatz $V(x;\theta) = \sum_{k=1}^{3}\theta_{k}x^{k}$.
+In order to overcome both limitations we rather approximate the invariant transition density~\ref{eq:invariant_pdf} using the ansatz $V(x;\theta) = \sum_{k=1}^{3}\theta_{k}x^{k}$.
 Notice that, in order for this to be a solution of the FPE, we need to truncate the domain of the probability density function to be either $[b,+\infty)$ or $(-\infty,b]$, with $x=b$ being the local maximum of $V$, depending on the sign of the cubic coefficient $\theta_{3}$ as well as imposing reflecting boundary conditions at $x=b$.
 A number of computational methods to approximate such density are available \cite{Pedersen1995, Jensen2002, Sahalia2002}.
 Conversely, other techniques have have been devised that do not rely on the numerical approximation of the transition density such as the generalised method of moments (GMM) \cite{Hansen1982}, Markov chain Monte-Carlo (MCMC) algorithms \cite{Roberts2001,Alexander2005} and quasi-maximum likelihood regressions (QML) \cite{Castelle1986, Yoshida1992}.
 Here we focus on the later approach and in particular we describe one QML technique based that reduces the MLE problem into a linear-least squares (LLS) regression.
-As usual, we assume our sample path $\mathcal{X} = \{X_{0},\dots,X_{N}\}$ to be a solution of ~\ref{eq:langevin} under the stationarity restriction.
+As usual, we assume our sample path $\mathcal{X} = \{X_{0},\dots,X_{N}\}$ to be a solution of~\ref{eq:langevin} under the stationarity restriction.
 We can then approximate the entire sample path, beside the initial condition $X_{0}$, using the Euler-Maruyama time-stepping scheme.
 This defines an iterated, stochatic map of the form
 
@@ -315,13 +315,13 @@ This defines an iterated, stochatic map of the form
 \end{equation}
 
 where $V'$ denotes the first derivative (gradient) of the potential with respect to the state variable and $\theta\in\mathbb{R}^{p}$ is a vector of coefficients parameterising the potential.
-We rearrange ~\ref{eq:euler_maruyama} to define the first-order time increments
+We rearrange~\ref{eq:euler_maruyama} to define the first-order time increments
 
 \begin{equation}\label{eq:increments}
         Y_{n} := \frac{X_{n+1} - X_{n}}{\Delta t} = -V'(X_{n};\theta) + \sqrt{\frac{2D}{\Delta t}}\,\xi = -V'(X_{n};\theta) + \epsilon\,,\quad\epsilon\sim\mathcal{N}\bigg(0,\frac{2D}{\Delta t}\bigg)\,.
 \end{equation}
 
-Notice now how ~\ref{eq:increments} defines a regression to a model $V'$ of some data $\{X_{n}\}$ given a set of $N$ observations $\{Y_{n}\}$ perturbed by some Gaussian noise $\epsilon$.
+Notice now how~\ref{eq:increments} defines a regression to a model $V'$ of some data $\{X_{n}\}$ given a set of $N$ observations $\{Y_{n}\}$ perturbed by some Gaussian noise $\epsilon$.
 This sets up a parameter estimation problem in which one wishes to find an optimal parametrisation $\theta^*$ of the potential s.t. the residual between the model predictions $V'(X_{n};\theta^*)$ and the observations $Y_{n}$ is minimised in some sense.
 As anticipated above, we formulate a LLS problem by interpreting the noise $\epsilon$ in the solution of the sample path to be an unresolved fluctuation error in the observed data from a specified model.
 We thus minimise the residual vector $r(\theta)$ between the observations and the fitting model in the least-squares sense
@@ -356,6 +356,38 @@ The distribution of the solutions~\ref{eq:lls_solution} is also asymptotically n
 \end{figure}
 
 \section{Applications}\label{sec:applications}
+We are now ready to extract the modified escape EWS in~\ref{eq:escape_ews} directly from timeseries data by approximating the local shape of the confining potential using the likelihood estimator as described in the previous section.
+We will use three test cases of synthetically generated data, specifically:
+\begin{itemize}
+        \item slowly ramped SN normal form with a single basin of attraction and computable (approximate) variance from the stationary solution of the FPE~\ref{eq:fpe};
+     \item $1-$dimensional dynamics of vegetation biomass collapse in a regime of bistability under slowly increasing harvesting rate \cite{May1977};
+     \item $1-$dimensional observable of a $2-$dimensional formulation of the AMOC transition to reduced heat flux driven by increasing freshwater forcing in the North Atlantic \cite{Stommel1961}.
+\end{itemize}
+
+\subsection{Stationary SN normal form}\label{subsec:SN_normal_form}
+
+Kuehn did this \cite{Kuehn2011}.
+\begin{equation}\label{eq:stationary_SN_variance}
+        p_{s}(x) = \,.
+\end{equation}
+
+\begin{figure}[t]
+    \centering 
+    \includegraphics[keepaspectratio, width=.925\textwidth]{./figures/SN_ews.pdf}
+    \caption{Comparison between the increase in variance and modified escape EWS for stationary solutions of a SN normal form at different values of the bifurcation parameter $\mu\in[-1,0]$.
+            In the top panel the bifurcation diagram is shown with the blue curve representing the branch of the stable equilibrium $a = \sqrt{-\mu}$ while the red curve represents the unstable equilibrium branch $b = -\sqrt{-\mu}$; the SN bifurcation is depicted by the yellow circle at $\mu=0$.
+            In the middle and bottom panels we compare the analytical (black curves) and empirical (red circles) variance and modified escape rate respectively.
+            The analytical values have been computed using~\ref{eq:stationary_SN_variance} for the variance and~\ref{eq:escape_ews} for the escape EWS; the empirical values have been computed by taking the median of an ensemble of $100$ sample paths at each parameter value.
+            The error bars represent the interquartile range of the compute quantity.
+            Notice how, alongside interpretability, the modified escape EWS is also \textit{``earlier''} in the upward trend compared to the increase in variance which furthermore shows non-monotonicity at the very onset of the B-tipping event causing potential false negatives.
+    }
+    \label{fig:SN_ews}
+\end{figure}
+
+
+\subsection{Ecosystem collapse}\label{subsec:ecosystem}
+
+\subsection{AMOC weakened state}\label{subsec:AMOC}
 
 \section{Discussion}\label{sec:discussion}
 

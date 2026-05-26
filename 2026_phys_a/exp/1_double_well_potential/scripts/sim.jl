@@ -24,11 +24,6 @@ f(x, μ) = -(μ + 2*c2*x + 3*c3*x^2 + 4*c4*x^3) # Drift
 # Scalar potential of the conservative system 
 U(x, μ) = c0 + μ*x + c2*x^2 + c3*x^3 + c4*x^4
 
-# Stationary equilibrium distribution
-#P(x, μ) = exp(-(U(x,μ)/D))
-#Z = normalise(P, μ, (-10,10))
-#ρ(x, μ) = Z*P(x, μ)
-
 # Simulation parameters
 dt = 5e-2                                     # Timestep
 Nt = 1e5                                      # Total number of steps

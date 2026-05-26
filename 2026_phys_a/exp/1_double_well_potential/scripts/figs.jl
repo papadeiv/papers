@@ -5,7 +5,10 @@ Generation of the layouts and formats of the figures.
 """
 
 # Specify the figure dimensions and style
-fig = Figure(; size = (1200, 1200))
+fig = Figure(; size = (1200, 1200)
+             #figure_padding = (60,60,30,30), 
+             #backgroundcolor = :white
+            )
 
 # Set thickness and size of axes elements 
 border = 2.0
