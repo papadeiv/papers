@@ -87,7 +87,7 @@ function main()
         end
 
         # Export the figure
-        savefig("SN_ews.pdf", fig)
+        savefig("stationary_SN_ews.pdf", fig)
 end
 
 # Execute the main
