@@ -1,7 +1,7 @@
 module SystemAnalysis
 
 # Import packages
-using LinearAlgebra, DifferentialEquations
+using LinearAlgebra, DifferentialEquations, StochasticDiffEq
 using NonlinearSolve, Roots, ForwardDiff
 using DocStringExtensions
 
