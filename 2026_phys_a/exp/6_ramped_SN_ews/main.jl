@@ -9,101 +9,120 @@ include("inc.jl")
 
 # Import the simulation's scripts
 include("./scripts/sim.jl")
-include("./scripts/figs.jl")
 include("./scripts/proc.jl")
+include("./scripts/figs.jl")
 
 # Define the main algorithm
 function main()
-        #=
-        # Compute and lot the analytical EWS (escape and variance)
-        domain = LinRange(μ0, μf, 1000)
-        escape_ews = Vector{Float64}(undef, length(domain))
-        variance_ews = Vector{Float64}(undef, length(domain)) 
-        for (index, μ) in enumerate(domain)
-                # Compute the equilibria
-                a = sqrt(-μ)
-                b = -sqrt(-μ)
-                
-                # Compute the variance of the stationary solution of the FPE
-                I = (b, Inf)
-                pdf_integral = IntegralProblem(ρ, I, μ)
-                Z = (solve(pdf_integral, QuadGKJL(; order=20000); maxiters=10000)).u
-                p(x, μ) = ρ(x, μ)/Z
-                v(x, μ) = p(x, μ)*(x - a)^2 
-                var_integral = IntegralProblem(v, I, μ)
-                variance_ews[index] = (solve(var_integral, QuadGKJL(; order=20000); maxiters=10000)).u
-
-                # Compute the modified escape rate
-                ΔV = U(b, μ) - U(a, μ)
-                escape_ews[index] = exp(-ΔV)
-        end
-        lines!(ax3_L, domain, variance_ews, color = :black, linewidth = 3.0)
-        lines!(ax3_R, domain, escape_ews, color = :black, linewidth = 3.0)
-        =#
-
         # Solve the ensemble problem 
         x0 = [sqrt(-μ0), μ0]
         ensemble = evolve(f, η, Λ, x0, endparameter=μf, stepsize=dt, particles=Ne)
         t = ensemble.time
         μ = ensemble.parameter
-        display(length(t))
+        #display(length(t))
+        #display(window_size*length(t))
 
         # Loop over the ensemble's sample paths
+        μ_min, μ_max = -1.0, 0.0
         for (solution_index, solution) in enumerate(ensemble.state)
-                # Define the transparency index
-                transparency = solution_index < convert(Integer, Ne) ? 0.05 : 1.0 
-
                 # Extract the length of the sample path and truncate the parameter solution to match it
                 N_end = length(solution)
                 μ_end = μ[1:N_end]
 
                 # Plot the sample path
                 downsample_index = 40::Integer
-                lines!(ax1, μ_end[1:downsample_index:end], solution[1:downsample_index:end], color = (:black,transparency), linewidth = 1.0)
+                lines!(ax1, μ_end[1:downsample_index:end], solution[1:downsample_index:end], color = (:black,0.05), linewidth = 1.0)
 
                 # Identify the tipping and truncate the solution up to the that point
-                #tipping_index = find_tipping(solution; width = 300, threshold = 2.75, verbose=false) - 100::Integer
-                tipping_index = find_tipping(solution; width = 100, threshold = 10.00, verbose=true) - 100::Integer
+                tipping_index = find_tipping(solution; width = 300, threshold = 2.75, verbose=false) - 100::Integer
                 μt = μ[1:tipping_index]
                 xt = solution[1:tipping_index]
 
                 # Compute and plot the quasi-stationary residuals of the truncated timeseries
                 residuals = detrend(xt; alg = "emd", n_modes = 1).residuals
-                lines!(ax2, μt[1:2*downsample_index:end], residuals[1:2*downsample_index:end], color = (:black, transparency), linewidth = 1.0)
+                lines!(ax2, μt[1:2*downsample_index:end], residuals[1:2*downsample_index:end], color = (:black, 0.05), linewidth = 1.0)
 
                 # Convert the sliding window across the residuals timeseries into an ensemble of suberies
                 subseries = preprocess_solution(μt, residuals, window_size, verbose = false)
 
-                # Loop over the window strides 
-                ews = Matrix{Float64}(undef, length(subseries.trajectories), 3)
-                printstyled("Progressing through the sliding window for trajectory $solution_index of $(convert(Integer, Ne))\n\r"; bold=true, underline=true, color=:light_magenta)
-                @showprogress for (n, (parameter, trajectory)) in enumerate(zip(subseries.timesteps, subseries.trajectories))
-                        #println("Trajectory $solution_index, parameter range = [$(parameter[1]), $(parameter[end])]")
-                        # Compute the variance and escape early-warning signal
-                        signal = compute_ews(trajectory, α=3e0)
-                        ews[n,1] = parameter[end]
-                        ews[n,2] = signal.variance 
-                        ews[n,3] = signal.escape 
-                        #println("-------------------------------------------")
+                # Update the maximum value of the parameter in the sliding window
+                if (subseries.timesteps[1])[end] > μ_min
+                        μ_min = (subseries.timesteps[1])[end]
+                end
+                # Update the minimum value of the parameter in the sliding window
+                if (subseries.timesteps[end])[end] < μ_max
+                        μ_max = (subseries.timesteps[end])[end]
                 end
 
-                # Plot the EWS 
-                lines!(ax3_L, ews[:,1], ews[:,2], color = (:red,transparency), linewidth = 1.0)
-                lines!(ax3_R, ews[:,1], ews[:,3], color = (:red,transparency), linewidth = 1.0)
+                # Loop over the window strides 
+                ews = Matrix{Float64}(undef, length(subseries.trajectories), 5)
+                printstyled("Progressing trajectory $solution_index of $(convert(Integer, Ne))\r"; bold=true, underline=true, color=:light_magenta)
+                for (n, (parameter, trajectory)) in enumerate(zip(subseries.timesteps, subseries.trajectories))
+                        # Solve the LLS problem
+                        θ = solve_lls(trajectory)
 
-                # Plot the tipping point of the last trajectory and format the axes
-                if solution_index == convert(Integer, Ne)
-                        lines!(ax2, [μt[end], μt[end]], [-1,1], color = :black, linewidth = 3.0, linestyle = :dash)
-                        lines!(ax3_L, [μt[end], μt[end]], [-1,1], color = :black, linewidth = 3.0, linestyle = :dash)
-                        lines!(ax3_R, [μt[end], μt[end]], [-1,1], color = :black, linewidth = 3.0, linestyle = :dash)
-                        ax3_L.limits = (ews[1,1], 0, 0, 0.008)
-                        ax3_L.xticks = [ews[1,1], 0]
-                        ax3_L.yticks = [0, 0.008]
-                        ax3_R.limits = (ews[1,1], 0, 0, 1)
-                        ax3_R.xticks = [ews[1,1], 0]
-                        ax3_R.yticks = [0, 1]
+                        # Compute the variance EWS and update the storage matrix
+                        variance = var(trajectory)
+                        ews[n,1] = parameter[end]
+                        ews[n,2] = variance 
+                        ews[n,3:5] = θ 
+                end
+
+                # Export the EWS timeseries
+                writeout(ews, "ews/$solution_index.csv")
+        end
+
+        # Compute the number of steps in the filtered subseries
+        ews = readin("ews/1.csv")
+        mask = (ews[:, 1] .>= μ_min) .& (ews[:, 1] .<= μ_max)
+        filtered_ews = ews[mask, :]
+        Nt_filtered = size(filtered_ews, 1)
+        μ_filtered = filtered_ews[:,1]
+
+        # Loop over the trajectories
+        ensemble_θ1 = Matrix{Float64}(undef, convert(Integer, Ne), Nt_filtered)
+        ensemble_θ2 = Matrix{Float64}(undef, convert(Integer, Ne), Nt_filtered)
+        ensemble_θ3 = Matrix{Float64}(undef, convert(Integer, Ne), Nt_filtered)
+        ensemble_variance = Matrix{Float64}(undef, convert(Integer, Ne), Nt_filtered)
+        printstyled("\nComputing ensemble means\n"; bold=true, underline=true, color=:light_magenta)
+        @showprogress for n in 1:convert(Integer, Ne)
+                # Import the matrix from file
+                ews = readin("ews/$n.csv")
+
+                # Filter out the subseries bounded between μ_min and μ_max
+                mask = (ews[:, 1] .>= μ_min) .& (ews[:, 1] .<= μ_max)
+                filtered_ews = ews[mask, :]
+
+                # Loop over the rows of the filtered matrix
+                for (row_index, row) in enumerate(eachrow(filtered_ews))
+                        # Update the storage structures
+                        ensemble_variance[n,row_index] = row[2]
+                        ensemble_θ1[n,row_index] = row[3]
+                        ensemble_θ2[n,row_index] = row[4]
+                        ensemble_θ3[n,row_index] = row[5]
                 end
         end
+
+        # Compute the ensemble means
+        ensemble_mean_θ = hcat(vec(mean(ensemble_θ1, dims=1)), vec(mean(ensemble_θ2, dims=1)), vec(mean(ensemble_θ3, dims=1)))
+        ensemble_mean_variance = vec(mean(ensemble_variance, dims=1))
+
+        # Compute and plot the ensemble averaged EWS
+        ensemble_mean_ews = [compute_ews(θ_mean) for θ_mean in eachrow(ensemble_mean_θ)]
+        lines!(ax3_L, μ_filtered, ensemble_mean_variance, color = (:red,0.75), linewidth = 3.0)
+        lines!(ax3_R, μ_filtered, ensemble_mean_ews, color = (:red,0.75), linewidth = 3.0)
+
+        # Plot the tipping point and format the axes
+        lines!(ax1, [μ_max, μ_max], [-2,2], color = :black, linewidth = 3.0, linestyle = :dash)
+        lines!(ax2, [μ_max, μ_max], [-2,2], color = :black, linewidth = 3.0, linestyle = :dash)
+        lines!(ax3_L, [μ_max, μ_max], [-2,2], color = :black, linewidth = 3.0, linestyle = :dash)
+        lines!(ax3_R, [μ_max, μ_max], [-2,2], color = :black, linewidth = 3.0, linestyle = :dash)
+        ax3_L.limits = (μ_min, 0, 0, 0.02)
+        ax3_L.xticks = [μ_min, 0]
+        ax3_L.yticks = [0, 0.02]
+        ax3_R.limits = (μ_min, 0, 0.25, 1)
+        ax3_R.xticks = [μ_min, 0]
+        ax3_R.yticks = [0.25,1]
 
         # Build and plot the bifurcation diagram
         diagram, bifurcations = compute_bif_diag()
@@ -111,7 +130,7 @@ function main()
         scatter!(ax1, bifurcations[1,1], bifurcations[1,2], color = :yellow, markersize = 15, strokecolor = :black, strokewidth = 1.0)
 
         # Export the figure
-        savefig("stationary_SN_ews.pdf", fig)
+        savefig("ramped_SN_ews.pdf", fig)
 end
 
 # Execute the main

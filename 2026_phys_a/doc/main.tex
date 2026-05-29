@@ -253,7 +253,7 @@ Solutions of the FPE are rarely available in closed form and thus the optimisati
 
 \subsection{Time-invariant approximation: the Ornstein-Uhlenbeck process}
 One workaround this limitation is to assume that the linear ramp of the forcing parameter is very slow, i.e. $\varepsilon\to0$.
-This is usually referred to as the singular limit of the fast-slow formulation~\ref{eq:fast_slow_sde}.
+This is usually referred to as the singular limit of the slow-fast formulation~\ref{eq:fast_slow_sde}.
 Under this assumption we can approximate the time-varying solution of~\ref{eq:fpe} with a time-invariant density $p(x|\theta)\approx p(x,t|\theta)$ by neglecting the (partial) time derivative $\partial_{t}p\approx0$.
 This ansatz effectively reduces the parabolic partial differential equation in time and space to a second-order, homogeneous ordinary differential equation in $p(x|\theta)$ with non-constant coefficients
 
@@ -364,13 +364,47 @@ We will use three test cases of synthetically generated data, specifically:
      \item $1-$dimensional observable of a $2-$dimensional formulation of the AMOC transition to reduced heat flux driven by increasing freshwater forcing in the North Atlantic \cite{Stommel1961}.
 \end{itemize}
 
-\subsection{Stationary SN normal form}\label{subsec:SN_normal_form}
+\subsection{Slowly ramped SN normal form}\label{subsec:SN_normal_form}
+We follow the same setup outlined in \cite{Kuehn2011}.
+A slow-fast framework of the form~\ref{eq:fast_slow_sde} is adopted for a SN normal norm
 
-Kuehn did this \cite{Kuehn2011}.
-\begin{equation}\label{eq:stationary_SN_variance}
-        p_{s}(x) = \,.
+\begin{align}\label{eq:slow_fast_SN}
+        dX_{t} &= (-\mu-X_{t}^{2})dt + \sigma dW_{t}\,,\\
+        d\mu &= \varepsilon dt\,, 
+\end{align}
+
+where $\varepsilon\ll1$ is the timescale separation between the dynamics of the fast variable $X_{t}$ and that of the slow variable $\mu$.
+We assume also that $0 < \sigma \ll \sqrt{\varepsilon} < 1$ so that solutions of~\ref{eq:slow_fast_SN} undergo B-tipping close to $\mu=\mu_{c}=0$ when ramped.
+In the singular limit $\varepsilon\to0$ the solution of the time-invariant FPE gives a Boltzmann-like (stationary) probability density of the form
+
+\begin{equation}\label{eq:stationary_SN_density}
+        p(x;\mu) = \frac{1}{Z(\mu)}\exp\bigg(\frac{\mu x + \frac{x^{3}}{3}}{D}\bigg)\,.
 \end{equation}
 
+with $Z(\mu) = \int_{-\sqrt{-\mu}}^{+\infty}\exp\big(\frac{\mu x + \frac{x^{3}}{3}}{D}\big)dx$ being the normalisation constant.
+Given no closed-form solution of this integral is available, the evaluation of~\ref{eq:stationary_SN_density} has to be done numerically with $Z(\mu)$ being approximated by quadrature.
+With this one can also derive the numerical approximation of the analytical variance of the r.v. $X_{t}$ in the singular limit according to its definition
+
+\begin{equation}\label{eq:stationary_SN_variance}
+        \text{Var}[X_{t};\mu] = \int_{-\sqrt{-\mu}}^{+\infty}\big(x - \mathbb{E}[X_{t};\mu]\big)^{2}p(x;\mu)dx\,,
+\end{equation}
+
+which is again computed by quadrature.
+In~\ref{eq:stationary_SN_variance} $\mathbb{E}[X_{t};\mu] = \int_{-\sqrt{-\mu}}^{+\infty}x\,p(x;\mu)dx$ denotes the expected value of the r.v. $X_{t}$.
+We first show that the modified EWS reconstructed from the MLE of the confining potential approaches its analytical value in mean in the large number of samples limits.
+In Figure~\ref{fig:stationary_SN_ews} we simulate an ensemble of $100$ sample paths of~\ref{eq:slow_fast_SN} for fixed values of the bifurcation parameter (i.e. with $\varepsilon=0$). 
+For each value of $\mu$ in the parameter sweep of the $[-1,0)$ interval, for each sample path we compute the MLE~\ref{eq:lls_solution} of a fitting polynomial potential and compute the modified escape EWS~\ref{eq:escape_ews}.
+This results in a distribution of modified escape EWS whose median we then compare to the ground truth, i.e. the analytical value of~\ref{eq:escape_ews} when evaluated using the true potential $V(x;\mu)$ of the SN normal form. 
+We do the same for the ensemble variance by computing~\ref{eq:stationary_SN_variance} via numerical approximation and using it as the \textit{``ground truth''} and compare it against the median sample variance computed out of the solutions of~\ref{eq:slow_fast_SN}.
+The empirical results show that, in the large samples limit, the modified EWS computed by MLE of the potential does converge to the true value.
+This is not surprising given prior evidence of convergence in mean of the MLE coefficients to their true value as shown previously in Figure~\ref{fig:lls_solutions}.
+We also emphasize that the accuracy of the MLE modified escape EWS improves as the system gets closer to the B-tipping as shown by the shrinking of the errorbars in Figure~\ref{fig:stationary_SN_ews} as well as the reduced spread of the histograms of the LLS solutions in Figure~\ref{fig:lls_solutions}.
+This is a highly desirable property of the proposed method as it minimizes the chances of false positives for dangerous critical transitions of the B-tipping type.
+Compared to the increase in variance however, the modified escape EWS estimated from the sample paths does have, on average, a larger standard deviation.
+The source of this is embedded in the large dimensionality of the parameter space $\mathbb{R}^{3}$, correlations in the estimated coefficients and other well-known issues regarding the stability of the method (e.g. ill-conditioning of the Vandermonde matrix).
+Regularization of the solutions using penalizers (e.g. Tikhonov regularizations) can alleviate numerical instabilities in the LLS method and while it reduces the spread of the solutions it also introduces biases that effectively bring the mean solution further away from the ground truth.
+Further investigation in improving the accuracy of the technique is required however it is outside the scope of the current manuscript as it intends to show a proof-of-concept of the methodlogy as well as introducing a novel and interpretable EWS to the literature.
+        
 \begin{figure}[t]
     \centering 
     \includegraphics[keepaspectratio, width=.925\textwidth]{./figures/stationary_SN_ews.pdf}
@@ -384,6 +418,17 @@ Kuehn did this \cite{Kuehn2011}.
     \label{fig:stationary_SN_ews}
 \end{figure}
 
+\begin{figure}[t]
+    \centering 
+    \includegraphics[keepaspectratio, width=.9\textwidth]{./figures/ramped_SN_EWS.pdf}
+    \caption{Comparison between the increase in variance and modified escape EWS for non-stationary solutions of a slow-fast formulation~\ref{eq:fast_slow_sde} of a SN normal form.
+             In the top panel an ensemble of sample paths (black), slowly forced with rate $\varepsilon=4\cdot10^{-5}$, follows the stable branch (blue) of the critical manifold; notice that they all tip across the unstable branch (red) before the SN bifurcation (yellow circle) is reached.
+             We indicate the earliest tipping in the ensemble by the vertical dashed line. 
+             In the middle panel we show the residuals of the same trajectories but detrended of their drift along the stable branch of the critical manifold.
+             In the bottom panels we compare the analytic signal of the forzen system (black) against the ensemble averages of the same quantities computed (empirically) from the sample paths (red).
+             The empirical signals are computed using a sliding window of $10\%$ the length of the total number of realizations in the sample paths.}
+    \label{fig:ramped_SN_EWS}
+\end{figure}
 
 \subsection{Ecosystem collapse}\label{subsec:ecosystem}
 

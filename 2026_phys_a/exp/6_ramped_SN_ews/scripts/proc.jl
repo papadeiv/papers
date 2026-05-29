@@ -12,7 +12,7 @@ V(x, c) = c[1]*x + c[2]*(x^2) + c[3]*(x^3)      # Potential
 ρ(x, μ) = exp(-U(x, μ)/D)
 
 # Define the (relative) sliding window size
-window_size = 0.25::Float64
+window_size = 0.10::Float64
 
 # Build the bifurcation diagram
 function compute_bif_diag()
@@ -70,7 +70,7 @@ function preprocess_solution(timestamps, timeseries, width; verbose = true)
 end
 
 # Solve the LLS problem
-function solve_lls(solution; α = 1e-2)
+function solve_lls(solution)
         # Define the observation vectors 
         Xn = solution[1:end-1]
         Y  = (solution[2:end] .- solution[1:end-1])./dt
@@ -79,22 +79,16 @@ function solve_lls(solution; α = 1e-2)
         A = hcat(ones(length(Xn)), Xn, Xn.^2)
 
         # Solve the (linear) least-squares problem
-        #β = A\Y
-        β = (A'*A + α.*I(size(A,2)))\(A'*Y)
+        β = A\Y
 
         # Compute the coefficients of the potential
         θ = [-β[1], -β[2]/2, -β[3]/3]
         return θ 
 end
  
-# Compute the variance and modified escape EWS
-function compute_ews(solution; α = 1e-2)
-        # Solve the LLS problem
-        θ = solve_lls(solution, α=α)
-
+# Compute the modified escape EWS
+function compute_ews(θ)
         # Compute estimated stable and unstable equilibria of the cubic approximation
-        #display(θ)
-        #display((θ[2])^2 - 3*θ[1]*θ[3])
         xs = +(1/(3*θ[3]))*(sqrt((θ[2])^2 - 3*θ[1]*θ[3]) - θ[2])
         xu = -(1/(3*θ[3]))*(sqrt((θ[2])^2 - 3*θ[1]*θ[3]) + θ[2])
 
@@ -102,12 +96,6 @@ function compute_ews(solution; α = 1e-2)
         ΔV = abs(V(xu, θ) - V(xs, θ))
         escape = exp(-ΔV)
 
-        # Compute the sample variance
-        variance = var(solution)
-
         # Return the EWS 
-        return (
-                escape = escape,
-                variance = variance
-               )
+        return escape 
 end

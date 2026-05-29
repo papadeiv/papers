@@ -7,7 +7,7 @@ Storage of the definitions of the system alongside all the settings of the probl
 # System parameters
 μ0 = -1.0                                         # Initial value of the bifurcation parameter
 μf = 0.0                                          # Final value of the bifurcation parameter
-ε = 1e-2#9e-5                                          # Timescale separation
+ε = 5e-5                                          # Timescale separation
 σ = 0.100                                         # Noise level (additive)
 D = (σ^2)/2.0                                     # Diffusion level (additive) 
 
@@ -17,5 +17,5 @@ f(x, μ) = -μ - x^2                                # Drift
 η(x) = σ                                          # Diffusion
 
 # Simulation parameters
-dt = 1e-3#1e-1                                         # Timestep
-Ne = 1e0                                          # Number of particles in the ensemble 
+dt = 1e-1                                         # Timestep
+Ne = 1e2                                          # Number of particles in the ensemble 
