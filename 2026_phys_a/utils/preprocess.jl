@@ -96,3 +96,12 @@ function find_tipping(ut::AbstractVector{Float64}; width = 200::Integer, thresho
                 return Nt 
         end
 end
+
+function find_tipping(ut, threshold)
+        tipping_index = findfirst(u -> u < threshold, ut)
+        if isnothing(tipping_index)
+                return length(ut)
+        else
+                return tipping_index
+        end 
+end
