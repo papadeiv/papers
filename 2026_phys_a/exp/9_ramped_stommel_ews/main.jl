@@ -113,9 +113,9 @@ function main()
         # Plot the tipping point and format the axes
         lines!(ax1, [μ_max, μ_max], [-2,2], color = :black, linewidth = 3.0, linestyle = :dash)
         lines!(ax2, [μ_max, μ_max], [-2,2], color = :black, linewidth = 3.0, linestyle = :dash)
-        ax1.limits = (μ_min, μf, 0, 0.005)
+        ax1.limits = (μ_min, μf, 0, 0.01)
         ax1.xticks = [μ_min, μf]
-        ax1.yticks = [0, 0.005]
+        ax1.yticks = [0, 0.01]
         ax2.limits = (μ_min, μf, 0, 1)
         ax2.xticks = [μ_min, μf]
         ax2.yticks = [0,1]

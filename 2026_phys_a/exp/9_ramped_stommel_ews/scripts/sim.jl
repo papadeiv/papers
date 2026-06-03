@@ -5,12 +5,12 @@ Storage of the definitions of the system alongside all the settings of the probl
 """
 
 # System parameters
-η1 = 3.0                                          # Temperature meridional difference 
-η3 = 0.3                                          # Timescale ratio between temperature and salinity 
+η1 = 3.00                                         # Temperature meridional difference 
+η3 = 0.30                                         # Timescale ratio between temperature and salinity 
 μ0 = 0.00                                         # Initial value of the bifurcation parameter
-μf = 1.00                                         # Final value of the bifurcation parameter
+μf = 1.20                                         # Final value of the bifurcation parameter
 ε = 5e-5                                          # Timescale separation
-σ = 0.100                                         # Noise level (additive)
+σ = 0.050                                         # Noise level (additive)
 D = (σ^2)/2.0                                     # Diffusion level (additive) 
 
 # Dynamical system  

@@ -2,8 +2,8 @@
 
 \usepackage[numbers]{natbib}
 
-\numberwithin{equation}{section}
-\newtheorem{thm}[equation]{Theorem}
+%\numberwithin{equation}{section}
+%\newtheorem{thm}[equation]{Theorem}
 
 \def\tsc#1{\csdef{#1}{\textsc{\lowercase{#1}}\xspace}}
 \tsc{DP}
@@ -340,7 +340,7 @@ We assume also that $0 < \sigma \ll \sqrt{\varepsilon} < 1$ so that solutions of
     \caption{Comparison between the increase in variance and modified escape EWS for stationary solutions of a SN normal form at different values of the bifurcation parameter $\mu\in[-1,0]$.
             In the top panel the bifurcation diagram is shown with the blue curve representing the branch of the stable equilibrium $a = \sqrt{-\mu}$ while the red curve represents the unstable equilibrium branch $b = -\sqrt{-\mu}$; the SN bifurcation is depicted by the yellow circle at $\mu=0$.
             In the middle and bottom panels we compare the analytical (black curves) and empirical (red circles) variance and modified escape rate respectively.
-            The analytical values have been computed using~\ref{eq:stationary_SN_variance} for the variance and~\ref{eq:escape_ews} for the escape EWS; the empirical values have been computed by taking the median of an ensemble of $100$ sample paths at each parameter value.
+            The analytical values have been computed using~\ref{eq:stationary_SN_variance} for the variance (numerical integration is performed using a Gauss-Kronrod quadrature rule \cite{Laurie1997}) and~\ref{eq:escape_ews} for the escape EWS; the empirical values have been computed by taking the median of an ensemble of $100$ sample paths at each parameter value.
             The error bars represent the interquartile range of the compute quantity.
             Notice how, alongside interpretability, the modified escape EWS is also \textit{``earlier''} in the upward trend compared to the increase in variance which furthermore shows non-monotonicity at the very onset of the B-tipping event causing potential false negatives.
     }
@@ -379,19 +379,64 @@ This is not surprising given prior evidence of convergence in mean of the MLE co
 We also emphasize that the accuracy of the MLE modified escape EWS improves as the system gets closer to the B-tipping as shown by the shrinking of the errorbars in Figure~\ref{fig:stationary_SN_ews} as well as the reduced spread of the histograms of the LLS solutions in Figure~\ref{fig:lls_solutions}.
 This is a highly desirable property of the proposed method as it minimizes the chances of false positives for dangerous critical transitions of the B-tipping type.
 Compared to the increase in variance however, the modified escape EWS estimated from the sample paths does have, on average, a larger standard deviation.
+This becomes more evident when we allow the bifurcation parameter to vary slowly as depicted in Figure~\ref{fig:ramped_SN_EWS}.
 The source of this is embedded in the large dimensionality of the parameter space $\mathbb{R}^{3}$, correlations in the estimated coefficients and other well-known issues regarding the stability of the method (e.g. ill-conditioning of the Vandermonde matrix).
 Regularization of the solutions using penalizers (e.g. Tikhonov regularizations) can alleviate numerical instabilities in the LLS method and while it reduces the spread of the solutions it also introduces biases that effectively bring the mean solution further away from the ground truth.
 Further investigation in improving the accuracy of the technique is required however it is outside the scope of the current manuscript as it intends to show a proof-of-concept of the methodlogy as well as introducing a novel and interpretable EWS to the literature.
 
 \subsection{Ecosystem collapse}\label{subsec:ecosystem}
+In the early years of development EWS of tipping systems, a bistable ecological model of vegetation biomass under harvest forcing was extensively used to show and detect precursor phenomena such as CSD \cite{Scheffer2009,Dakos2012}. 
+This model was first introduced by May in 1977 \cite{May1977} and it reads
+\begin{equation}\label{eq:may_model}
+        \dot{x} = rx\bigg(1-\frac{x}{k}\bigg) - \mu \frac{x^2}{x^2 + h^2}\,,
+\end{equation}
+where the (scalar) state variable $x$ represent the vegetation cover in an ecosystem, $r$, $K$, $h$ are fixed parameters modeling the biomass growth rate, carrying capacity and half-saturation respectively, and finally $\mu$ is the external harvesting forcing (bifurcation parameter).
+The $\dot{x}$ notation denotes the time derivative of the state variable $x$.
+Under a suitable choice of the fixed parameters~\ref{eq:may_model} shows a bistable region in $\mu$ where two stable states are accessible by the system.
+A healthy stable equilibrium is characterized by high vegetation biomass; an alternative state of overexploitation coexists in the bistability region which corresponds to a low vegetation cover in the ecosystem.
+The region of bistability is bounded by two SN bifurcations as depicted in Figure~\ref{fig:escape_ews}.
+The potential of the system is non-polynomial
+\begin{equation}\label{eq:may_potential}
+        V(x;\mu) = -r\bigg(\frac{x^2}{2} - \frac{x^3}{3k}\bigg) + \mu\bigg(x - \sqrt{h}\arctan\bigg(\frac{x}{\sqrt{h}}\bigg)\bigg)\,,
+\end{equation}
+and the application of the MLE of the modified escape EWS to this system allows us to test its efficacy to more generic confining potentials.
+We thus formulate a slow-fast problem of the form~\ref{eq:fast_slow_sde} with drift $f(x,\mu)$ equal to the right-hand side of~\ref{eq:may_model} while we let the harvesting forcing $\mu$ to increase linearly but slowly (compared to the timescale of evolution of the vegetation biomass $x$).
+Similarly to the previous case, we can approximate the probability density of the process in the singular limit $\varepsilon\to0$ by looking at its stationary distribution, allowing us to compute the variance of the vegetation biomass numerically and compare it to an ensemble mean of $100$ sample paths solving the slow-fast formulation of~\ref{eq:may_model}.
+Those sample paths will then form the dataset from which estimation of the cubic approximation of~\ref{eq:may_potential} is performed in order to extract the modified escape EWS.
+The results of this experiment are depicted in Figure~\ref{fig:ramped_may_ews}.
 \begin{figure}[t]
     \centering 
     \includegraphics[keepaspectratio, width=\textwidth]{./figures/ramped_may_ews.pdf}
-    \caption{Comparison between the modified escape EWS and increase in variance applied to May's model of ecosystem collapse.}
+    \caption{Comparison between the modified escape EWS and increase in variance applied to a slowly ramped model of ecosystem collapse.
+            We fix parameters $r=1$, $k=10$ and $h=1$ while we let $\mu$ to vary between $1.8$ and $2.6$ with rate $\varepsilon=5\cdot10^{-5}$; the resulting bifurcation diagram of the stationary system is reported in Figure~\ref{fig:escape_ews}.
+            A simulation of $100$ sample paths allow us to compute ensemble averaged variance and modified escape EWS (both in red) on a sliding window of $10\%$ the length of the solutions.
+            In each panel the accuracy of empirical signals is compared to the approximations of the stationary system (both in black). 
+            The earliest tipping in the solutions is shown by the dashed line.
+            Notice how both variance and modified escape EWS show upward trends in the approach to the tipping point.
+            The increase in variance however requires the knowledge of a baseline value which is different from that of other systems (e.g. see Figure~\ref{fig:ramped_SN_EWS}) while the increase in escape likelihood shows a more reliable, direct interpretation as an EWS.
+    }
     \label{fig:ramped_may_ews}
 \end{figure}
+What we notice in this case is that the ensemble averaged indicators both show less accuracy with respect to the stationary approximations compared to what was evidenced for the SN experiment in Figure~\ref{fig:ramped_SN_EWS}.
+Nevertheless, both signals show upward trends in the approach to the SN bifurcation with the reconstructed modified escape EWS givining more confidence of interpretation then the increase in variance counterpart due to the range of values between its minimum and maximum.
 
 \subsection{AMOC weakened state}\label{subsec:AMOC}
+We conclude our battery of tests for the proposed EWS and its computation by applying the discussed methodology to a higher-dimensional system from ocean circulation modeling.
+The AMOC is a complex system of currents in the northern half of the Atlantic ocean. 
+This model, introduced by Stommel in 1961 \cite{Stommel1961} consists of a two-dimensional dynamical system of the form
+\begin{align}\label{eq:stommel_model}
+        \dot{T} &= \eta - T(1 + |T-S|)\,,\\
+        \dot{S} &= \mu - S(\beta + |T-S|)\,,
+\end{align}
+where the state variables are (dimensionless) temperature ($T$) and salinity ($S$) northward gradients and the parameters $\eta$, $\mu$ and $\beta$ model the thermal forcing, freshwater forcing and timescale ration between thermal and freshwater restoring actions.
+Both state variables are proportional to the absolute value of the circulation strength $\psi:=T-S$.
+By taking the time derivative of this quantity $\dot{\psi} = \dot{T} - \dot{S}$ and substituting the right-hand sides of~\ref{eq:stommel_model} one can rewrite the two-dimensional system in terms of the circulation strength instead
+\begin{align}\label{eq:stommel_model_transformed}
+        \dot{\psi} &= \eta - \mu -\psi(1+|\psi|) + S(1-\beta)\,,\\
+        \dot{S} &= \mu - S(\beta + |\psi|)\,.
+\end{align}
+By fixing $\eta$ and $\beta$ we can study the bifurcation structure of~\ref{eq:stommel_model_transformed} at different regimes of freshwater forcing $\mu$ in the North Atlantic.
+Both the circulation strength and salinity gradient show bistability regions in $\mu$ bounded by two SN bifurcations, one of which is non-generic (see the bifurcation diagram in Figure~\ref{fig:stommel_bif_diag}).
 \begin{figure}[t]
     \centering 
     \includegraphics[keepaspectratio, width=\textwidth]{./figures/stommel_bif_diag.pdf}
@@ -400,18 +445,40 @@ Further investigation in improving the accuracy of the technique is required how
              A region of bistability exists (gray box) in the between parameter values $\mu\approx0.9$ and $\mu\approx1.22$ and is bounded by a smooth SN bifurcation (yellow circle) and a non-smooth SN bifurcation (green circle).}
     \label{fig:stommel_bif_diag}
 \end{figure}
-
+In the healthy state, the AMOC's circulation is sustained and the advection of heat from the Central American gulf and the North Atlantic is strong.
+However, the alternative stable state is one in which the heat transport is weakened by lower values of the circulation strength which causes a collapse in thermal flux and an increased salinity gradient.
+The current state of the AMOC is that of high strength, however it has long been established that the increased freshwater forcing of the past two centuries, due to the melting of Greenland ice sheets, has resulted in a weakining of the heat advection.
+Given the scale at which a collapse of the AMOC to its weakened state affects the global system, a multitude of scientific communities have produced efforts in the study of the catastrophic tipping event as well as in the quantification of its EWS \textbf{[CITE PAPERS]}.
+We thus contribute to this endeavours by exploiting the interpretability of the modifies escape EWS we introduced in this paper to asses whether the tipping of the AMOC to its weakened state is detectable from multivariate solutions of a high-dimensional system.
+Two approach are available to us; we either solve Stommel's $2-$box model in its changed coordinate system~\ref{eq:stommel_model_transformed} and then apply the proposed technique to the circulation strength variable or; we solve the, dimensionless but more physical, original system~\ref{eq:stommel_model} in temperature $T$ and salinity $S$ and then compute the circulation strength $\psi=T-S$ as an \textit{observable} of our multivaruate solution.
+The two approaches are identical in principle, however we hereby proposed results based on the latter as it has a more direct application to a real-world scenarion when measuring temperature and salinity gradients in the North Atlantic is easier than measuring the strngth of circulation directly.
+As we have done for the previous two test cases, we formulate a slow-fast SDE of the form~\ref{eq:fast_slow_sde} with $X_t = (T, S)$, the drift term $f(X_t,\mu)$ being the right-hand side of~\ref{eq:stommel_model}, the diffusion term $\sigma$ being replace by diagonal noise $\Sigma = \sigma I$ (where $I$ is a two-by-two identity matrix) and finally the freshwater forcing $\mu$ evolving slowly with linear ramp $\varepsilon\ll1$.
+We compute an ensemble of $100$ sample paths solving the slow-fast system and then, out of the bivariate solutions, we compute a univariate ensemble of timeseries representing the circulation observable $\psi$.
+Equivalently to the previous cases, we then compute the ensemble averages of timeseries variace and modified escape EWS, which we report in Figure~\ref{fig:ramped_stommel_ews}.
 \begin{figure}[t]
     \centering 
     \includegraphics[keepaspectratio, width=\textwidth]{./figures/ramped_stommel_ews.pdf}
-    \caption{Comparison between the modified escape EWS and increase in variance applied to Stommel's $2-$box model of thermohaline circulation in the North Atlantic.}
+    \caption{Comparison between the modified escape EWS and increase in variance applied to the one-dimensional circulation observable $\psi$ of the temperature and salinity gradients in the North Atlantic.
+            We fix parameters $\eta=3$ and $\beta=0.3$ while the freshwater forcing $\mu$ is varied between $0$ and $1.2$ with rate $\varepsilon=5\cdot10^{-5}$; the resulting bifurcation diagram of the stationary system is reported in Figure~\ref{fig:stommel_bif_diag}.
+            We perform a simulation of $100$ sample paths of the slow-fast form of~\ref{eq:stommel_model} and compute the ensemble mean of the modified escape EWS and variance (both in red) across a sliding window of $10\%$ the length of each sample until the earliest tipping (dashed line).
+            Notice that~\ref{eq:stommel_model} is not a gradient system (the right-hand side is not a conservative vector field), hence no analytical ground truth of the modified escape EWS is available.
+            Furthermore with the system being two-dimensional, no closed form stationary approximation of the FPE is available which also explains the lack of an analytical reference for the increase in variance.
+            Regardless, both signals show upward trends at the onset of the SN bifurcation albeit the modified escape EWS showing a much greater range, yielding higher confidence in interpretation than the increase in variance counterpart.
+            We once more remark the different baseline values of the variance of the observable $\psi$ compared to the vegetation biomass and the Sn normal form state variable of the previous two cases.}
     \label{fig:ramped_stommel_ews}
 \end{figure}
+Remarkably, the modified escape EWS reconstructed from the MLE of the cubic potential is robust in its upward trend close to bifurcation even though the underlying system~\ref{eq:stommel_model} does not have a confining potential.
 
 \section{Discussion}\label{sec:discussion}
+In this manuscript we introduced a new EWS for critical transitions of slow-fast systems that is more reliable than the traditional diagnostics of these events given its interpretability.
+We also derived a MLE framework to extract such EWS from timeseries with no prior knowledge of the underlying mechanism generating it.
+Finally, applications to synthetically generated samples of solutions undergoing tipping phenomena, show robustness in the detection ability of the proposed new EWS while providing confidence in its predicting skills thanks to its interpretability.
+Extensions to multivariate signals is also a subject of high interest among the various communities trying to unlock EWS of high-dimensional systems using spatio-temporal information.
+In this paper we obtain evidence that applications of the proposed methodology to one-dimensional reductions of higher-dimensional systems can yield confident results, provided an optimal choice of the monitored observable.
+Further studies are necessary to reduces the uncertainty and standard deviation of the computed MLE however they fall outside the scope of the present manuscript and will be addressed by the authors in the future.
 
-\appendix
-\section{Appendix}
+%\appendix
+%\section{Appendix}
 
 \printcredits
 
@@ -422,7 +489,7 @@ The authors declare that they have no known competing financial interests or per
 The code used to generate the figures is available at the repository \url{https://github.com/papadeiv/papers/tree/master/2026_phys_a}.
 
 \section*{Acknowledgements}
-This wark was supported by the Royal Society of New Zealand, Te Ap\={a}rangi, Marsden funds n.XXX-XXX and n.YYY-YYY.
+This work was supported by the Royal Society of New Zealand, Te Ap\={a}rangi, Marsden funds UOA2223 (DP and GD) and 23-UOA-152 (LS).
 
 % Bibliography
 \bibliographystyle{cas-model2-names}
