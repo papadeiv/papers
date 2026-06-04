@@ -10,7 +10,7 @@ k = 10.0                                          # Carrying capacity
 h = 1.0                                           # Half-grazing biomass
 μ0 = 1.80                                         # Initial value of the bifurcation parameter
 μf = 2.60                                         # Final value of the bifurcation parameter
-ε = 5e-5                                          # Timescale separation
+ε = 1e-5                                          # Timescale separation
 σ = 0.100                                         # Noise level (additive)
 D = (σ^2)/2.0                                     # Diffusion level (additive) 
 

@@ -19,8 +19,6 @@ function main()
         ensemble = evolve(f, η, Λ, z0, endparameter=μf, stepsize=dt, particles=Ne)
         t = ensemble.time
         μ = ensemble.parameter
-        display(length(t))
-        display(window_size*length(t))
 
         # Loop over the ensemble's sample paths
         μ_min, μ_max = μ0, μf 

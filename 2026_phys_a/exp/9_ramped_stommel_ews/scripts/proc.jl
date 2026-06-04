@@ -5,11 +5,7 @@ Collection of quantities and functions used to postprocess and analyse the resul
 """
 
 # Scalar potential of the conservative system 
-U(x, μ) = -(r/2.0)*x^2 + (r/(3.0*k))*x^3 + μ*(x - sqrt(h)*atan(x/sqrt(h)))
 V(x, c) = c[1]*x + c[2]*(x^2) + c[3]*(x^3)
-
-# Stationary solution of the FPE
-ρ(x, μ) = exp(-U(x, μ)/D)
 
 # Define the (relative) sliding window size
 window_size = 0.10::Float64
