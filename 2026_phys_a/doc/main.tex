@@ -123,17 +123,18 @@ The bistability region of our system is characterized by a subset $(\mu_1,\mu_2)
 It follows therefore that the bistability region is bounded by two SN bifurcations at $\mu=\mu_1$ and $\mu=\mu_2$.
 The resulting potential features two local minima (wells) separated by a barrier of one local maximum (hilltop).
 Different configurations of the shape of the potential describe qualitatively different particle dynamics as represented in Figure~\ref{fig:double_well_potential}.
-\begin{figure}[h]
-	      \centering
-	      \includegraphics[keepaspectratio, width=.9\textwidth]{figures/double_well_potential.pdf}
+
+\begin{figure}[!t]
+	      \includegraphics[keepaspectratio, width=\textwidth]{figures/double_well_potential.pdf}
         \caption{Different configurations of a generic double-well potential leading to qualitatively different trajectories of Eq.~\ref{eq:langevin}.
                 The top panels of each column show the shape of the confining potential with wells $a$ and $c$ separated by a hilltop $b$; the middle panels display a representative sample path of an overdamped particle starting from the rightmost well $a$; the bottom panels are a representation of the sample distribution of the realizations above using histograms.
                  In the leftmost column the particle is confined by a high potential barrier and does escape its basin of attraction within the simulation time.
-                 In the middle column the system is at a Maxwell point (both well are equiprobable from a stationary perspective) and thus the particle visits both wells multiple times during the simulation (the histogram becomes bimodal).
+                 In the middle column the system is at a Maxwell point (both wells are equiprobable from a stationary perspective) and thus the particle visits both wells multiple times during the simulation (the histogram becomes bimodal).
                  In the rightmost column the starting well is shallower and flatter than the alternative one: as such the particle escapes it early, never to return before the simulation ends.
                  The solutions of the associated Langevin equations of motions for each configuration have been computed using the DifferentialEquations.jl package \cite{Rackauckas2017}.}
         \label{fig:double_well_potential}
 \end{figure}
+
 In statistical mechanics, Kramer's formula quantifies the rate at which particles escape across potential energy barriers when subject to Langevin's equation of motion as in Eq.~\ref{eq:langevin}.
 It is sometimes expressed as the reciprocal of the escape time, usually referred to as the (mean) first exit time.
 Different derivations of the formula based on different perspectives are available in the literature; we thus redirect the reader to \cite{Berglund2013} for a concise overview while in this paper we postulate its validity.
@@ -184,7 +185,7 @@ In Figure~\ref{fig:escape_ews} we depict such property for a bistable model of e
 	      \centering
 	      \includegraphics[keepaspectratio, width=\textwidth]{figures/escape_ews.pdf}
         \caption{(Top): bifurcation diagram of a model of ecosystem collapse with the state $x$ (vegetation biomass) degrading as the forcing parameter $\mu$ (harvesting rate) is increased \cite{May1977}; branches of stable equilibria ($x=a$ and $x=c$) are in blue while the unstable branch ($x=b$) is in red; the region of bistability, bounded by two SN bifurcations (yellow dots), is shaded in gray.
-        (Middle) Different configurations of the potential $V(x;\mu) = -\frac{x^2}{2} + \frac{x^3}{30} + \mu\big(x - \arctan(x)\big)$ of the system at different parameter values corresponding to the ticks of the orizontal axes of the top and bottom plots. 
+        (Middle) Different configurations of the potential $V(x;\mu) = -\frac{x^2}{2} + \frac{x^3}{30} + \mu\big(x - \arctan(x)\big)$ of the system at different parameter values corresponding to the ticks of the horizontal axes of the top and bottom plots. 
         (Bottom) Modified escape EWS of Eq.~\ref{eq:escape_ews} computed out of the potential $V(x;\mu)$ between the stable state $x=a$ and the saddle $x=b$ within the bistability region.
         The bifurcation diagram has been computed using the BifurcationKit.jl package \cite{Veltz2020}.}
         \label{fig:escape_ews}
@@ -260,11 +261,10 @@ The Gaussian probability distribution in Eq.~\ref{eq:oup_density} is parametrise
 \begin{figure}[t]
     \centering 
     \includegraphics[keepaspectratio, width=\textwidth]{./figures/oup_mle.pdf}
-    \caption{Empirical distribution of the MLE of the parameters $\theta = (\alpha,\, a,\, D)$ of an ensemble of $10,000$ sample paths solving Eq.~\ref{eq:oup} for two different configurations of the potential $V(x) = \alpha(a - x)^{2}$: a deep, strongly confined well with $\alpha = 10$ (top row); a shallow well with $\alpha = 0.5$ (bottom row).
+    \caption{Empirical distribution of the MLE of the parameters $\theta = (\alpha,\, a,\, D)$ of an ensemble of $10,000$ sample paths solving Eq.~\ref{eq:oup} for two different configurations of the potential $V(x) = \alpha(a - x)^{2}$: a deep, strongly confining well with $\alpha = 10$ (top row); a shallow well with $\alpha = 0.5$ (bottom row).
             In each of the plots the true value of the parameter used to generate the data is reported (blue line).
             Notice how, as the SN bifurcation of the linearized vector field is approached $\alpha = f'(x=a)\to0$, the distribution of the estimators of the linear coefficient becomes more skewed despite the symmetry in the confining potential.
-            These solutions have been computed using the pymle package \cite{Kirby2025}.
-    }
+            These solutions have been computed using the pymle package \cite{Kirby2025}.}
     \label{fig:oup_mle}
 \end{figure}
 
@@ -314,7 +314,7 @@ The distribution of the solutions Eq.~\ref{eq:lls_solution} is also asymptotical
             For each configuration we compute an ensemble of solutions of Eq.~\ref{eq:lls_solution}, represented by the normal shaped histograms, using $5,000$ sample paths of the normal form at their respective parameter value.
             The value of the polynomial coefficients of the true potential $V(x;\mu) = \mu x + \frac{x^3}{3}$ are displayed, in each box, by a blue line.
     The (ensemble) mean values of the LLS solutions $\hat{\theta}^{*} = (\hat{\theta}_{1}^{*},\,\hat{\theta}_{2}^{*},\,\hat{\theta}_{3}^{*})$ are then used to plot an ensemble mean reconstruction of the potential $\hat{V}_{*}(x) := V(x;\hat{\theta}^{*}) = \sum_{k=1}^{3}\hat{\theta}_{k}^{*}x^{k}$ (depicted in red in the leftmost boxes) and compared with the ground truth (in black).
-            Notice the consintency in accuracy for the mean reconstruction.}
+            Notice the increase in accuracy for the mean reconstruction as $\mu\to0$.}
     \label{fig:lls_solutions}
 \end{figure}
 
@@ -338,16 +338,15 @@ A slow-fast framework of the form Eq.~\ref{eq:fast_slow_sde} is adopted for a SN
 \end{equation}
 where $\varepsilon\ll1$ is the timescale separation between the dynamics of the fast variable $X_{t}$ and that of the slow variable $\mu$.
 We assume also that $0 < \sigma \ll \sqrt{\varepsilon} < 1$ so that solutions of Eq.~\ref{eq:slow_fast_SN} undergo B-tipping close to $\mu=\mu_{c}=0$ when ramped.
-\begin{figure}
+\begin{figure}[!tp]
     \centering 
-    \includegraphics[keepaspectratio, width=.895\textwidth]{./figures/stationary_SN_ews.pdf}
+    \includegraphics[keepaspectratio, width=\textwidth]{./figures/stationary_SN_ews.pdf}
     \caption{Comparison between the increase in variance and modified escape EWS for stationary solutions of a SN normal form at different values of the bifurcation parameter $\mu\in(-1,0)$.
             In the top panel the bifurcation diagram is shown with the blue curve representing the branch of the stable equilibrium $a = \sqrt{-\mu}$ while the red curve represents the unstable equilibrium branch $b = -\sqrt{-\mu}$; the SN bifurcation is depicted by the yellow circle at $\mu=0$.
             In the middle and bottom panels we compare the analytical (black curves) and empirical (red circles) variance and modified escape rate respectively.
             The analytical values have been computed using Eq.~\ref{eq:stationary_SN_variance} for the variance (numerical integration is performed using a Gauss-Kronrod quadrature rule \cite{Laurie1997}) and Eq.~\ref{eq:escape_ews} for the escape EWS; the empirical values have been computed by taking the median of an ensemble of $100$ sample paths at each parameter value.
             The error bars represent the interquartile range of the compute quantity.
-            Notice how, alongside interpretability, the modified escape EWS is also \textit{``earlier''} in the upward trend compared to the increase in variance which also shows non-monotonicity at the very onset of the B-tipping event causing potential false negatives.
-    }
+            Notice how, alongside interpretability, the modified escape EWS is also \textit{``earlier''} in the upward trend compared to the increase in variance which also shows non-monotonicity at the very onset of the B-tipping event.}
     \label{fig:stationary_SN_ews}
 \end{figure}
 In the singular limit $\varepsilon\to0$ the solution of the time-invariant FPE gives a Boltzmann-like (stationary) probability density of the form
@@ -366,13 +365,13 @@ We first show that the modified EWS reconstructed from the MLE of the confining 
 In Figure~\ref{fig:stationary_SN_ews} we simulate an ensemble of $100$ sample paths of Eq.~\ref{eq:slow_fast_SN} for fixed values of the bifurcation parameter (i.e. with $\varepsilon=0$). 
 For each value of $\mu$ in the parameter sweep of the $(-1,0)$ interval and for each sample path in the ensemble, we compute the MLE of Eq.~\ref{eq:lls_solution} of a fitting polynomial potential and compute the modified escape EWS given by Eq.~\ref{eq:escape_ews}.
 This results in a distribution of modified escape EWS whose median we then compare to the ground truth, i.e. the analytical value of Eq.~\ref{eq:escape_ews} when evaluated using the true potential $V(x;\mu)$ of the SN normal form. 
-\begin{figure}
+\begin{figure}[!tp]
     \centering 
-    \includegraphics[keepaspectratio, width=.925\textwidth]{./figures/ramped_SN_EWS.pdf}
+    \includegraphics[keepaspectratio, width=\textwidth]{./figures/ramped_SN_EWS.pdf}
     \caption{Comparison between the increase in variance and modified escape EWS for non-stationary solutions of a slow-fast formulation of Eq.~\ref{eq:fast_slow_sde} of a SN normal form.
              In the top panel an ensemble of sample paths (black), slowly forced with rate $\varepsilon=4\cdot10^{-5}$, follow the stable branch (blue) of the critical manifold $a(\mu)$; notice that they all tip across the unstable branch (red) before the SN bifurcation (yellow circle) is reached.
              We indicate the earliest tipping in the ensemble by the vertical dashed line. 
-             In the middle panel we show the residuals $\tilde{X_t}$ of the trajectories shown in the top panel $X_t$ obtained by detrendeding the drift of $X_t$ along the stable branch of the critical manifold $a(\mu)$. 
+             In the middle panel we show the residuals $\tilde{X_t}$ of the trajectories shown in the top panel obtained by detrendeding the drift of $X_t$ along the stable branch of the critical manifold. 
              The trend is computed using the pyEMD package \cite{Laszuk2017}. 
              In the bottom panels we compare the analytic signal of the forzen system (black) against the ensemble averages of the same quantities computed (empirically) from the sample paths (red).
              The empirical signals are computed using a sliding window of $10\%$ the length of the total number of realizations in the sample paths.}
@@ -454,7 +453,7 @@ Both the circulation strength and salinity gradient show bistable regions in $\m
 \begin{figure}[t]
     \centering 
     \includegraphics[keepaspectratio, width=\textwidth]{./figures/stommel_bif_diag.pdf}
-    \caption{Bifurcation diagrams of the flow-salinity formulation of Stommel's $2-$box model.
+    \caption{Bifurcation diagrams of the flow-salinity formulation of Stommel's $2-$box model for $\eta=3$ and $\beta=0.3$.
              Branches of stable equilibria are in blue, while unstable ones are in red.
              A region of bistability exists (gray box) in between parameter values $\mu=0.9$ and $\mu\approx1.2$ and is bounded by a smooth SN bifurcation (yellow circle) and a non-smooth SN bifurcation (green circle).}
     \label{fig:stommel_bif_diag}
@@ -490,7 +489,7 @@ We also derived a MLE framework to extract such EWS from timeseries with no prio
 Finally, applications to synthetically generated samples of solutions undergoing tipping phenomena, show robustness in the detection ability of the proposed new EWS while providing confidence in its predicting skills thanks to its interpretability.
 Extensions to multivariate signals is also a subject of high interest among the various communities trying to unlock EWS of high-dimensional systems using spatio-temporal information.
 In this paper we obtain evidence that applications of the proposed methodology to one-dimensional reductions of higher-dimensional systems can yield confident results, provided an optimal choice of the monitored observable.
-Further studies are necessary to reduces the uncertainty and standard deviation of the computed MLE however they fall outside the scope of the present manuscript and will be addressed by the authors in the future.
+Further studies are necessary to reduce the uncertainty and standard deviation of the computed MLE however they fall outside the scope of the present manuscript and will be addressed by the authors in the future.
 
 %\appendix
 %\section{Appendix}
