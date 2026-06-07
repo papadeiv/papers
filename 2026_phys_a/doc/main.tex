@@ -299,9 +299,9 @@ We thus minimize the residual vector $r(\theta)\in\mathbb{R}^{N}$ between the ob
 Notice that by fitting the minimal working model of a SN B-tipping (i.e. we assume $V(x;\theta)$ is a cubic polynomial of coefficients $\theta = (\theta_{1},\, \theta_{2},\, \theta_{3})$), the residual in Eq.~\ref{eq:lls_problem} is linear in $\theta$.
 This allows us to write the so-called normal equation whose solution reads
 \begin{equation}\label{eq:lls_solution}
-        A\theta - b = r(\theta) \neq 0 \quad\Rightarrow\quad\theta^{*} = (A^{T}A)^{-1}A^{T}y = A^{+}y\,,
+        A\theta - y = r(\theta) \neq 0 \quad\Rightarrow\quad\theta^{*} = (A^{T}A)^{-1}A^{T}y = A^{+}y\,,
 \end{equation}
-where $y\in \mathbb{R}^{N}$ denotes the observation data vector, $A\in \mathbb{R}^{N\times3}$ is the model matrix evaluated on the sample $\mathcal{X}$ (i.e. $A_{jk} = X_{j}^{k}$) and $A^{+}\in\mathbb{R}^{3\times N}$ is the Moore-Penrose inverse of $A$.
+where $y\in \mathbb{R}^{N}$ denotes the observation data vector (i.e. $y_j = Y_j$), $A\in \mathbb{R}^{N\times3}$ is the model matrix evaluated on the sample $\mathcal{X}$ (i.e. $A_{jk} = X_{j}^{k}$) and $A^{+}\in\mathbb{R}^{3\times N}$ is the Moore-Penrose inverse of $A$.
 We remark that with Eq.~\ref{eq:lls_solution} being overdetermined ($N\gg3$), the solution only exists if $A$ is full-rank (i.e. $\text{rk }A = 3$).
 With $A$ being a Vandermonde matrix with no $0-$th order coefficients, this is guaranteed to be true provided that the at least $3$ of the observations in $\mathcal{X}$ are distinct.
 It is reasonable to assumbe that for $N\to\infty$ observations of the stationary state, this happens with probability one.
