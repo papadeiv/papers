@@ -47,7 +47,7 @@ function main()
                 # Loop over the ensemble solutions
                 for n in 1:length(ensemble.state)
                         # Plot the misfit dependance on the regularization coefficients
-                        lines!(ax, α_set, misfit[n,:], color = (:red,0.35), linewidth = 4.0)
+                        lines!(ax, α_set, misfit[n,:], color = (:red,0.25), linewidth = 4.0)
                 end
 
                 # Plot the ensemble mean misfit
