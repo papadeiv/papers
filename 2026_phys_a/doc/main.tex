@@ -124,8 +124,8 @@ Applications in this section include a well-known model of vegetation biomass co
 We conclude with further discussions and future directions based on the presented techniques in \sref{sec:discussion}.
 %
 \section{Escape rate across a potential barrier}\label{sec:escape_rate}
-In the following, and for the rest of this paper, we will treat functions $V$ that depend both on the state variable $x$ and on time $t$, i.e. $V=V(x,t)$. 
-To avoid confusion with regards to differentiation we will adopt the following notation
+\revision{In the following, and for the rest of this paper, we will treat functions $V$ that depend both on the state variable $x$ and on time $t$, i.e. $V=V(x,t)$.
+To avoid confusion with regards to differentiation we will adopt the following notation}
 %
 \begin{equation*}
         \dot{V}:=\frac{d}{dt}V(x,t)\quad \text{and}\quad V':=\frac{d}{dx}V(x,t)\,.
@@ -176,7 +176,7 @@ Given a double-well potential $V$ (see e.g. \fref{fig:double_well_potential}) wi
 %
 where $\Delta V_{a\to b} = V(b) - V(a)$ quantifies the energy barrier that the Langevin overdamped particle has to overcome in order to escape, and $V''$ \revision{quantifies the local curvature of $V$}.
 %
-\subsection{An interpretable EWS}
+\subsection{An interpretable EWS}\label{subsec:modified_escape_ews}
 At this point, \revision{there are two persistent challenges in the derivation and application of EWS}. 
 The first one regards what defines the optimality of an EWS.
 Suppose we have two distinct EWS that both show robustness in their trend when applied to a large enough ensemble of timeseries of the same system: how can we compare them in a systematic fashion in order to choose the better one in terms of their predictive power?
@@ -206,7 +206,7 @@ Conversely, as the SN bifurcation is approached, the stable $x=a$ and unstable e
 \end{equation}
 %
 \revision{where $\mu=\mu_c$ denotes the parameter value at which a SN bifurcation between the stable state $x=a$ and the unstable saddle $x=b$ occurs.
-Notice that \eqref{eq:escape_ews} is obtained from \eqref{eq:kramer_escape_formula} by removing the curvature-depending prefactor and setting $D=1$ in the argument of the exponential.
+        Notice that \eqref{eq:escape_ews} is obtained from \eqref{eq:kramer_escape_formula} by removing the curvature-depending prefactor $\sqrt{|V''(b)|V''(a)}/2\pi$ and setting $D=1$ in the argument of the exponential.
 We highlight that the modified formulation \eqref{eq:escape_ews} of Kramer's escape rate \eqref{eq:kramer_escape_formula} retains all the information that is necessary for predicting B-tipping while at the same time reducing the uncertainty with respect to its approximation (see \aref{appendix_a} for a detailed discussion).}
 
 The boundedness of \eqref{eq:escape_ews} in $(0,1]$ \revision{conveniently} solves the interpretability problem we outlined above.
@@ -288,7 +288,7 @@ The optimization problem \eqref{eq:inv_log_likelihood} requires the knowledge of
 %
 Solutions of the FPE are rarely available in closed form and thus the optimization \eqref{eq:inv_log_likelihood} often relies on numerical or analytical approximations. 
 %
-\subsection{Time-invariant approximation: the Ornstein-Uhlenbeck process}
+\subsection{Time-invariant approximation: the Ornstein-Uhlenbeck process}\label{subsec:oup}
 \revision{In the general time-varying regime, solutions of the FPE \eqref{eq:fpe} are usually found numerically.
 However, in the specific case of slow-fast systems of the form \eqref{eq:fast_slow_sde}, the computation of the transition density can be simplified. 
 Specifically, in the singular limit ($\varepsilon\to0$) the (linear) ramp of the forcing parameter is much slower than the timescale of the evolution for the state variable. 
@@ -315,7 +315,7 @@ As an example of applicability of this workflow, let us consider the well-known 
 %
 \revision{where $\alpha,a> 0$.
 The illustrative value of considering the OUP is given by the fact that it models the linear approximation of any nonlinear (stationary) SDE with additive noise around an equilibrium $x=a$ of the drift term $f$.
-More specifically, if \eqref{eq:fast_slow_sde} is not ramped (i.e. $\varepsilon=0$), the sample path around a stable equilibrium $x=a$ of the nonlinear vector field $f(x) = -V'(x)$ is well approximated by the solution of \eqref{eq:oup} with $\alpha = f'(x=a) = -V''(x=a) > 0$
+More specifically, if \eqref{eq:fast_slow_sde} is not ramped (i.e. $\varepsilon=0$), the sample path around a stable equilibrium $x=a$ of the nonlinear vector field $f(x) = -V'(x)$ is well approximated by the solution of \eqref{eq:oup} with $\alpha = f'(x=a) = -V''(x=a) > 0$.
 By denoting $\theta=(\alpha,a,D)$ to be our parameter vector, we setup a MLE problem in which the (limiting) Gaussian distribtion of the OUP \cite[Ch. 3, p. 74]{Gardiner2009}}.
 %
 \begin{equation}\label{eq:oup_density}
@@ -323,28 +323,52 @@ By denoting $\theta=(\alpha,a,D)$ to be our parameter vector, we setup a MLE pro
 \end{equation}
 %
 \revision{is of Boltzmann-like form \eqref{eq:invariant_pdf} with partition function $Z(\theta) = \sqrt{\pi D/\alpha}$ and quadratic potential $V(x) = \alpha(a - x)^{2}$}.
-The solution of this MLE problem has been shown to be asymptotically normal \cite{Sahalia2002} as demonstrated in \fref{fig:oup_mle}.
+The solution of this MLE problem has been shown to be asymptotically normal \cite{Sahalia2002}, for large enough $\alpha$, as demonstrated in \fref{fig:oup_mle}.
 %
 \begin{figure}[t]
     \centering 
     \includegraphics[keepaspectratio, width=\textwidth]{./figures/oup_mle.pdf}
     \caption{Empirical distribution of the MLE of the parameters $\theta^* = (\alpha^*, a^*, D^*)$ of an ensemble of $10,000$ sample paths solving \eqref{eq:oup} for two different configurations of the potential $V(x) = \alpha(a - x)^{2}$: a deep, strongly confining well with $\alpha = 10$ (top row); a shallow well with $\alpha = 0.5$ (bottom row).
-            In each of the plots the true value of the parameter used to generate the data is reported (blue line).
+            In each box the true value of the parameter is reported (blue line).
             Notice how, as $\alpha\to0$, the distribution of the estimators of the linear coefficient becomes more skewed despite the symmetry in the confining potential.
             These solutions have been computed using the pymle package \cite{Kirby2025}.}
     \label{fig:oup_mle}
 \end{figure}
+
+\revision{When $\alpha\to0$ however, the distribution of MLE of $\alpha^*$ becomes skewed towards larger values (leftmost column in \fref{fig:oup_mle}). 
+On top of this, the distribution of the MLE of $a^*$ increases in standard deviation (middle column in \fref{fig:oup_mle}), yielding an overall less accurate estimation.
+Since we can interpret $\alpha=f'(x=a)$ to be the leading eigenvalue of the linearized vector field $f$ around the stable equilibriuma $x=a$, we conclude that the MLE of the SDE using the OUP transition density decreases in accuracy as the B-tipping event is approached.}
 %
 \subsection{Euler-Maruyama least-squares regression}\label{subsec:euler}
-The numerical estimation of the transition density in \eqref{eq:inv_log_likelihood} using the OUP assumption presents two important limitations in the computation of the modified escape EWS \eqref{eq:escape_ews}.
-Due to the quadratic polynomial nature of the confining potential in \eqref{eq:oup_density}, no local maximum $x=b$ can be estimated.
-Instead, we would like to assume a locally cubic potential $V(x;\theta)$, as mentioned at the beginning of this section, so that $\Delta V = V(b) - V(a)$ can be computed.
-Furthermore, notice how the accurcacy of the MLE of the linear coefficient of the OUP decreases as it approaches $0$, which coincides with the SN bifurcation.
+\revision{In the forecast of B-tipping events, a desirable property of an EWS is that its prediction becomes more accurate and reliable in the proximity of the critical transition.
+Estimating the likelihood of B-tipping using the transition density of the stationary OUP however achieves the opposity as its accuracy decreases the closer the sample path is to the SN bifurcation.
+In this section we remedy and overcome this limitation by using an alternative approach to MLE.
+To model B-tipping out of a sample path of \eqref{eq:fast_slow_sde} we fit a cubic polynomial $V(x;\theta) = \sum_{k=1}^{3}\theta_{k}x^{k}$ to its potential.
+}
+Notice that, in order for \revision{the stationary distribution $p(x)$ to be a solution of the FPE \eqref{eq:fpe} with cubic $V$ (quadratic $V'$)}, we need to \revision{truncate} the domain of the probability density function to be either $[b,+\infty)$ or $(-\infty,b]$, with $x=b$ being the local maximum of $V$, depending on the sign of the cubic coefficient $\theta_{3}$ \revision{as well as imposing reflecting boundary conditions at $x=b$.}
 
-In order to overcome both limitations we rather approximate the invariant transition density \eqref{eq:invariant_pdf} using the ansatz $V(x;\theta) = \sum_{k=1}^{3}\theta_{k}x^{k}$.
-Notice that, in order for this to be a solution of the FPE, we need to \revision{truncate} the domain of the probability density function to be either $[b,+\infty)$ or $(-\infty,b]$, with $x=b$ being the local maximum of $V$, depending on the sign of the cubic coefficient $\theta_{3}$ \revision{as well as imposing reflecting boundary conditions at $x=b$.}
 A number of computational methods to approximate such density are available \cite{Pedersen1995, Jensen2002, Sahalia2002}.
 Conversely, other techniques have been devised that do not rely on the numerical approximation of the transition density such as the generalized method of moments (GMM) \cite{Hansen1982}, Markov chain Monte-Carlo (MCMC) algorithms \cite{Roberts2001,Alexander2005} and quasi-maximum likelihood regressions (QML) \cite{Castelle1986, Yoshida1992}.
+%
+\begin{algorithm}[!tp]
+        \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+        \SetKwFunction{Detrend}{detrend}\SetKwFunction{MLE}{mle}
+        %
+        \Input{sample $\mathcal{X}={X_0,X_1,\dots,X_N}$ (timeseries)}
+        \BlankLine 
+        $\overline{\mathcal{X}}$ = \Detrend{$\mathcal{X}$} \tcp*{obtain stationary residuals}
+        $\theta^*$ = \MLE{$\overline{\mathcal{X}}$} \tcp*{solve the normal equation \eqref{eq:lls_solution}}
+        $V^*(x)=\sum_{k=1}^{3}\theta_k^*x^k$ \tcp*{approximate cubic potential}
+        $x_{\text{min}}= + \frac{1}{3\theta^*_3}\big(\sqrt{(\theta_2^*)^2 - 3\theta_1^*\theta_3^*} - \theta^*_2\big)$ \tcp*{local minimum of $V^*$}
+        $x_{\text{max}}= - \frac{1}{3\theta^*_3}\big(\sqrt{(\theta_2^*)^2 - 3\theta_1^*\theta_3^*} + \theta^*_2\big)$ \tcp*{local maximum of $V^*$}
+        $\Delta V^*=V^*(x_{\text{max}}) - V^*(x_{\text{min}})$ \tcp*{estimated energy barrier}
+        $\text{EWS}=\exp(-\Delta V^*)$\;
+        \Output{likelihood of B-tipping of the sample}
+        %
+        \caption{Extraction of \eqref{eq:escape_ews} from timeseries data.}
+        \label{alg:modified_ews}
+\end{algorithm}
+%
 Here we focus on the latter approach and in particular we describe one QML technique that reduces the MLE problem into a linear-least squares (LLS) regression.
 
 As usual, we assume our sample path $\mathcal{X} = \{X_{0},\dots,X_{N}\}$ to be a solution of \eqref{eq:langevin} under the stationarity restriction.
@@ -380,42 +404,26 @@ This allows us to write the so-called normal equation
 %
 where $y\in \mathbb{R}^{N}$ denotes the observation data vector (i.e. $y_j = Y_j$), $A\in \mathbb{R}^{N\times3}$ is the model matrix evaluated on the sample $\mathcal{X}$ (i.e. $A_{jk} = X_{j}^{k}$) and $A^{+}\in\mathbb{R}^{3\times N}$ is the Moore-Penrose inverse of $A$.
 \revision{With the estimation $\theta^*=(\theta^*_1, \theta^*_2, \theta^*_3)$ one can easily compute the modified escape EWS \eqref{eq:escape_ews} of the approximation $V^*(x):=V(x;\theta^*)$ using the sample path. We report the main steps of this procedure in Algorithm~\ref{alg:modified_ews}.}
-%
-\begin{algorithm}[!tp]
-        \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
-        \SetKwFunction{Detrend}{detrend}\SetKwFunction{MLE}{mle}
-        %
-        \Input{sample $\mathcal{X}={X_0,X_1,\dots,X_N}$ (timeseries)}
-        \BlankLine 
-        $\overline{\mathcal{X}}$ = \Detrend{$\mathcal{X}$} \tcp*{obtain stationary residuals}
-        $\theta^*$ = \MLE{$\overline{\mathcal{X}}$} \tcp*{solve the normal equation \eqref{eq:lls_solution}}
-        $V^*(x)=\sum_{k=1}^{3}\theta_k^*x^k$ \tcp*{approximate cubic potential}
-        $x_{\text{min}}= + \frac{1}{3\theta^*_3}\big(\sqrt{(\theta_2^*)^2 - 3\theta_1^*\theta_3^*} - \theta^*_2\big)$ \tcp*{local minimum of $V^*$}
-        $x_{\text{max}}= - \frac{1}{3\theta^*_3}\big(\sqrt{(\theta_2^*)^2 - 3\theta_1^*\theta_3^*} + \theta^*_2\big)$ \tcp*{local maximum of $V^*$}
-        $\Delta V^*=V^*(x_{\text{max}}) - V^*(x_{\text{min}})$ \tcp*{estimated energy barrier}
-        $\text{EWS}=\exp(-\Delta V^*)$\;
-        \Output{likelihood of B-tipping of the sample}
-        %
-        \caption{Extraction of \eqref{eq:escape_ews} from timeseries data.}
-        \label{alg:modified_ews}
-\end{algorithm}
 
 We remark that with \eqref{eq:lls_solution} being overdetermined ($N\gg3$), the solution only exists if $A$ is full-rank (i.e. $\text{rk }A = 3$).
 Since $A$ is a Vandermonde matrix with no $0-$th order coefficients, this is guaranteed to be true provided that the at least $3$ of the observations in $\mathcal{X}$ are distinct\revision{, which reasonably happens with probability one as $N\to\infty$.}
-The distribution of the \revision{solutions \eqref{eq:lls_solution} is also} asymptotically normal and, importantly, it preserves the numerical accuracy as the \revision{SN} bifurcation is approached as displayed in \fref{fig:lls_solutions}.
+The distribution of the \revision{solutions \eqref{eq:lls_solution} is also} asymptotically normal as shown in \fref{fig:lls_solutions} for the case of a SN normal form.
 %
-\begin{figure}[t]
+\begin{figure}[!tp]
     \centering 
     \includegraphics[keepaspectratio, width=\textwidth]{./figures/lls_solutions.pdf}
-    \caption{Distribution of the solutions $\theta^{*} = (\theta_{1}^{*},\,\theta_{2}^{*},\,\theta_{3}^{*})$ of the LLS regression problem for a SN normal form with drift $f(x;\mu) = -\mu - x^2$.
-            The problem is solved for different configurations of the potential at different values of the bifurcation parameter; at $\mu = -0.9$ the system is far from the bifurcation (top row); at $\mu=-0.6$ the system is closer to the bifurcation (middle row); at $\mu=-0.3$ the system is very close to the bifurcation.
-            For each configuration we compute an ensemble of solutions \eqref{eq:lls_solution}, represented by the normal shaped histograms, using $5,000$ sample paths of the normal form at their respective parameter value.
-            The value of the polynomial coefficients of the true potential $V(x;\mu) = \mu x + \frac{x^3}{3}$ are displayed, in each box, by a blue line.
-    The (ensemble) mean values of the LLS solutions $\hat{\theta}^{*} = (\hat{\theta}_{1}^{*},\,\hat{\theta}_{2}^{*},\,\hat{\theta}_{3}^{*})$ are then used to plot an ensemble mean reconstruction of the potential $\hat{V}^{*}(x) := V(x;\hat{\theta}^{*}) = \sum_{k=1}^{3}\hat{\theta}_{k}^{*}x^{k}$ (depicted in red in the rightmost boxes) and compared with the ground truth (in black).
-            Notice the increase in accuracy for the mean reconstruction as $\mu\to0$.}
+    \caption{Distribution of the solutions $\theta^{*} = (\theta_{1}^{*},\,\theta_{2}^{*},\,\theta_{3}^{*})$ of the LLS problem for a SN normal form $f(x;\mu) = -\mu - x^2$.
+            The problem is solved for different configurations of the potential $V(x;\mu) = \mu x + \frac{x^3}{3}$; at $\mu = -0.9$ in top row; at $\mu=-0.6$ in middle row and; at $\mu=-0.3$ in the bottom row.
+            For each configuration we compute an ensemble of $5,000$ sample paths and compute the solutions \eqref{eq:lls_solution} whose distributions are represented by the histograms in the 3 leftmost boxes.
+            The value of the polynomial coefficients of the true potential are reported in each box (blue line).
+            The (ensemble) mean values of the LLS solutions $\hat{\theta}^{*} = (\hat{\theta}_{1}^{*},\,\hat{\theta}_{2}^{*},\,\hat{\theta}_{3}^{*})$ are used to plot an ensemble mean reconstruction (red curve in the rightmost boxes) of the potential $\hat{V}^{*}(x) := V(x;\hat{\theta}^{*}) = \sum_{k=1}^{3}\hat{\theta}_{k}^{*}x^{k}$ and compared with the ground truth (black curve).
+            }
     \label{fig:lls_solutions}
 \end{figure}
 %
+\revision{Notice that, contrary to the MLE using the stationary density of the OUP described in \sref{subsec:oup}, the numerical accuracy of the LLS regression \eqref{eq:lls_solution} improves as the SN bifurcation is approached.
+This is shown in \fref{fig:lls_solutions} by a reduction of the standard deviation of the distribution (histograms) of the LLS solutions $\theta^*$ as $\mu\to0$}.
+
 \section{Applications}\label{sec:applications}
 We are now ready to extract the modified escape EWS \eqref{eq:escape_ews} directly from timeseries data by approximating the local shape of the confining potential using the likelihood estimator described in the \sref{subsec:euler}.
 \revision{We will demonstrate the efficacy of the proposed modified escape EWS \eqref{eq:escape_ews} and its approximation method (Algorithm~\ref{alg:modified_ews}) using three test cases:}
@@ -476,7 +484,7 @@ We do the same for the ensemble variance by computing \eqref{eq:stationary_SN_va
 
 The empirical results in \fref{fig:stationary_SN_ews} show that, in the large number of samples limit, the modified EWS computed by MLE does converge to the true value in median.
 This is not surprising given prior evidence of convergence in mean of the MLE coefficients to their true value as shown in \fref{fig:lls_solutions}.
-We also emphasize that the accuracy of the MLE modified escape EWS improves as the system gets closer to the B-tipping as shown by the shrinking of the errorbars in \fref{fig:stationary_SN_ews}}.
+We also emphasize that the accuracy of the MLE modified escape EWS improves as the system gets closer to the B-tipping as shown by the shrinking of the errorbars in \fref{fig:stationary_SN_ews}.
 %
 \begin{figure}[!tp]
     \centering 
@@ -630,14 +638,66 @@ While this falls outside the scope of the current manuscript, which instead show
 \appendix
 %
 \section{Modified escape rate as an EWS}\label{appendix_a}
+In the following the explain the motivations behind the choices of the definition of a modified escape EWS of the form \eqref{eq:escape_ews}
+%
+\begin{equation*}
+        \exp(-\Delta V)\,,
+\end{equation*}
+%
+rather than using Kramer's original formula for the escape rate \eqref{eq:kramer_escape_formula}
+%
+\begin{equation*}
+        \frac{\sqrt{|V''(b)|V''(a)}}{2\pi}\exp(-\frac{\Delta V}{D})\,.
+\end{equation*}
+%
+We remark that our modified escape EWS is obtained by Karmer's formula by dropping the prefactor $\sqrt{|V''(b)|V''(a)}/2\pi$ and by setting $D=1$.
+To motivate this choice we emphasize that one of the main contributions of our porposed EWS is interpretability.
+
+As explained in the main text (see \sref{subsec:modified_escape_ews}), the increase in variance is only valuable as an EWS of B-tipping if: either one has access to a large enough sample so that monitoring relative changes is possible or; one knows the baseline value of the variance for the same system away from the critical transitions.
+Regardless of the two cases above, the overaching strategy is that one needs to compare the detected value of the variance from a given sample to another value of the same system from a different sample.
+A single value of the variance does not provide any insight for the detection of CSD which is at the core of EWS of B-tipping.
+
+On the contrary, the modified escape EWS is bounded in $(0,1]$, where values close to $0$ immediately translates to safe distance of the system from the critical transition while values close to $1$ indicate a dangerous proximity to a critical transition.
+This advantage of interpretability of the modified escape EWS is further emphasized by the fact that, as a gradient system approaches B-tipping, the potential barrier $\Delta\to0$ monotonically with $\mu\to\mu_c$.
+The modified escape EWS is a monotonic function of $\Delta V$ which means that, at least analytically, if the system is driven closer to B-tipping the modified escape EWS can only increase and viceversa.
+The same cannot be said about the increase in variance which, as shown in Figures \ref{fig:stationary_SN_ews} and \ref{fig:ramped_may_ews}, is not monotonic with $\mu\to\mu_c$.
+We conclude that the many advantages of using the modified escape EWS as a precursor of CSD are:
+%
+\begin{itemize}
+     \item interpretability provided by the boundedness of its range in $(0,1]$;
+     \item monotonicity of increase with respect to the system's \textit{``distance''} from B-tipping.
+\end{itemize}
+%
+Due to the above we show that including the dependence of the proposed EWS on the stochastic diffusion term $D$ and the curvature $V''(x)$ undermines both the advantages outlined above from both an analytical and computational perspective.
+
+First notice that while $\Delta V = V(b) - V(a)\to0$ monotonically with $\mu\to\mu_c$ this is not necessarly true for the prefactor term $\sqrt{|V''(b)|V''(a)}$.
+This is shown in \fref{fig:kramers_formula} (middle box).
 %
 \begin{figure}[t]
     \centering 
     \includegraphics[keepaspectratio, width=\textwidth]{./figures/kramers_formula.pdf}
-    \caption{Comparison of the modified escape EWS (leftmost box) and Kramer's escape rate \eqref{eq:kramer_escape_formula} (rightmost box) at different values of the diffusion level $D$.
-            Notice the non-monotonicity of Kramer's formula due to the presence of the prefactor (center box) which is independent on $D$.}
+    \caption{Comparison of the modified escape EWS (leftmost box) and Kramer's escape rate \eqref{eq:kramer_escape_formula} (rightmost box) at different values of the diffusion level $D$ (color-coded in the colorbar on the right).
+            The prefactor term of Kramer's escape rate (middle box) is independent on $D$ and thus shown by a single black curve.}
     \label{fig:kramers_formula}
 \end{figure}
+%
+While the curvature of both the well $V''(a)$ and hilltop $V''(b)$ of the potential will approach $0$ monotonically as a SN bifurcation involving $x=a$ and $x=b$ is approached, their product does not necessarly.
+Furthermore, while it is clear that $\exp(-\Delta V/D)$ is bounded in $(0,1]$, the same cannot be said for the prefactor.
+Notice in fact that $\sqrt{|V''(b)|V''(a)}/s\pi$ has range $[0,+\infty)$ for any value of $\mu$ that precedes the SN bifurcation.
+Including the prefactor term in our modified escape EWS will thus immediately erase both advantages described above: it will no longer be bounded in $(0,1]$ but rather in $[0,+\infty)$ (just like the variance) and it will also increase non-monotonically as the SN critical transition is approached.
+
+Second, notice that the stochastic diffusion $D$ is not a term of the prefactor and it is only an argument of the exponential part of the proposed EWS.
+In particular since $D\in(0,+\infty)$ the exponential $\exp(-\Delta V/D)$ becomes flatter for values of $\mu$ away from B-tippig (see leftmost box in \fref{fig:kramers_formula}) as $D\to0$.
+This is undesirable as an EWS because it hinders the \textit{``earliness''} interpretation of the increase of the quantity as $\mu\to\mu_c$.
+A good EWS should not only be monotonic in the approach of B-tipping but it should also be \textit{``early''} enough so that preventive actions can be taken to avoid the critical transitions.
+
+This analytical argument in dropping the dependence of the modified escape EWS on $D$ is further corroborated by a simple computational argument.
+In the MLE we proposed in \sref{subsec:euler} we estimate the polynomial coefficients $\theta^* = (\theta_1^*,\theta_2^*,\theta_3^*)$ of a cubic potential that better describes the sample $\mathcal{X}=\{X_0,\dots,X_N\}$.
+Because of the linearity of the problem on the polynomial coefficients $\theta^*$, the MLE reduces to a LLS problem in $\mathbb{R}^{3}$.
+If we were to estimate $D$ as well (which is, in principle, unknown), then the search space becomes $\mathbb{R}^{4}$ and the residual will no longer be linear in the parameter vector (see Eqs. \eqref{eq:increments} and \eqref{eq:lls_problem}).
+
+This increase in complexity for the MLE is not worth the inclusion of the missing information $D$ from the modified escape EWS since it does not change the advantages of boundeness and monotonicity discussed above.
+As a result we set $D=1$ and obtain our modified escape EWS to be \eqref{eq:escape_ews}.
 %
 \printcredits
 %
