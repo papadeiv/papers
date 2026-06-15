@@ -38,7 +38,7 @@ ax1 = Axis(fig[1,1], limits = (-1, 0.025, -1, 1),
           )
 
 # Variance EWS 
-ax2 = Axis(fig[2,1], limits = (-1, 0.025, 0, 0.02),
+ax2 = Axis(fig[2,1], limits = (-1, 0.025, 0.0008, 0.02),
            spinewidth = border,
            xgridvisible = false,
            ygridvisible = false,

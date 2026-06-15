@@ -47,7 +47,6 @@ function main()
         # Loop over the parameter values
         for (parameter_index, μ) in enumerate(μ_set)
                 # Define the diffusion term
-                η(x) = μ < -0.1 ? σ : 0.1*σ
 
                 # Define the initial condition
                 x0 = [sqrt(-μ), μ]
@@ -75,9 +74,6 @@ function main()
                 # Remove outliers from the empirical EWS (consider the 1%~99% range)
                 central_variance = filter(x -> quantile(empirical_variance_ews, 0.01) ≤ x ≤ quantile(empirical_variance_ews, 0.99), empirical_variance_ews)
                 central_escape = filter(x -> quantile(empirical_escape_ews, 0.01) ≤ x ≤ quantile(empirical_escape_ews, 0.99), empirical_escape_ews)
-                if μ == -0.1
-                        central_variance = 110*central_variance
-                end
 
                 # Plot the interquartile range
                 errorbars!(ax2, [μ], [median(central_variance)], [median(central_variance) - quantile(central_variance, 0.25)], [quantile(central_variance, 0.75) - median(central_variance)], color = :black, whiskerwidth = 15, linewidth = 3.0)

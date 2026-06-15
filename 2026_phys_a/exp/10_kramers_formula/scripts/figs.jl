@@ -12,10 +12,6 @@ border = 2.0
 labels = 20
 ticks = 22
 
-# Set boundaries of the potential range
-upper = 4
-lower = -8
-
 # Modified escape EWS 
 ax1 = Axis(fig[1,1],
            spinewidth = border,

@@ -503,8 +503,9 @@ This is a highly desirable property of the proposed method as it minimizes the c
 Compared to the increase in variance however, the modified escape EWS estimated from the sample paths does have, on average, a larger standard deviation.
 This becomes more evident when we allow the bifurcation parameter to vary slowly and apply the same methodology described above to detrended residuals of the solutions using the Empirical Mode Decomposition \cite{Huang1998}, as depicted in \fref{fig:ramped_SN_EWS}.
 
-The source of this is embedded in the large dimensionality of the parameter space $\mathbb{R}^{3}$, correlations in the estimated coefficients and other well-known issues regarding the stability of the method (e.g. ill-conditioning of the Vandermonde matrix).
+The source of this is embedded in the large dimensionality of the search space $\mathbb{R}^{3}$, correlations in the estimated coefficients and other well-known issues regarding the stability of the method (e.g. ill-conditioning of the Vandermonde matrix).
 Regularization of the solutions using penalizers (e.g. Tikhonov regularizations) can alleviate numerical instabilities in the LLS method and while it reduces the spread of the solutions it also introduces biases that effectively bring the mean solution further away from the ground truth.
+See Appendix \ref{appendix_b} for a detailed discussion on the effects of regularization on LLS solutions.
 %
 \subsection{Ecosystem collapse}\label{subsec:ecosystem}
 In the early years of EWS development, many works focused on a benchmark model of ecosystems collapse \cite{Scheffer2009,Dakos2012}.
@@ -637,7 +638,7 @@ While this falls outside the scope of the current manuscript, which instead show
 %
 \appendix
 %
-\section{Modified escape rate as an EWS}\label{appendix_a}
+\section{Derivation of the modified escape rate as an EWS}\label{appendix_a}
 In the following the explain the motivations behind the choices of the definition of a modified escape EWS of the form \eqref{eq:escape_ews}
 %
 \begin{equation*}
@@ -698,6 +699,42 @@ If we were to estimate $D$ as well (which is, in principle, unknown), then the s
 
 This increase in complexity for the MLE is not worth the inclusion of the missing information $D$ from the modified escape EWS since it does not change the advantages of boundeness and monotonicity discussed above.
 As a result we set $D=1$ and obtain our modified escape EWS to be \eqref{eq:escape_ews}.
+%
+\section{Variance-bias effects of Tikhonov regularization of the LLS solutions}\label{appendix_b}
+Regularization techniques such as Tikhonov regularization are often deployed in regression problems to reduce the variance in the solutions.
+They achieve this by introducing a penalizing term to the minimization problem \eqref{eq:lls_problem} 
+\begin{equation}\label{eq:rlls_problem}
+        \theta^*_{\text{reg}} = \argmin_{\theta\in\mathbb{R}^3}\big(||A\theta - y||_2 + \lambda||\theta||_2\big)\,,
+\end{equation}
+where $\lambda\geq0$ is a penalizing parameter that calibrates the degree of the penalization.
+The solution of \eqref{eq:rlls_problem} is
+\begin{equation}\label{eq:rlls_solutions}
+        \theta^*_{\text{reg}} = (A^{T}A + \alpha\text{ Id}_N)^{-1}A^{T}y\,,
+\end{equation}
+which, differently from the normal equation \eqref{eq:lls_solution} of the ordinary LLS solution, adds the penalizing parameter $\lambda$ to the diagonal entries of the square matrix $A^TA$.
+Notice that the case $\lambda=0$ reduces to an ordinary LLS problem \eqref{eq:lls_problem}-\eqref{eq:lls_solution}.
+The presence of this additional term acts as a penalizer of the large solutions $\theta^*\in \mathbb{R}^{3}$ in the $2-$ norm sense.
+Intuitively, strictly positive values of $\lambda$ will thus reduce the variance of the solutions \eqref{eq:rlls_solutions}, thus yielding more accurate estimations of the polynomial coefficients of the cubic potential.
+However it is well-established that positive values of the penalizer also introduce biases in the estimator \textbf{[CITE PAPER/BOOK]}.
+Specifically, a large value of $\lambda>0$ will succesfully reduce the spread of the solutions \eqref{eq:rlls_solutions} but at the cost of shifting the mean value of those solutions to a spurious point in the search space.
+This effect is also known as the variance-bias tradeoff of regularized LLS techniques such as Tilkhonov regularization.
+In \fref{fig:tikhonov_regularization} we demonstrate such effect by solving regularized LLS estimations for an ensemble of $1,000$ sample paths of a SN normal form \eqref{eq:slow_fast_SN} in the stationary regime ($\varepsilon=0$).
+%
+\begin{figure}[!tp]
+    \centering 
+    \includegraphics[keepaspectratio, width=\textwidth]{./figures/tikhonov_regularization.pdf}
+    \caption{Demonstration of the variance-bias effect of the penalizer $\lambda||\theta||_2$ for Tikhonov regularization of the LLS solutions \eqref{eq:lls_solution} at different values of the penalizing parameter $\lambda\in[0,10]$.
+            For each value of $\lambda$ we simulate an ensemble of $1,000$ sample paths solving a stationary SN normal form \eqref{eq:slow_fast_SN} at parameter value $\mu=-0.3$ and with $\varepsilon=0$.
+            For each sample path we then compute the solutions $\theta^*_\text{reg}$ of the regularized LLS problem \eqref{eq:rlls_solutions} and plot its location in the search space in $\mathbb{R}^{3}$ with a circle.
+            In the leftmost box we show the result of this experiment in a cubic subset of $\mathbb{R}^{3}$; the $\theta^*_{\text{reg}} = \theta^*_{\text{reg}}(\lambda)$ solutions are color-coded by the value of the penalizing parameter $\lambda$ as give by the colorbar on the right.
+            The ensemble mean $\hat{\theta}^*_{\text{reg}}(\lambda)$ of the solutions $\theta^*_{\text{reg}}(\lambda)$ of the regularized LLS problem are highlighted by a black outline.
+            The larger, blue circle represents the location of the ground truth point $\theta = (\mu,0,1/3)$ in the search space.
+            In the middle box we show a zoomed-in detail of the leftmost box but focused on the solutions for the middle-to-large values of the penalizer $\lambda$.
+            In the rightmost box we zoom-in further to focus on the solutions for the larger values of $\lambda$.
+            The three plots show how, for large values of the penalizer $\lambda$, the variance of the solutions reduces at the cost of introducing undesirable biases in the mean of the solutions.
+    Another way of interpreting this result is that the regularized LLS solution \eqref{eq:rlls_solutions} converges in mean to a biased estimator $\tilde{\theta}:=\theta+\delta\theta$ in the limit of large penalizers, i.e. $\hat{\theta}^*_{\text{reg}}(\lambda)\to\tilde{\theta}$ as $\lambda\to\infty$.}
+    \label{fig:tikhonov_regularization}
+\end{figure}
 %
 \printcredits
 %
