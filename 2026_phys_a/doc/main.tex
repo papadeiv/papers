@@ -89,22 +89,22 @@ The time evolution of the r.v. follows a deterministic drift, described by the p
 For simplicity, we will assume that the stochastic fluctuations are state-independent (i.e. \eqref{eq:fast_slow_sde} is an additive noise SDE in $X_t$).
 Importantly, the parameter characterizing the vector field of the dynamics is not stationary but it evolves according to a slow (deterministic) linear ramp of slope $0 < \varepsilon \ll 1$.
 This allows us to slowly change the state of the system thus reflecting the multiscale time-varying forcing of real-world complex systems.
-Different types of tipping events lead to qualitatively different sample paths of \eqref{eq:fast_slow_sde} depending on the underlying mechanism that generated them. 
 
+Different types of tipping events lead to qualitatively different sample paths of \eqref{eq:fast_slow_sde} depending on the underlying mechanism that generated them. 
 A classification of those was provided in \cite{Ashwin2012}:
 %
 \begin{itemize}
         \item bifurcation-induced (B-)tipping are abrupt transitions of the state $X_{t}$ once a critical threshold of the slowly changing bifurcation parameter $\mu=\mu_c$ is crossed. These types of tipping events are often associated to saddle-node bifurcations;
-     \item rate-induced (R-)tipping are instead a manifestation of the nonautonomous nature of \eqref{eq:fast_slow_sde} and are caused by the failure of the state $X_t$ to track the drift of a quasi-steady equilibrium. The mechanism generating these tipping phenomena is fundamentally different from B-tipping as it is the rate of change at which the forcing parameter is ramped that causes the tipping, rather than its value \cite{Ashwin2017}. Notice that the steady-state needs not to undergo a global nor local bifurcation for R-tipping to occur;
+     \item rate-induced (R-)tipping are instead a manifestation of the nonautonomous nature of \eqref{eq:fast_slow_sde} and are caused by the failure of the state $X_t$ to track the drift of a quasi-steady equilibrium. The mechanism generating these tipping phenomena is fundamentally different from B-tipping as it is the rate of change at which the forcing parameter is ramped that causes the tipping \cite{Ashwin2017}, rather than its value. Notice that the steady-state needs not to undergo a global nor local bifurcation for R-tipping to occur;
      \item noise-induced (N-)tipping events are entirely due to stochastically driven jumps of the state $X_{t}$ outside the basin attraction of the steady-state and are thus entirely unpredictable. Notice that N-tipping do not need time-varying forcing of the parameter and can be observed in systems at full stationarity.
 \end{itemize}
 %
-\revision{Here we focus on B-tipping events as it is believed to be the mechanics behind} the catastrophic collapses in ecosystems \cite{May1977}, biology \cite{Donovan2015} and ocean currents \cite{Lohmann2024,vanWesten025a}.
-\revision{A common characteristics of these system is that they all exhibit} multistability in which alternative, stable equilibria coexist simultaneously.
+\revision{Here we focus on B-tipping events as it is believed they are the mechanics behind} the catastrophic collapses in ecosystems \cite{May1977}, biology \cite{Donovan2015} and ocean currents \cite{Lohmann2024,vanWesten025a}.
+\revision{A common characteristic of these system is that they all exhibit} multistability in which alternative, stable equilibria coexist simultaneously.
 The loss of stability or the vanishing of one of such equilibria are modeled using bifurcation normal forms.
 \revision{In a B-tipping event two equilibria of the system collide, annihilating each other.
 A system tracking one of those equilibria will thus be forced to tip abruptly onto alternative stable states.
-The new state of equilibrium that follows the B-tipping can have catastrophic repercussions for the health of the system.}
+The new equilibrium state that follows the B-tipping can have catastrophic repercussions for the health of the system.}
 
 Due to the disruptive nature of tipping events, strategies have been developed that can predict these events by monitoring the state evolution $X_{t}$.
 Early-warning signals (EWS) are (often statistical) quantities that can be extracted from \revision{timeseries data (sample paths of \eqref{eq:fast_slow_sde})} with the intention of informing how likely and how close a critical transition is.
@@ -124,11 +124,11 @@ Applications in this section include a well-known model of vegetation biomass co
 We conclude the paper with further discussions and future directions based on the presented techniques in \sref{sec:discussion}.
 %
 \section{Escape rate across a potential barrier}\label{sec:escape_rate}
-\revision{In the following, and for the rest of this paper, we will treat functions $V$ that depend both on the state variable $x$ and on time $t$, i.e. $V=V(x,t)$.
+\revision{In the following, and for the rest of this paper, we will treat functions $y$ that depend both on the state variable $x$ and on time $t$, i.e. $y=y(x,t)$.
 To avoid confusion with regards to differentiation we will adopt the following notation}
 %
 \begin{equation*}
-        \dot{V}:=\frac{d}{dt}V(x,t)\quad \text{and}\quad V':=\frac{d}{dx}V(x,t)\,.
+        \dot{y}:=\frac{\partial}{\partial t}y(x,t)\quad \text{and}\quad y':=\frac{\partial}{\partial x}y(x,t)\,.
 \end{equation*}
 %
 We will also assume that, for fixed parameters $\mu\in \mathbb{R}^{p}$ the (frozen) deterministic drift is a conservative vector field, i.e. there exists a scalar potential $V(x;\mu):\mathbb{R}^{d}\to \mathbb{R}$ such that $f(x;\mu) = -V'(x;\mu)$.
@@ -193,7 +193,7 @@ For the rest of this section we show that a modified version of Kramer's escape 
 Consider a generic SN bifurcation in $d-$dimensions; if the system is conservative and the noise level is small, then \eqref{eq:kramer_escape_formula} holds when the state of the system is far enough from the bifurcation.
 \revision{In this regime, the two wells of the potential are well separated and thus the local minimum (stable equilibrium) $x=a$ is much deeper than the local maximum (unstable equilibrium) $x=b$}.
 In other words, far from the bifurcation the potential barrier $\Delta V = V(b) - V(a) \gg 0$ (we dropped the transition notation $a\to b$).
-Conversely, as the SN bifurcation is approached, the stable $x=a$ and unstable equilibria $x=b$ of the system become closer, resulting in the potential barrier reducing, which implies that $\Delta V\to0$.
+Conversely, as the SN bifurcation is approached, the stable equilibrium $x=a$ and the unstable equilibrium $x=b$ of the system become closer, resulting in the potential barrier reducing, which implies that $\Delta V\to0$.
 
 \revision{Based on the above, we introduce our modified escape EWS}
 %
@@ -207,13 +207,13 @@ Conversely, as the SN bifurcation is approached, the stable $x=a$ and unstable e
 %
 \revision{where $\mu=\mu_c$ denotes the parameter value at which a SN bifurcation between the stable state $x=a$ and the unstable saddle $x=b$ occurs.
         Notice that \eqref{eq:escape_ews} is obtained from \eqref{eq:kramer_escape_formula} by removing the curvature-depending prefactor $\sqrt{|V''(b)|V''(a)}/2\pi$ and setting $D=1$ in the argument of the exponential.
-We highlight that the modified formulation \eqref{eq:escape_ews} of Kramer's escape rate \eqref{eq:kramer_escape_formula} retains all the information that is necessary for predicting B-tipping while at the same time reducing the uncertainty with respect to its approximation (see \aref{appendix_a} for a detailed discussion).}
+The modified formulation \eqref{eq:escape_ews} of Kramer's escape rate \eqref{eq:kramer_escape_formula} retains all the information that is necessary for predicting B-tipping while at the same time reducing the uncertainty with respect to its approximation (see \aref{appendix_a} for a detailed discussion).}
 
 The boundedness of \eqref{eq:escape_ews} in $(0,1]$ \revision{conveniently} solves the interpretability problem we outlined above.
 As opposed to the variance (and higher-order moments), a numerical value of the modified escape formula provides direct interpretation of the likelihood of a B-tipping event without the need for a baseline value to refer to.
 If a system is far from a dangerous transition (i.e. $|\mu-\mu_c|\gg0\implies\Delta V\gg0$), then the exponential decay of the potential barrier will be close to $0$; conversely, a state that is approaching said transition (i.e. $\mu\to\mu_c\implies\Delta V\to0$) results in values of the exponential decay to be close to $1$.
 
-In \fref{fig:escape_ews} we depict such property for a bistable model of ecosystem collapse under increasing harvesting \cite{May1977}.
+In \fref{fig:escape_ews} we depict the monotonic increase of \eqref{eq:escape_ews} from $0$ to $1$ for a bistable model of ecosystem collapse under increasing harvesting \cite{May1977}.
 %
 \begin{figure}
 	      \centering
@@ -265,7 +265,7 @@ From \eqref{eq:joint_distribution} we can define the likelihood of the sample to
         \mathcal{L}(\theta|\mathcal{X}) := p(X_{0}|\theta)\prod_{n=1}^{N-1}p(X_{n+1}|X_{n},\theta)\,,
 \end{equation}
 %
-\revision{with parameters $\theta\in\mathbb{R}^3$}.
+\revision{with parameters $\theta\in\mathbb{R}^p$}.
 By maximizing \eqref{eq:likelihood_function} one finds the most likely set of parameters $\theta^{*}$, for a family of transition densities $p(x|\theta)$, to have generated the observations $\mathcal{X} = \{X_{n}\}_{n=0,\dots,N}$.
 Notably one reformulates this problem in the minimization of the inverse log-likelihood instead
 %
@@ -276,7 +276,7 @@ Notably one reformulates this problem in the minimization of the inverse log-lik
 as this does not change the stationary point in the search space
 %
 \begin{equation}\label{eq:mle}
-        \theta^{*}(\mathcal{X}) = \argmax_{\theta\in \mathbb{R}^{3}}\mathcal{L}(\theta|\mathcal{X}) = \argmin_{\theta\in \mathbb{R}^{3}}\ell(\theta|\mathcal{X})\,.
+        \theta^{*}(\mathcal{X}) = \argmax_{\theta\in \mathbb{R}^{p}}\mathcal{L}(\theta|\mathcal{X}) = \argmin_{\theta\in \mathbb{R}^{p}}\ell(\theta|\mathcal{X})\,.
 \end{equation}
 %
 Notice that in \eqref{eq:inv_log_likelihood} we approximate the inverse log-likelihhod by ignoring the conditional probability of the deterministic initial condition $X_{0}$ as this term is negligible compared to the sum of the log-likelihoods of the stochastic observations. 
@@ -306,15 +306,16 @@ The solution of the above (under suitable choices of boundary conditions at $x\t
 \end{equation}
 %
 with the normalization constant $Z(\theta)$ playing the role of the partition function of the energy of the system.
-\revision{Thus, in principle, one can use the time-invariant solution \eqref{eq:invariant_pdf} of the FPE as the transition density in the optimization problem \eqref{eq:mle}. 
-As an example of applicability of this workflow, let us consider the well-known case of an Ornstein-Uhlenbeck process (OUP) of the form}
+\revision{Thus, in principle, one can use the time-invariant solution \eqref{eq:invariant_pdf} of the FPE as the transition density in the optimization problem \eqref{eq:mle}.}
+
+\revision{As an example of applicability of this workflow, let us consider the well-known case of an Ornstein-Uhlenbeck process (OUP) of the form}
 %
 \begin{equation}\label{eq:oup}
         dX_{t} = \alpha(a - X_{t})dt + \sqrt{2D}dW_{t},
 \end{equation}
 %
 \revision{where $\alpha,a> 0$.
-The illustrative value of considering the OUP is given by the fact it approximates the solution of any nonlinear (stationary) SDE around an equilibrium $x=a$ of the drift term $f$
+The illustrative value of considering the OUP is given by the fact it approximates the solution of any nonlinear (stationary) SDE around an equilibrium $x=a$ of the drift term $f$.
 More specifically, if \eqref{eq:fast_slow_sde} is not ramped (i.e. $\varepsilon=0$), the sample path around a stable equilibrium $x=a$ of the nonlinear vector field $f(x) = -V'(x)$ is well approximated by the solution of \eqref{eq:oup} with $\alpha = f'(x=a) = -V''(x=a) > 0$.
 By denoting $\theta=(\alpha,a,D)$ to be our parameter vector, we setup a MLE problem in which the (limiting) Gaussian distribtion of the OUP \cite[Ch. 3, p. 74]{Gardiner2009}}
 %
@@ -404,8 +405,8 @@ This allows us to write the so-called normal equation
 \end{equation}
 %
 where $y\in \mathbb{R}^{N}$ denotes the observation data vector (i.e. $y_j = Y_j$), $A\in \mathbb{R}^{N\times3}$ is the model matrix evaluated on the sample $\mathcal{X}$ (i.e. $A_{jk} = X_{j}^{k}$) and $A^{+}\in\mathbb{R}^{3\times N}$ is the Moore-Penrose inverse of $A$.
-\revision{With the estimation $\theta^*=(\theta^*_1, \theta^*_2, \theta^*_3)$ one can easily compute the modified escape EWS \eqref{eq:escape_ews} of the approximation $V^*(x):=V(x;\theta^*)$ using the sample path. We report the main steps of this procedure in Algorithm~\ref{alg:modified_ews}.}
-The distribution of the \revision{solutions \eqref{eq:lls_solution} is also} asymptotically normal as shown in \fref{fig:lls_solutions} for the case of a SN normal form.
+\revision{With the estimation $\theta^*=(\theta^*_1, \theta^*_2, \theta^*_3)$ one can readily compute the modified escape EWS \eqref{eq:escape_ews} of the approximation $V^*(x):=V(x;\theta^*)$ using the sample path. We report the main steps of this procedure in Algorithm~\ref{alg:modified_ews}.}
+The \revision{solution of the normal equation \eqref{eq:lls_solution} is also} asymptotically normal as shown in \fref{fig:lls_solutions} for the case of a SN normal form.
 %
 \begin{figure}[!tp]
     \centering 
@@ -552,15 +553,17 @@ The issue is resolved by the (empirical) modified escape EWS which instead follo
 %
 \subsection{Weakened circulation state in the North Atlantic}\label{subsec:AMOC}
 As third and final test for the proposed EWS we consider a higher-dimensional system from ocean circulation modeling.
-The Atlantic Meridional Overturnic Circulation (AMOC) is a complex system of currents which transport warm water across the Atlantic ocean, from the Gulf of Mexico to the poles.
-The North Atlantic gyre in particular is an ocean current loop whose surface flux flows northward driven by thermal and salinity gradients between the warm, salty waters of the Atlantic tropics and the cooler, fresher waters of the Nordic and Labrador seas.
-The strength of these advective fluxes is thus regulated by the balance between evaporation at the Equator and ice-melting processes in the North Atlantic. 
+The Atlantic Meridional Overturnic Circulation (AMOC) is a complex system of currents which transport warm water across the Atlantic ocean, from the Equator to the poles.
+In the northern emisphere, the AMOC forms a closed loop of currents.
+The warm and salty surface water of the lower latitudes is transported, by the Gulf Stream and the North Atlantic Current, to the Labrador and Nordic seas.
+Once there, the water cools and densifies, sinking from the surface and returning to the Equator as the North Atlantic Deep Water, thus closing the loop.
+The strength of these currents is regulated by the balance between evaporation at the Equator and ice-melting processes in the North Atlantic. 
 A weakened state of the circulation strength of the AMOC can deeply affect the climate on a global scale \cite{Sutton2012,vanWesten025b}.
 
-Modeling such system follows two main approaches in the literature: on the one hand multiphysics General Circulation Models (GCMs) resolve the dynamics of the Northern gyre on a global scale and are useful for climate predictions but too complex to analyse \cite{vanWesten2023,vanWesten025a}; on the other hand low-dimensional conceptual models try to capture the essential characteristic of the dynamics of the system by looking at its fundamental mechanics.
+Modeling such system follows two main approaches in the literature: on the one hand multiphysics General Circulation Models resolve the dynamics of these ocean currents on a global scale and, while useful for climate predictions, they are too complex to analyse \cite{vanWesten2023,vanWesten025a}; on the other hand low-dimensional conceptual models try to capture the essential characteristic of the dynamics of the system by looking at its fundamental mechanics.
 While simplistic in nature, conceptual models of the AMOC allow for detailed analysis of the qualitative, long-term behaviour of the system through the lenses of dynamical systems and bifurcation theory \cite{Alkhayuon2019,Mancini2026}.
 
-Among the first of such models, a reduced formulation of the North Atlantic gyre to a 2-box system became seminal in the literature: in this formulation, one box corresponds to the surface water at the Equator while the other correponds to the waters at the North Pole.
+Among the first of such models, a reduced formulation of the North Atlantic to a 2-box system became seminal in the literature: in this formulation, one box corresponds to the surface water at the Equator while the other correponds to the waters at the North Pole.
 These two boxes are connected by fluxes of temperature and salinity which model surface flow as well as deep-water mixing.
 This model, introduced by Stommel in 1961 \cite{Stommel1961}, consists of a two-dimensional dynamical system of the form
 %
@@ -591,7 +594,7 @@ Both the circulation strength $\psi$ and salinity $S$ gradients show bistable re
     \includegraphics[keepaspectratio, width=\textwidth]{./figures/stommel_bif_diag.pdf}
     \caption{Bifurcation diagrams of the flow-salinity formulation of Stommel's $2-$box model for $\eta=3$ and $\beta=0.3$.
              Branches of stable equilibria are in blue, while unstable ones are in red.
-             A region of bistability exists (gray box) in between parameter values $\mu=0.9$ and $\mu\approx1.2$ and is bounded by a smooth SN bifurcation (yellow circle) and a non-smooth SN bifurcation (green circle).}
+             A region of bistability exists (gray box) in between parameter values $\mu=0.9$ and $\mu\approx1.2$ and is bounded by a SN bifurcation (yellow circle) and a non-generic SN bifurcation (green circle).}
     \label{fig:stommel_bif_diag}
 \end{figure}
 %
