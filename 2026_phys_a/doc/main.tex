@@ -46,7 +46,7 @@
 
 \begin{abstract}
         A critical transition is a sudden, abrupt and potentially unforeseen change in the state of a complex system often associated with catastrophic collapses and irreversability.
-        Here we introduce a novel, interpretable early-warning signal of bifurcation-induced tipping events.
+        Here we introduce a novel, interpretable early-warning signal of bifurcation-induced critical transitions.
         The proposed indicator can be readily computed from timeseries observations by maximum likelihood estimation and it has the advantage of providing immediate insight on the state of the system.
         We showcase its applicability by assessing its performance using models of ecosystems and ocean circulation collapse.
 \end{abstract}
@@ -73,8 +73,57 @@ Stochastic dynamics \sep
 \section{Introduction}
 Over the past two decades much attention has been gathered in the study of catastrophic collapses of complex systems under time-varying forcing.
 Initially described as \textit{``loss of resilience''} in ecosystems \cite{Ives1995, Scheffer2009}, climate models \cite{Lenton2012} and even social dynamics \cite{Scheffer2021}, these critical transitions, and their prediction, have been the subject of investigation across many disciplines \cite{Feng2014,Liang2017,Xu2023}.
-These events (often refered to as tipping points) have generally been modeled as abrupt, qualitative changes in the solutions of multiscale stochastic differential equations (SDEs) subject to slow forcing \cite{Kuehn2011}.
-For finite-dimensional systems, these are usually presented in the form
+\revision{These events, sometimes refered to as tipping points, are abrupt and sudden changes in the state of a monitored system subject to external forcing.
+More specifically, we say that a system has reached a tipping point when the observed steady-state evolves, over time, in a relatively stable fashion before suddenly \textit{``jumping''} to a different regime.}
+
+Different types of tipping events lead to qualitatively different behaviour of the system undergoing the transition, depending on the underlying mechanism that generates them. 
+A classification of those was provided in \cite{Ashwin2012}:
+%
+\begin{itemize}
+        \item bifurcation-induced (B-)tipping are abrupt transitions of the steady-state once a critical threshold of a slowly changing forcing parameter is crossed. These types of tipping events are often associated to saddle-node bifurcations;
+     \item rate-induced (R-)tipping are caused by the failure of the steady-state to track the drift of a quasi-steady equilibrium. The mechanism generating these tipping phenomena is fundamentally different from B-tipping as it is the rate of change at which the forcing parameter is ramped that causes the tipping \cite{Ashwin2017}, rather than its value. Notice that the steady-state needs not to undergo a global nor local bifurcation for R-tipping to occur;
+     \item noise-induced (N-)tipping events are entirely due to stochastically driven jumps of the state of the system outside the basin attraction of the steady-state and are thus entirely unpredictable. Notice that N-tipping do not need time-varying forcing of the parameter and can be observed in systems at full stationarity.
+\end{itemize}
+
+Here we focus on B-tipping events as it is believed they are the mechanics behind the catastrophic collapses in ecosystems \cite{May1977}, biology \cite{Donovan2015} and ocean currents \cite{Lohmann2024,vanWesten025a}.
+A common characteristic of these system is that they all exhibit multistability in which alternative, stable equilibria coexist simultaneously.
+The loss of stability or the vanishing of one of such equilibria are modeled using bifurcation normal forms.
+In a B-tipping event two equilibria of the system collide, annihilating each other.
+A system tracking one of those equilibria will thus be forced to tip abruptly onto alternative stable states.
+The new equilibrium state that follows the B-tipping can have catastrophic repercussions for the health of the system.
+
+Due to the disruptive nature of tipping events, strategies have been developed that can predict these events by monitoring the state evolution.
+Early-warning signals (EWS) are (often statistical) quantities that can be extracted from timeseries data with the intention of informing how likely and how close a critical transition is.
+These precursors often rely on mechanistic features of the system approaching B-tipping of which \textit{critical slowing down} (CSD) has been the most widely studied \cite{VanNes2007, Dakos2008}.
+
+CSD quantifies slower recovery to equilibrium from perturbations as the leading eigenvalue of the linearized system approaches the imaginary axis.
+This has been proposed to be captured by an increase in variance of the realizations of sample paths as the system is driven closer to B-tipping.
+Despite the many efforts, EWS are still largely plagued by lack interpretability \cite{Ditlevsen2010, Donovan2026}, unknown scalability and generalization properties for spatio-temporal and high-dimensional systems \cite{Robinson2025} and relative difficulty in assessing their robustness to real-world data \cite{Dakos2012, Ashwin2025}.
+
+\revision{The issue of interpretability is particularly relevant for applications of the theory of EWS in various scientific areas.
+Assuming, for example, that the variance of the timeseries of a system increases prior a critical transition, then how much increase is indicative of tipping?
+Another way of framing this question is the following: suppose we are given a single sample describing the time evolution of a given system of interest.
+If we compute the variance of such sample, how is this single information able to inform us on how close the system is to a dangerous tipping event?
+Due to its lack of immediate interpretability, in order for the sample variance to provide meaningful insights on the current state of the system we need to compare it to a baseline value for the same system when at a safe distance from the B-tipping event.
+Different systems have different baseline values which makes the application of the measurement of the sample variance even less universal.
+This limitation is especially significant if one only has access to limited data and no ensemble of timeseries is available, which is usually the case in the monitoring of real-world systems.}
+
+
+\revision{In this paper we introduce a novel EWS that addresses and solves this issue by providing a computable and, most importantly, interpretable quantity.
+We achieve this by reframing the problem of detecting critical transitions in timeseries through the lenses of statistical mechanics, leveraging known results from large deviations theory such as Kramer's formula.
+Under mild assumptions, the proposed EWS is bounded and monotonically increasing in $(0,1]$ regardless of the system being monitored. 
+Values of the proposed quantity that are close to $0$ translate to a system being far from a critical transition of B-tipping type, while values close to $1$ are indicative of high chances of tipping in the near future.
+A full computational pipeline also accompanies the proposed new measure, which can be readily applied to input timeseries without prior knowledge of the model generating it.}
+
+This manuscript is organised in the following structure: in \sref{sec:escape_rate} we introduce the new EWS as a modified version of Kramer's law for the escape rate of overdamped particles across a potential barrier; 
+in \sref{sec:mle} we discuss numerical strategies to extract the proposed EWS from timeseries data based on maximum likelihood estimators; 
+this is followed in \sref{sec:applications} by comparisons of the performance of the proposed EWS with respect to the canonical increase in variance.
+Applications in this section include a well-known model of vegetation biomass collapse in ecosystems, when subject to increasing harvesting, and an equally popular model of the Atlantic Meridional Overturning Circulation collapse under increasing freshwater forcing in the North-Atlantic. 
+We conclude the paper with further discussions and future directions based on the presented techniques in \sref{sec:discussion}.
+%
+\section{Escape rate across a potential barrier}\label{sec:escape_rate}
+\revision{Critical transitions in complex systems have long been modeled as qualitative changes in the solutions of multiscale stochastic differential equations (SDEs) subject to slow forcing \cite{Kuehn2011}.
+For finite-dimensional systems, these are usually presented in the form}
 %
 \begin{equation}
         \begin{aligned}\label{eq:fast_slow_sde}
@@ -83,51 +132,17 @@ For finite-dimensional systems, these are usually presented in the form
         \end{aligned}
 \end{equation}
 %
-where $X_t$ denotes a random variable (r.v.) modeling the state of the system of interest in $\mathbb{R}^{d}$ while $\mu\in \mathbb{R}^{p}$ denotes a parameter vector.
+\revision{where $X_t$ denotes a random variable (r.v.) modeling the state of the system of interest in $\mathbb{R}^{d}$ while $\mu\in \mathbb{R}^{p}$ denotes a parameter vector.
 The time evolution of the r.v. follows a deterministic drift, described by the parametrized vector field $f:\mathbb{R}^{d}\times \mathbb{R}^{p}\to \mathbb{R}^{d}$, and a stochastic diffusion of intensity $\sigma\in\mathbb{R}$, modeled by a $d-$dimensional Wiener process $W_{t}$ with zero mean and Gaussian distributed increments (i.e. $W_{s} - W_{t}\sim\mathcal{N}(0,s-t)$).
 For simplicity, we will assume that the stochastic fluctuations are state-independent (i.e. \eqref{eq:fast_slow_sde} is an additive noise SDE in $X_t$).
 Importantly, the parameter characterizing the vector field of the dynamics is not stationary but it evolves according to a slow (deterministic) linear ramp of slope $0 < \varepsilon \ll 1$.
-This allows us to slowly change the state of the system thus reflecting the multiscale time-varying forcing of real-world complex systems.
+This setup allows us to slowly change the state of the system, hence reflecting the multiscale time-varying forcing of real-world complex systems.}
 
-Different types of tipping events lead to qualitatively different sample paths of \eqref{eq:fast_slow_sde} depending on the underlying mechanism that generated them. 
-A classification of those was provided in \cite{Ashwin2012}:
-%
-\begin{itemize}
-        \item bifurcation-induced (B-)tipping are abrupt transitions of the state $X_{t}$ once a critical threshold of the slowly changing bifurcation parameter $\mu=\mu_c$ is crossed. These types of tipping events are often associated to saddle-node bifurcations;
-     \item rate-induced (R-)tipping are instead a manifestation of the nonautonomous nature of \eqref{eq:fast_slow_sde} and are caused by the failure of the state $X_t$ to track the drift of a quasi-steady equilibrium. The mechanism generating these tipping phenomena is fundamentally different from B-tipping as it is the rate of change at which the forcing parameter is ramped that causes the tipping \cite{Ashwin2017}, rather than its value. Notice that the steady-state needs not to undergo a global nor local bifurcation for R-tipping to occur;
-     \item noise-induced (N-)tipping events are entirely due to stochastically driven jumps of the state $X_{t}$ outside the basin attraction of the steady-state and are thus entirely unpredictable. Notice that N-tipping do not need time-varying forcing of the parameter and can be observed in systems at full stationarity.
-\end{itemize}
-%
-Here we focus on B-tipping events as it is believed they are the mechanics behind the catastrophic collapses in ecosystems \cite{May1977}, biology \cite{Donovan2015} and ocean currents \cite{Lohmann2024,vanWesten025a}.
-A common characteristic of these system is that they all exhibit multistability in which alternative, stable equilibria coexist simultaneously.
-The loss of stability or the vanishing of one of such equilibria are modeled using bifurcation normal forms.
-In a B-tipping event two equilibria of the system collide, annihilating each other.
-A system tracking one of those equilibria will thus be forced to tip abruptly onto alternative stable states.
-The new equilibrium state that follows the B-tipping can have catastrophic repercussions for the health of the system.
-
-Due to the disruptive nature of tipping events, strategies have been developed that can predict these events by monitoring the state evolution $X_{t}$.
-Early-warning signals (EWS) are (often statistical) quantities that can be extracted from timeseries data (sample paths of \eqref{eq:fast_slow_sde}) with the intention of informing how likely and how close a critical transition is.
-These precursors often rely on mechanistic features of the system approaching B-tipping of which \textit{critical slowing down} (CSD) has been the most widely studied \cite{VanNes2007, Dakos2008}.
-
-CSD quantifies slower recovery to equilibrium from perturbations as the leading eigenvalue of the linearized system approaches the imaginary axis.
-This has been proposed to be captured by an increase in variance of the realizations of sample paths as the system is driven closer to B-tipping.
-Despite the many efforts, EWS are still largely plagued by lack interpretability \cite{Ditlevsen2010, Donovan2026}, unknown scalability and generalization properties for spatio-temporal and high-dimensional systems \cite{Robinson2025} and relative difficulty in assessing their robustness to real-world data \cite{Dakos2012, Ashwin2025}.
-
-In this paper we reframe the problem of detecting critical transitions of solutions of slowly-forced SDEs through the lens of statistical mechanics by leveraging known results from large deviations theory such as Kramer's formula.
-A full computational pipeline also accompanies the proposed new measure, which can be readily applied to input timeseries without prior knowledge of the model generating it.
-
-This manuscript is organised in the following structure: in \sref{sec:escape_rate} we introduce the new EWS as a modified version of Kramer's law for the escape rate of overdamped particles across a potential barrier; 
-in \sref{sec:mle} we discuss numerical strategies to extract the proposed EWS from timeseries data based on maximum likelihood estimators; 
-this is followed in \sref{sec:applications} by comparisons of the performance of the escape EWS with respect to the canonical increase in variance.
-Applications in this section include a well-known model of vegetation biomass collapse in ecosystems, when subject to increasing harvesting, and an equally popular model of the Atlantic Meridional Overturning Circulation collapse under increasing freshwater forcing in the North-Atlantic. 
-We conclude the paper with further discussions and future directions based on the presented techniques in \sref{sec:discussion}.
-%
-\section{Escape rate across a potential barrier}\label{sec:escape_rate}
 In the following, and for the rest of this paper, we will treat functions $y$ that depend both on the state variable $x$ and on time $t$, i.e. $y=y(x,t)$.
 To avoid confusion with regards to differentiation we will adopt the following notation
 %
 \begin{equation*}
-        \dot{y}:=\frac{\partial}{\partial t}y(x,t)\quad \text{and}\quad y':=\frac{\partial}{\partial x}y(x,t)\,.
+        \dot{y}:=\partial_t\,y(x,t)\quad \text{and}\quad y':=\partial_x\,y(x,t)\,.
 \end{equation*}
 %
 We will also assume that, for fixed parameters $\mu\in \mathbb{R}^{p}$ the (frozen) deterministic drift is a conservative vector field, i.e. there exists a scalar potential $V(x;\mu):\mathbb{R}^{d}\to \mathbb{R}$ such that $f(x;\mu) = -V'(x;\mu)$.
@@ -176,19 +191,12 @@ Given a double-well potential $V$ (see e.g. \fref{fig:double_well_potential}) wi
 where $\Delta V_{a\to b} = V(b) - V(a)$ quantifies the potential barrier that the Langevin overdamped particle has to overcome in order to escape, and $V''(a),V''(b)$ quantify the local curvature of $V$ around the well and the hilltop respectively.
 %
 \subsection{An interpretable EWS}\label{subsec:modified_escape_ews}
-At this point, there are two persistent challenges in the derivation and application of EWS.
-The first one regards what defines the optimality of an EWS.
-Suppose we have two distinct EWS that both show robustness in their trend when applied to a large enough ensemble of timeseries of the same system: how can we compare them in a systematic fashion in order to choose the better one in terms of their predictive power?
-The second question concerns the interpretability of EWS.
-In order for a given quantity to have value as an EWS one has to be able to assign some sort of meaning to the computed quantity.
-
-Among the many EWS that have long been used throughout the literature, the increase in variance has systematically been one, if not the most popular one.
+\revision{Among the many EWS that have been proposed in the literature, the increase in variance has systematically been one, if not the most popular one.
 Its success primarly stems from a relative simplicity in computation and a relative robustness in detecting CSD.
-The major drawback of using the increase in variance as a proxy of B-tipping is its lack of interpretability.
-This is particularly important if one only has access to limited data and no ensemble of similar timeseries is available: if we compute the variance from a given sample how can that single information provide us any insight on the current state of the system and, crucially, on the proximity of a B-tipping event?
-It is clear that numerical values of the variance of a sample fail to provide useuful interpretation if one does not have access to a baseline value for the system when at a safe distance from B-tipping.
+The major drawback of using the increase in variance, as an indication of B-tipping, is its lack of interpretability.
+As discussed in the introduction, numerical values of the variance of a sample fail to provide useuful interpretation if one does not have access to a baseline value for the system when at a safe distance from B-tipping.}
 
-For the rest of this section we show that a modified version of Kramer's escape formula solves the latter issue by providing an interpretable EWS.
+For the rest of this section we show that a modified version of Kramer's escape formula solves this issue by providing an interpretable EWS.
 Consider a generic SN bifurcation in $d-$dimensions; if the system is conservative and the noise level is small, then \eqref{eq:kramer_escape_formula} holds when the state of the system is far enough from the bifurcation.
 In this regime, the two wells of the potential are well separated and thus the local minimum (stable equilibrium) $x=a$ is much deeper than the local maximum (unstable equilibrium) $x=b$.
 In other words, far from the bifurcation the potential barrier $\Delta V = V(b) - V(a) \gg 0$ (we dropped the transition notation $a\to b$).
@@ -756,10 +764,6 @@ The solution of \eqref{eq:rlls_problem} is
 \end{equation}
 which, differently from the normal equation \eqref{eq:lls_solution} of the ordinary LLS solution, it adds the penalizing parameter $\lambda$ to the diagonal entries of the square matrix $A^TA$.
 Notice that the case $\lambda=0$ reduces to an ordinary LLS problem \eqref{eq:lls_problem}-\eqref{eq:lls_solution}.
-
-The presence of this additional term acts as a penalizer of large solutions $\theta^*\in \mathbb{R}^{3}$ in the $2-$norm sense.
-Intuitively, strictly positive values of $\lambda$ reduce the variance of the solutions \eqref{eq:rlls_solutions}, thus yielding more accurate estimations of the polynomial coefficients of the cubic potential.
-However, it is well-established that positive values of the penalizer also introduce biases in the estimator \cite{Hoerl1970}.
 %
 \begin{figure}[!tp]
     \centering 
@@ -776,7 +780,11 @@ However, it is well-established that positive values of the penalizer also intro
     Another way of interpreting this result is that the regularized LLS solution \eqref{eq:rlls_solutions} converges in mean to a biased estimator $\tilde{\theta}:=\theta+\delta\theta$ in the limit of large penalizers, i.e. $\hat{\theta}^*_{\text{reg}}(\lambda)\to\tilde{\theta}$ as $\lambda\to\tilde{\lambda}\gg0$.}
     \label{fig:tikhonov_regularization}
 \end{figure}
-%
+ 
+The presence of this additional term acts as a penalizer of large solutions $\theta^*\in \mathbb{R}^{3}$ in the $2-$norm sense.
+Intuitively, strictly positive values of $\lambda$ reduce the variance of the solutions \eqref{eq:rlls_solutions}, thus yielding more accurate estimations of the polynomial coefficients of the cubic potential.
+However, it is well-established that positive values of the penalizer also introduce biases in the estimator \cite{Hoerl1970}.
+
 Specifically, a large value of $\lambda>0$ will succesfully reduce the uncertainty of the solutions \eqref{eq:rlls_solutions} but at the cost of shifting the mean value of those solutions to a spurious point in the search space.
 This effect is also known as the variance-bias tradeoff in machine learning. 
 In \fref{fig:tikhonov_regularization} we demonstrate such effect by solving regularized LLS estimations \eqref{eq:rlls_solutions} for an ensemble of $1,000$ sample paths of a SN normal form \eqref{eq:slow_fast_SN} in the stationary regime ($\varepsilon=0$) and for increasing values of $\lambda\in[0,10]$.

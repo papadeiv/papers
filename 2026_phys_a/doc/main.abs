@@ -1,4 +1,4 @@
 A critical transition is a sudden, abrupt and potentially unforeseen change in the state of a complex system often associated with catastrophic collapses and irreversability.
-        Here we introduce a novel, interpretable early-warning signal of bifurcation-induced tipping events.
+        Here we introduce a novel, interpretable early-warning signal of bifurcation-induced critical transitions.
         The proposed indicator can be readily computed from timeseries observations by maximum likelihood estimation and it has the advantage of providing immediate insight on the state of the system.
         We showcase its applicability by assessing its performance using models of ecosystems and ocean circulation collapse.
