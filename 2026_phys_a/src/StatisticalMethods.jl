@@ -6,8 +6,8 @@ using Polynomials, Integrals
 using ProgressMeter, DocStringExtensions
 
 # Import Python package for empirical mode decomposition
-#using PyCall
-#PyEMD = pyimport("PyEMD")
+using PyCall
+PyEMD = pyimport("PyEMD")
 
 # Import utility functions
 include("../utils/inference.jl")

@@ -745,10 +745,6 @@ We conclude that the two main advantages of using the modified escape EWS, as a 
      \item monotonicity of increase with respect to the system's \textit{``distance''} from B-tipping.
 \end{itemize}
 %
-Due to the above, we show that including the dependence of the proposed EWS on the stochastic diffusion term $D$ and the curvature-depending prefactor $\sqrt{|V''(b)|V''(a)}/2\pi$ undermines both the advantages outlined above from an analytical and computational perspective.
-
-First notice that while $\Delta V = V(b) - V(a)\to0$ monotonically with $\mu\to\mu_c$ this is not necessarly true for $(2\pi)^{-1}\sqrt{|V''(b)|V''(a)}$ as shown in \fref{fig:kramers_formula} (b).
-%
 \begin{figure}[t]
     \centering 
     \includegraphics[keepaspectratio, width=\textwidth]{./figures/kramers_formula.pdf}
@@ -756,7 +752,10 @@ First notice that while $\Delta V = V(b) - V(a)\to0$ monotonically with $\mu\to\
             The prefactor term of Kramer's escape rate (panel (b)) is independent on $D$ and thus shown by a single black curve.}
     \label{fig:kramers_formula}
 \end{figure}
-%
+
+Due to the above, we show that including the dependence of the proposed EWS on the stochastic diffusion term $D$ and the curvature-depending prefactor $\sqrt{|V''(b)|V''(a)}/2\pi$ undermines both the advantages outlined above from an analytical and computational perspective.
+
+First notice that while $\Delta V = V(b) - V(a)\to0$ monotonically with $\mu\to\mu_c$ this is not necessarly true for $(2\pi)^{-1}\sqrt{|V''(b)|V''(a)}$ as shown in \fref{fig:kramers_formula} (b).
 While the curvature of both the well $V''(a)$ and hilltop $V''(b)$ of the potential approach $0$ monotonically, as a SN bifurcation involving $x=a$ and $x=b$ is approached, their product does not necessarly.
 Furthermore, while it is clear that $\exp(-\Delta V/D)$ is bounded in $(0,1]$, the same cannot be said for the prefactor.
 Notice in fact that $\sqrt{|V''(b)|V''(a)}/2\pi$ has range $[0,+\infty)$ for any value of $\mu$ that precedes the SN bifurcation.
@@ -776,19 +775,6 @@ This increase in complexity for the MLE does not justify the inclusion of the mi
 As a result we set $D=1$ and obtain our modified escape EWS to be \eqref{eq:escape_ews}.
 %
 \section{Variance-bias effects of Tikhonov regularization of the LLS solutions}\label{appendix_b}
-Regularization techniques such as Tikhonov regularization \cite{Tikhonov1963} are employed in ill-conditioned problems often with the aim of reducing the uncertainty in the solutions \cite{Cheng2011}.
-They achieve this by introducing a penalizing term to the minimization problem \eqref{eq:quadratic_minimization_problem} 
-\begin{equation}\label{eq:rlls_problem}
-        \theta^*_{\text{reg}} = \argmin_{\theta\in\mathbb{R}^3}\big(||A\theta - y||_2 + \lambda||\theta||_2\big)\,,
-\end{equation}
-where $\lambda\geq0$ is a parameter that calibrates the degree of the penalization.
-The solution of \eqref{eq:rlls_problem} is
-\begin{equation}\label{eq:rlls_solutions}
-        \theta^*_{\text{reg}} = (A^{T}A + \alpha\text{ Id}_N)^{-1}A^{T}y\,,
-\end{equation}
-which, differently from the normal equation \eqref{eq:lls_solution} of the ordinary LLS solution, it adds the penalizing parameter $\lambda$ to the diagonal entries of the square matrix $A^TA$.
-Notice that the case $\lambda=0$ reduces to an ordinary LLS problem \eqref{eq:lls_problem}-\eqref{eq:lls_solution}.
-%
 \begin{figure}[!tp]
     \centering 
     \includegraphics[keepaspectratio, width=\textwidth]{./figures/tikhonov_regularization.pdf}
@@ -804,7 +790,20 @@ Notice that the case $\lambda=0$ reduces to an ordinary LLS problem \eqref{eq:ll
     Another way of interpreting this result is that the regularized LLS solution \eqref{eq:rlls_solutions} converges in mean to a biased estimator $\tilde{\theta}:=\theta+\delta\theta$ in the limit of large penalizers, i.e. $\hat{\theta}^*_{\text{reg}}(\lambda)\to\tilde{\theta}$ as $\lambda\to\tilde{\lambda}\gg0$.}
     \label{fig:tikhonov_regularization}
 \end{figure}
- 
+% 
+Regularization techniques such as Tikhonov regularization \cite{Tikhonov1963} are employed in ill-conditioned problems often with the aim of reducing the uncertainty in the solutions \cite{Cheng2011}.
+They achieve this by introducing a penalizing term to the minimization problem \eqref{eq:quadratic_minimization_problem} 
+\begin{equation}\label{eq:rlls_problem}
+        \theta^*_{\text{reg}} = \argmin_{\theta\in\mathbb{R}^3}\big(||A\theta - y||_2 + \lambda||\theta||_2\big)\,,
+\end{equation}
+where $\lambda\geq0$ is a parameter that calibrates the degree of the penalization.
+The solution of \eqref{eq:rlls_problem} is
+\begin{equation}\label{eq:rlls_solutions}
+        \theta^*_{\text{reg}} = (A^{T}A + \alpha\text{ Id}_N)^{-1}A^{T}y\,,
+\end{equation}
+which, differently from the normal equation \eqref{eq:lls_solution} of the ordinary LLS solution, it adds the penalizing parameter $\lambda$ to the diagonal entries of the square matrix $A^TA$.
+Notice that the case $\lambda=0$ reduces to an ordinary LLS problem \eqref{eq:lls_problem}-\eqref{eq:lls_solution}.
+
 The presence of this additional term acts as a penalizer of large solutions $\theta^*\in \mathbb{R}^{3}$ in the $2-$norm sense.
 Intuitively, strictly positive values of $\lambda$ reduce the variance of the solutions \eqref{eq:rlls_solutions}, thus yielding more accurate estimations of the polynomial coefficients of the cubic potential.
 However, it is well-established that positive values of the penalizer also introduce biases in the estimator \cite{Hoerl1970}.

@@ -31,10 +31,10 @@ function detrend(timeseries; alg = "exact", timestamps = Float64[], qse = Float6
                 trend = qse 
                 residuals = timeseries - trend
         else alg == "emd"
-                #emd = PyEMD.EMD()
-                #imfs = Array(emd(timeseries))
-                #trend = sum(imfs[(end-n_modes):end,:], dims=1)[:]
-                #residuals = timeseries .- trend
+                emd = PyEMD.EMD()
+                imfs = Array(emd(timeseries))
+                trend = sum(imfs[(end-n_modes):end,:], dims=1)[:]
+                residuals = timeseries .- trend
         end
 
         return (

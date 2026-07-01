@@ -5,7 +5,7 @@ function May()
         h = 1.0                                           # Half-grazing biomass
         μ0 = 1.80                                         # Initial value of the bifurcation parameter
         μf = 2.60                                         # Final value of the bifurcation parameter
-        ε = 1e-3#5                                          # Timescale separation
+        ε = 5e-5                                          # Timescale separation
         σ = 0.100                                         # Noise level (additive)
         D = (σ^2)/2.0                                     # Diffusion level (additive) 
 
@@ -16,7 +16,7 @@ function May()
 
         # Simulation parameters
         dt = 1e-1                                         # Timestep
-        Ne = 2e0                                          # Number of particles in the ensemble
+        Ne = 2e2                                          # Number of particles in the ensemble
 
         # Solve the ensemble problem 
         x0 = [maximum(get_equilibria(f, μ0, domain=[0,10]).stable), μ0]
@@ -36,8 +36,7 @@ function May()
                 xt = solution[1:tipping_index]
 
                 # Compute and plot the quasi-stationary residuals of the truncated timeseries
-                #residuals = detrend(xt; alg = "emd", n_modes = 1).residuals
-                residuals = detrend(xt; alg = "mean").residuals
+                residuals = detrend(xt; alg = "emd", n_modes = 1).residuals
 
                 # Convert the sliding window across the residuals timeseries into an ensemble of suberies
                 subseries = preprocess_solution(μt, residuals, window_size, verbose = false)
@@ -112,8 +111,9 @@ function May()
         # Plot the tipping point and format the axes
         lines!(ax1M, [μ_max, μ_max], [-2,2], color = :black, linewidth = 3.0, linestyle = :dash)
         lines!(ax2M, [μ_max, μ_max], [-2,2], color = :black, linewidth = 3.0, linestyle = :dash)
-        ax1R.yticks = [0, ensemble_mean_variance[end], 0.1]
+        display(ensemble_mean_variance[end])
+        println(ensemble_mean_ews[end])
 
         # Export the figure
-        savefig("comparison_ews.pdf", fig)
+        savefig("ews_comparison.pdf", fig)
 end
