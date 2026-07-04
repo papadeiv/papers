@@ -16,15 +16,13 @@ function May()
 
         # Simulation parameters
         dt = 1e-1                                         # Timestep
-        Ne = 2e2                                          # Number of particles in the ensemble
+        Ne = 4e2                                          # Number of particles in the ensemble
 
         # Solve the ensemble problem 
         x0 = [maximum(get_equilibria(f, μ0, domain=[0,10]).stable), μ0]
         ensemble = evolve(f, η, Λ, x0, endparameter=μf, stepsize=dt, particles=Ne)
         t = ensemble.time
         μ = ensemble.parameter
-        #display(length(t))
-        #display(window_size*length(t))
 
         # Loop over the ensemble's sample paths
         μ_min, μ_max = μ0, μf 
@@ -65,7 +63,7 @@ function May()
                 end
 
                 # Export the EWS timeseries
-                writeout(ews, "ews/may/$solution_index.csv")
+                writeout(ews, "ews/may/$(400+solution_index).csv")
         end
 
         # Compute the number of steps in the filtered subseries
@@ -74,6 +72,9 @@ function May()
         filtered_ews = ews[mask, :]
         Nt_filtered = size(filtered_ews, 1)
         μ_filtered = filtered_ews[:,1]
+
+        # TO REMOVE LATER
+        Ne = 2*Ne
 
         # Loop over the trajectories
         ensemble_θ1 = Matrix{Float64}(undef, convert(Integer, Ne), Nt_filtered)
