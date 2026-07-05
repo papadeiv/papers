@@ -18,7 +18,7 @@ function Stommel()
 
         # Simulation parameters
         dt = 1e-1                                         # Timestep
-        Ne = 4e2                                          # Number of particles in the ensemble 
+        Ne = 1e3                                          # Number of particles in the ensemble 
 
         # Solve the ensemble problem 
         z0 = [get_equilibria(f1, f2, μ0).stable[1]; μ0]
@@ -71,7 +71,7 @@ function Stommel()
                 end
 
                 # Export the EWS timeseries
-                writeout(ews, "ews/stommel/$(400+solution_index).csv")
+                writeout(ews, "ews/stommel/$(solution_index).csv")
         end
 
         # Compute the number of steps in the filtered subseries
@@ -80,9 +80,6 @@ function Stommel()
         filtered_ews = ews[mask, :]
         Nt_filtered = size(filtered_ews, 1)
         μ_filtered = filtered_ews[:,1]
-
-        # TO REMOVE LATER
-        Ne = 2*Ne
 
         # Loop over the trajectories
         ensemble_θ1 = Matrix{Float64}(undef, convert(Integer, Ne), Nt_filtered)
