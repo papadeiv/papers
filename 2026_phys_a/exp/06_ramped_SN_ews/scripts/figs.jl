@@ -107,6 +107,9 @@ ax3_R = Axis(fig[3,2],
              yticklabelsize = labels,
             )
 
+# Reduce the gap between ax2 and ax3_L and ax3_R
+rowgap!(fig.layout, 2, -5)
+
 # Compute and lot the analytical EWS (escape and variance)
 domain = LinRange(μ0, μf, 1000)
 escape_ews = Vector{Float64}(undef, length(domain))

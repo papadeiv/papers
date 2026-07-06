@@ -28,13 +28,13 @@
 \title[mode = title]{Likelihood estimation of an interpretable early-warning sign of critical transitions}
 
 \author[1]{Davide Papapicco}[type=editor, orcid=0000-0002-5091-2599]
-\credit{Conceptualization, Methodology, Formal analysis, Investigation, Writing - Original draft preparation, Writing - Review \& editing}
+\credit{Conceptualization, Methodology, Formal analysis, Investigation, Writing - Original draft preparation}
 
 \author[1]{Lauren Smith}[type=editor, orcid=0000-0002-9286-234X]
-\credit{Supervision, Conceptualization, Validation}
+\credit{Supervision, Conceptualization, Validation, Writing - Review \& editing}
 
 \author[1]{Graham Donovan}[type=editor, orcid=0000-0001-5903-5484]
-\credit{Project administration, Supervision, Funding acquisition, Conceptualization, Validation}
+\credit{Project administration, Supervision, Funding acquisition, Conceptualization, Validation, Writing - Review \& editing}
 
 \cormark[1]
 \cortext[cor1]{Corresponding author}
@@ -52,7 +52,28 @@
 \end{abstract}
 
 \thispagestyle{empty}
-This is the cover letter.
+\noindent
+Dear Editor,
+\vspace{0.5cm}
+\newline
+Please find attached the manuscript \textit{``Likelihood estimation of an interpretable early-warning sign of critical transitions''} for your consideration for publication in Physica A. 
+\vspace{0.5cm}
+\newline
+In this the manuscript we introduce a novel statistical measure that predicts abrupt (critical) transitions in univariate complex systems. 
+
+The proposed signal solves the well-known issue of lack of interpretability of established indicators such as the increase in variance.
+Furthermore a numerical pipeline is presented to compute an approximation of the new early-warning which shows how only timeseries input are required. 
+
+The early-warning signal we introduce is a modified version of Kramer's escape rate formula from statistical mechanics and its interpretation, as emphasized throughout the manuscript, is linked to the framing of critical transitions as (rare) escape events of overdamped particles across potential barriers.
+
+This manuscript builds on existing literature on optimality, skillfullness and scalability of early-warning signals for higher-dimensional systems in ecology, climate and other applications (some of which has been previously published in Physica A).
+\vspace{0.5cm}
+\newline
+Regards,
+\newline
+Graham Donovan
+\newline
+Department of Mathematics, University of Auckland
 \newpage
 
 \begin{graphicalabstract}
@@ -85,8 +106,8 @@ A classification of those was provided in \cite{Ashwin2012}:
 %
 \begin{itemize}
         \item bifurcation-induced (B-)tipping events are abrupt transitions of the steady-state once a critical threshold of a slowly changing forcing parameter is crossed. These types of tipping events are often associated with saddle-node bifurcations;
-     \item rate-induced (R-)tipping events are caused by the failure of the steady-state to track the drift of a quasi-steady equilibrium. The mechanism generating these tipping phenomena is fundamentally different from B-tipping as it is the rate of change at which the forcing parameter is ramped that causes the tipping \cite{Ashwin2017}, rather than its value. Notice that the steady-state need not to undergo a global nor local bifurcation for R-tipping to occur;
-     \item noise-induced (N-)tipping events are entirely due to stochastically driven jumps of the state of the system outside the basin attraction of the steady-state and are thus \revision{hard to predict}. Notice that N-tipping do not need time-varying forcing of the parameter and can be observed in systems at full stationarity.
+     \item rate-induced (R-)tipping events are caused by the failure of the steady-state to track the drift of a quasi-steady equilibrium. The mechanism generating these tipping phenomena is fundamentally different from B-tipping as it is the rate of change at which the forcing parameter is ramped that causes the tipping \cite{Ashwin2017}, rather than its value. Notice that the steady-state need not undergo a global nor local bifurcation for R-tipping to occur;
+     \item noise-induced (N-)tipping events are entirely due to stochastically driven jumps of the state of the system outside the basin attraction of the steady-state and are thus hard to predict. Notice that N-tipping do not need time-varying forcing of the parameter and can be observed in systems at full stationarity.
 \end{itemize}
 
 Here we focus on B-tipping events as it is believed they are the mechanics behind the catastrophic collapses in ecosystems \cite{May1977}, biology \cite{Donovan2015} and ocean currents \cite{Lohmann2024,vanWesten025a}.
@@ -103,19 +124,18 @@ These precursors often rely on mechanistic features of the system approaching B-
 CSD quantifies slower recovery to equilibrium from perturbations as the leading eigenvalue of the linearized system approaches the imaginary axis.
 This has been proposed to be captured by an increase in variance of the realizations of sample paths as the system is driven closer to B-tipping.
 Despite the many efforts, EWS are still largely plagued by a general lack of interpretability \cite{Ditlevsen2010, Donovan2026}, unknown generalization to high-dimensional systems \cite{Robinson2025} and relative difficulty in assessing their robustness to real-world data \cite{Dakos2012, Ashwin2025}.
-\revision{Let us consider the issue of interpretability using the increase in timeseries variance as an EWS (noting that the same issue arises for other EWS in the literature).
-In an idealized scenario, the increase in variance is monotonic as the system approaches B-tipping and captures CSD. The question remains: how much increase in the variance is indicative of tipping?}
+Let us consider the issue of interpretability using the increase in timeseries variance as an EWS (noting that the same issue arises for other EWS in the literature).
+In an idealized scenario, the increase in variance is monotonic as the system approaches B-tipping and captures CSD. The question remains: how much increase in the variance is indicative of tipping?
 
 Another way of framing this issue is the following: suppose we are given a single sample describing the time evolution of a given system of interest.
 If we compute the variance of such sample, how is this single datum able to inform us on how close the system is to a tipping event?
-To answer this question we would need to compare it to a baseline value for the same system when at a safe distance from the B-tipping event.
+To answer this question we would need to compare the computed variance to a baseline value for the same system when at a safe distance from the B-tipping event.
 Moreover, different systems have different baseline values which makes the sample variance even more limiting as an EWS.
 This limitation is especially significant if one only has access to limited data and no ensemble of timeseries is available, which is usually the case in the monitoring of real-world systems.
 
-\revision{In this paper we introduce a novel EWS that solves this interpretability issue. 
-We introduce a novel EWS that is inherently interpretable in terms of the likelihood of an impending tipping event.}
+In this paper we introduce a novel EWS that solves this interpretability issue. 
 We achieve this by reframing the problem of detecting critical transitions in timeseries through the lens of statistical mechanics, leveraging known results from large deviations theory such as Kramer's formula.
-\revision{Under mild assumptions, the proposed EWS is bounded in $(0,1]$ and monotonically increasing as the B-tipping is approached,} regardless of the system being monitored. 
+Under mild assumptions, the proposed EWS is bounded in $(0,1]$ and monotonically increasing as the B-tipping is approached, regardless of the details of the system being monitored. 
 Values of the proposed quantity that are close to $0$ translate to a system being far from a critical transition of B-tipping type, while values close to $1$ are indicative of high chances of tipping in the near future.
 A full computational pipeline also accompanies the proposed new measure, which can be readily applied to input timeseries without prior knowledge of the model generating it.
 
@@ -237,9 +257,9 @@ In \fref{fig:escape_ews} we depict the monotonic increase of \eqref{eq:escape_ew
 %
 The region of bistability (depicted by the gray area in \fref{fig:escape_ews} (a,c)) is bounded by two SN bifurcations at $\mu_1$ and $\mu_2>\mu_1$.
 The earlier SN bifurcation at $\mu=\mu_1$ involves the stable equilibrium $x=c$ and the unstable saddle $x=b$ while the later SN bifurcation at $\mu=\mu_2$ involves the stable equilibrium $x=a$ and the same saddle $x=b$.
-\revision{This bifurcation sequence is reflected in the shape of the potential $V$ shown at a number of parameter slices in \fref{fig:escape_ews} (b1-b5), wherein the local maximum $x=b$ and the local minima $x=a$ and $x=c$ correspond to the unstable and stable equilibria in \fref{fig:escape_ews} (a), respectively.
+This bifurcation sequence is reflected in the shape of the potential $V$ shown at a number of parameter slices in \fref{fig:escape_ews} (b1-b5), wherein the local maximum $x=b$ and the local minima $x=a$ and $x=c$ correspond to the unstable and stable equilibria in \fref{fig:escape_ews} (a), respectively.
 Outside the shaded region (i.e. $\mu<\mu_1$ or $\mu>\mu_2$, e.g. \fref{fig:escape_ews} (b1,b2,b5)) only one stable equilibrium exists (either $x=a$ or $x=c$), the potential $V$ has one global minimum and no local maxima and thus the modified escape EWS is undefined.
-Conversely, inside the shaded region (i.e. $\mu_1<\mu<\mu_2$, e.g. \fref{fig:escape_ews} (b3,b4)) the potential $V$ has two minima ($x=a$ and $x=c$) and one local maximum ($x=b$), meaning that the escape EWS can be computed using \eqref{eq:escape_ews} (e.g. \fref{fig:escape_ews} (c)).}
+Conversely, inside the shaded region (i.e. $\mu_1<\mu<\mu_2$, e.g. \fref{fig:escape_ews} (b3,b4)) the potential $V$ has two minima ($x=a$ and $x=c$) and one local maximum ($x=b$), meaning that the escape EWS can be computed using \eqref{eq:escape_ews} (e.g. \fref{fig:escape_ews} (c)).
 
 Notice that the modified escape EWS \eqref{eq:escape_ews} increases monotonically with $\mu$, with its minimum ($\exp(-\Delta V)\approx0$) being at $\mu=\mu_1$ and its maximum ($\exp(-\Delta V)=1$) being at $\mu=\mu_2$.
 Therefore, by identifing the subset of the parameter space $\mathbb{R}$ such that $\Delta V = V(b) - V(a)$ has range $[0,+\infty)$, we associate to the modified escape EWS the intepretation of a probability measure, quantifying the likelihood of a B-tipping event to occur.
@@ -463,7 +483,7 @@ That is, we solve the minimization problem
         \label{alg:modified_ews}
 \end{algorithm}
 %
-\revision{where $||\cdot||_2$ denotes the $L_2-$norm.}
+where $||\cdot||_2$ denotes the $L_2-$norm.
 Notice that by fitting the minimal working model of B-tipping (i.e. we assume $V(x;\theta)$ is a cubic polynomial of coefficients $\theta = (\theta_{1},\, \theta_{2},\, \theta_{3})$), the residual \eqref{eq:residual} is linear in $\theta$.
 This allows us to rewrite \eqref{eq:lls_problem} as a quadratic minimization problem
 %
@@ -571,7 +591,7 @@ Furthermore, alongside interpretability, the modified escape EWS is also \textit
 
 Compared to the increase in variance however, the modified escape EWS estimated from the sample paths does have, on average, a larger standard deviation.
 This becomes more evident when we allow the bifurcation parameter to vary slowly and apply the same methodology described above to detrended residuals of the solutions using the Empirical Mode Decomposition \cite{Huang1998}, as depicted in \fref{fig:ramped_SN_EWS}.
-The source of this is embedded in the large dimensionality of the search space $\mathbb{R}^{3}$, correlations in the estimated coefficients and other well-known issues regarding the stability of the method (e.g. ill-conditioning of the Vandermonde matrix).
+The source of this is embedded in the large dimensionality of the search space $\mathbb{R}^{3}\ni\theta$, correlations in the estimated coefficients and other well-known issues regarding the stability of the method (e.g. ill-conditioning of the Vandermonde matrix).
 Regularization of the solutions using penalizers (e.g. Tikhonov regularizations) can alleviate numerical instabilities in the LLS method and while it reduces the spread of the solutions it also introduces biases that effectively bring the mean solution further away from the ground truth.
 See Appendix \ref{appendix_b} for a detailed discussion on the effects of regularization on LLS solutions.
 %
@@ -588,7 +608,7 @@ where the (scalar) state variable $x$ represents the vegetation cover in an ecos
 \begin{figure}[t]
     \centering 
     \includegraphics[keepaspectratio, width=\textwidth]{./figures/ramped_may_ews.pdf}
-    \caption{Comparison between the increase in variance and modified escape EWS applied to a slowly ramped model of ecosystem collapse \revision{\eqref{eq:may_model}, introduced in \cite{May1977}}.
+    \caption{Comparison between the increase in variance and modified escape EWS applied to a slowly ramped model of ecosystem collapse \eqref{eq:may_model}, introduced in \cite{May1977}.
             We fix parameters $r=1$, $k=10$ and $h=1$ while we let $\mu$ to vary between $1.8$ and $2.6$ with rate $\varepsilon=5\cdot10^{-5}$; the bifurcation diagram of the stationary system is reported in \fref{fig:escape_ews}(a).
             A simulation of $100$ sample paths allows us to compute ensemble averaged variance and modified escape EWS (both in red) on a sliding window of $10\%$ the length of the solutions.
             In each panel the accuracy of empirical signals is compared to the approximations of the stationary system (both in black). 
@@ -700,8 +720,8 @@ In this manuscript we have introduced a new EWS for critical transitions in comp
 This EWS is a modified version of Kramer's formula, used in statistical mechanics to quantify the rate of escapes of particles across potential barriers.
 
 The proposed measure has the advantageous property of increasing monotonically in the bounded range $(0,1]$: values close to $0$ indicate strong potential confinement (small likelihood of B-tipping in the near future); values close to $1$ indicate weak potential confinement (large likelihood of B-tipping in the near future).
-\revision{Furthermore, the modified escape EWS introduced in this manuscript is system-independent, meaning that the monotonic increase from $0$ to $1$ is registered for any low-dimensional complex system provided that it has a gradient structure and that its stochastic fluctuations are state-independent (i.e. additive noise).
-We remark that the modified escape EWS shows an earlier upward trend and consistent range of values for different systems (\fref{fig:ews_comparison} (b1-b3)), contrary to the canonical increase in timeseries variance which has different ranges for different systems (\fref{fig:ews_comparison} (a1-a3)).}
+Furthermore, the modified escape EWS introduced in this manuscript is system-independent, meaning that the monotonic increase from $0$ to $1$ is registered for any low-dimensional complex system provided that it has a gradient structure and that its stochastic fluctuations are state-independent (i.e. additive noise).
+We remark that the modified escape EWS shows an earlier upward trend and consistent range of values for different systems (\fref{fig:ews_comparison} (b1-b3)), contrary to the canonical increase in timeseries variance which has different ranges for different systems (\fref{fig:ews_comparison} (a1-a3)).
 Due to these properties we argue that the proposed modified escape EWS is a more reliable precursor of B-tipping than the traditional diagnostics of increasing sample variance.
 \begin{figure}[t]
     \centering 
@@ -718,10 +738,10 @@ We showcased how a simple LLS regression from the given sample can yield accurat
 We observed that the approximation becomes more accurate as the system is driven closer to B-tipping, thereby providing a consistent prevention against false negatives.
 
 Extensions to multivariate signals is also a subject of high interest among the various communities trying to unlock EWS of high-dimensional systems using spatio-temporal information.
-\revision{The emphasis of these efforts is to generalize precursors of B-tipping events (e.g. CSD) to spatially-extended models.
+The emphasis of these efforts is to generalize precursors of B-tipping events (e.g. CSD) to spatially-extended models.
         Aggregations of the spatial information into mean-field approximations is likely to inhibit important mechanisms that drive the tipping.
         One proposed methodology has been the choice of optimal, one-dimensioal observables of these spatially-extended systems that still retains sufficient information to capture the precursors \cite{Lohmann2025b}.
-        It is not clear at this stage how reliable traditional temporal, spatial and spatio-temporal indicators should perform in generic high-dimensional systems \cite{Robinson2025}.}
+        It is not clear at this stage how reliable traditional temporal, spatial and spatio-temporal indicators should perform in generic high-dimensional systems \cite{Robinson2025}.
 In this paper we obtain evidence that applications of the proposed methodology to one-dimensional reductions of higher-dimensional systems can yield confident results, provided an adequate choice of the monitored observable.
 
 Further investigation in improving the accuracy of the technique is required however, as the reconstructed signal from empirical samples seem to be subject to higher uncertanties than the statistical moments counterparts.

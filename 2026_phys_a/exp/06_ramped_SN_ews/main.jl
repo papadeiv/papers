@@ -19,8 +19,6 @@ function main()
         ensemble = evolve(f, η, Λ, x0, endparameter=μf, stepsize=dt, particles=Ne)
         t = ensemble.time
         μ = ensemble.parameter
-        #display(length(t))
-        #display(window_size*length(t))
 
         # Loop over the ensemble's sample paths
         μ_min, μ_max = -1.0, 0.0
@@ -29,10 +27,6 @@ function main()
                 N_end = length(solution)
                 μ_end = μ[1:N_end]
 
-                # Plot the sample path
-                downsample_index = 40::Integer
-                lines!(ax1, μ_end[1:downsample_index:end], solution[1:downsample_index:end], color = (:black,0.05), linewidth = 1.0)
-
                 # Identify the tipping and truncate the solution up to the that point
                 tipping_index = find_tipping(solution; width = 300, threshold = 2.75, verbose=false) - 100::Integer
                 μt = μ[1:tipping_index]
@@ -40,7 +34,6 @@ function main()
 
                 # Compute and plot the quasi-stationary residuals of the truncated timeseries
                 residuals = detrend(xt; alg = "emd", n_modes = 1).residuals
-                lines!(ax2, μt[1:2*downsample_index:end], residuals[1:2*downsample_index:end], color = (:black, 0.05), linewidth = 1.0)
 
                 # Convert the sliding window across the residuals timeseries into an ensemble of suberies
                 subseries = preprocess_solution(μt, residuals, window_size, verbose = false)
@@ -52,6 +45,13 @@ function main()
                 # Update the minimum value of the parameter in the sliding window
                 if (subseries.timesteps[end])[end] < μ_max
                         μ_max = (subseries.timesteps[end])[end]
+                end
+
+                # Plot the sample path and quasi-stationary residuals
+                if solution_index ≤ 20
+                        downsample_index = 50::Integer
+                        lines!(ax1, μ_end[1:downsample_index:end], solution[1:downsample_index:end], color = (:black,0.2), linewidth = 1.0)
+                        lines!(ax2, μt[1:2*downsample_index:end], residuals[1:2*downsample_index:end], color = (:black, 0.2), linewidth = 1.0)
                 end
 
                 # Loop over the window strides 
