@@ -1,0 +1,125 @@
+\usepackage{graphicx}
+\usepackage[ruled]{algorithm2e}
+\RequirePackage{float}
+\RequirePackage{amsmath, amssymb, amsthm}
+\RequirePackage[colorlinks = true,
+                linkcolor = blue,
+                urlcolor  = blue,
+                citecolor = blue,
+                anchorcolor = blue]{hyperref}
+
+% Display the labels of the environments (to turn off uncomment 'final' to the optional arguments)
+\RequirePackage[final,inline]{showlabels}
+\renewcommand{\showlabelsetlabel}[1]{\raise0.5ex\hbox{\efbox{\showlabelfont{\ttfamily\tiny\color{red} #1}}}}
+\def\showlabelrefline{\hrule width 0pt height 0pt depth 0pt}
+
+% Custom authors block
+\RequirePackage{authblk}
+\renewcommand{\Authands}{ and }
+
+% Custom referencing style: truncates authours' first names to their initals, print all authours up to a maximum of 10, ignore the url and isbn/issn fields of an item
+\usepackage[firstinits=true,sorting=yant,maxbibnames=10,url=false,isbn=false]{biblatex}
+% Render all-capitalised titles in sentence case (only the first letter is capitalised)
+\DeclareFieldFormat*{titlecase}{\MakeSentenceCase{#1}}
+\DeclareFieldFormat{title}{``#1''}
+% Print the author's family name first and given name's initals after
+\DeclareNameAlias{author}{family-given}
+% Remove the "In" preceeding the journal's title 
+\renewbibmacro{in:}{}
+% Change the format of the doi filed by hyperlinking it instead of printing the full string
+\DeclareFieldFormat{doi}{%
+  \ifhyperref
+          {\href{https://doi.org/#1}{\texttt{DOI}}}
+    {\nolinkurl{#1}}
+}
+% Render journal title as it appears in the .bib entry
+\DeclareFieldFormat{journaltitle}{#1}
+\DeclareSourcemap{
+  \maps[datatype=bibtex]{
+    \map{
+      \step[fieldsource=journal,
+            match=\regexp{(.+)},
+            replace=\regexp{\{$1\}}]
+    }
+  }
+}
+
+% Sort items by ascending order (by year)
+\DeclareSortingScheme{yant}{
+  \sort{
+    \field{presort}
+  }
+  \sort[final]{
+    \field{sortkey}
+  }
+  \sort[direction=ascending]{
+    \field[strside=left,strwidth=4]{sortyear}
+    \field[strside=left,strwidth=4]{year}
+    \literal{9999}
+  }
+  \sort[direction=ascending]{
+    \field{month}
+    \literal{9999}
+  }
+  \sort{
+    \field{sortname}
+    \field{author}
+    \field{editor}
+    \field{translator}
+    \field{sorttitle}
+    \field{title}
+  }
+  \sort{
+    \field{sorttitle}
+    \field{title}
+  }
+}
+% Put a comma after the journal's title and the volume/issue
+\renewbibmacro*{journal+issuetitle}{%
+  \usebibmacro{journal}%
+  \setunit*{\addcomma\space}%
+  \iffieldundef{series}
+    {}
+    {\newunit
+     \printfield{series}%
+     \setunit{\addspace}}%
+  \usebibmacro{volume+number+eid}%
+  \setunit{\addspace}%
+  \usebibmacro{issue+date}%
+  \setunit{\addcolon\space}%
+  \usebibmacro{issue}%
+  \newunit}
+% Print the volume/issue without the number
+\renewbibmacro*{volume+number+eid}{%
+  \printfield{volume}
+  \setunit{\addcomma\space}%
+  \printfield{eid}}
+% Include the bib source file 
+\addbibresource{references.bib}
+
+% Stick footnotes at the bottom of the page
+\usepackage[bottom]{footmisc}
+
+% Custom typesetting operators
+\DeclareMathOperator*{\argmin}{\arg\,min}
+\DeclareMathOperator*{\argmax}{\arg\,max} 
+
+% Custom fonts
+% https://tug.org/FontCatalogue/
+% https://tug.org/fonts/fontinstall.html
+
+\DeclareFixedFont{\RM}{T1}{ptm}{b}{n}{2cm}
+
+% Custom environments
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\theoremstyle{definition}
+\newtheorem{observation}{Observation}[section]
+\theoremstyle{plain}
+\newtheorem{corollary}{Corollary}[section]
+\theoremstyle{plain}
+\newtheorem{lemma}{Lemma}[section]
+\theoremstyle{plain}
+\newtheorem*{proposition*}{Proposition}
+\theoremstyle{plain}
+\newtheorem*{remark*}{Remark}
