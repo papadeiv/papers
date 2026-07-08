@@ -2,15 +2,35 @@
 
 ## 🚀 Description 
 
-_Work in progress_
+Critical transitions are generic abrupt phenomena, occuring in many different natural and human complex systems.
+They are characterized by sudden and sometimes and often changes in the state of the system.
+Examples of these can be found in ecosystems [[May 1977]](https://www.nature.com/articles/269471a0), oceans [[Stommel 1961]](https://onlinelibrary.wiley.com/doi/abs/10.1111/j.2153-3490.1961.tb00079.x) and even social dynamics [[Scheffer 2021]](https://www.pnas.org/doi/full/10.1073/pnas.2024397118).
+The prediction of these events is, understandly, of great importance for all the different applications in the aforementioned disciplines. 
+As a result, the scientific community has been active in the formulation of generic signs of early-warning (EWS) (e.g. [[Dakos 2008]](https://www.pnas.org/doi/10.1073/pnas.0802430105), [[Scheffer 2009]](https://www.nature.com/articles/nature08227) and [[Dakos 2012]](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0041010)) that can help policymakers to estimate the proximity of the monitored system to a dangerous critical transition [[Diekert 2025]](https://royalsocietypublishing.org/rsif/article/22/225/20240864/235940/Do-early-warning-signals-of-tipping-points-lead-to).
 
 ### ✏️📋 Outline
 
-_Work in progress_
+__Collaborators__: [[Lauren Smith]](https://profiles.auckland.ac.nz/lauren-smith) (U. of Auckland, New Zealand) and [[Graham Donovan]](https://profiles.auckland.ac.nz/g-donovan) (U. of Auckland, New Zealand).
+
+We introduce an EWS from a well-known framework in statistical mechanics that estimates the rate of escape of overdampled particles from potential wells.
+We show how this novel has a direct interpretation in terms of the likelihood of a critical transition to occur in the near future thereby providing helpful insights to policymakers.
+The EWS is computable from timeseries data alone using a simple linear least-squares regression which we setup in the manuscript.
+Results show promising scalability of the EWS and its approximation methodology to large and complex systems provided that:
+- their dynamics is sufficiently low dimensional;
+- an optimal observable capturing the signature of critical transitions exists and is available.
 
 ### 🔍📜 How to cite
+Here's the bibtex entry for the manuscript based on the work in this repository.
 
-_Work in progress_
+```bash
+@misc{Papapicco2026,
+      title={Likelihood estimation of an interpretable early-warning sign of critical transitions}, 
+      author={Davide Papapicco and Lauren Smith and Graham Donovan},
+      year={2026},
+      eprint={2607.05976},
+      url={https://arxiv.org/abs/2607.05976}, 
+}
+```
 
 ## 📦 Structure of the repo
 
@@ -42,6 +62,17 @@ experiment/
 
 ### 💡🔬 What does each experiment do?
 
-What follows is a brief description of those experiments so that you can gather their functionalities without interpreting the code in it:
+What follows is a brief description of those experiments so that you can gather their functionalities without necessarly interpreting the code in it:
 
-- [model_may_ramped_windowed](./exp/model_may_ramped_windowed/): comparison of the MLE of the escape rate early-warning signal (EWS) with the traditional EWS applied to an ensemble of slowly ramped solutions of [May's biomass collapse model](https://www.nature.com/articles/269471a0) on a rolling window. 
+- [01_double_well_potential](./exp/01_double_well_potential/): simulations of an overdamped particle in a potential well for different configurations;
+- [02_escape_ews](./exp/02_escape_ews/): computation of the analytical escape rate EWS we proposed in the bistability region of the [bifurcation diagram](https://en.wikipedia.org/wiki/Bifurcation_diagram) of a model of ecosystem collape [[May 1977]](https://www.nature.com/articles/269471a0);
+- [03_mle_oup_ensemble](./exp/03_mle_oup_ensemble/): empirical distribution of the MLE of the parameters of an [Ornstein-Uhlenbeck profess](https://en.wikipedia.org/wiki/Ornstein%E2%80%93Uhlenbeck_process) (OUP);
+- [04_normal_form_ensemble](./exp/04_normal_form_ensemble/): empirical distribution of the MLE of the polynomial coefficients of a cubic potential via [Euler-Maruyama approximation](https://en.wikipedia.org/wiki/Euler%E2%80%93Maruyama_method);
+- [05_stationary_SN_ews](./exp/05_stationary_SN_ews/): empirical escape rate EWS for stationary samples of a stationary SN normal form at different parameter values of the bifurcation diagram;
+- [06_ramped_SN_ews](./exp/06_ramped_SN_ews/): empirical escape rate EWS for the same system in [05](./exp/05_stationary_SN_ews/) but with a slow ramping of the bifurcation parameter;
+- [07_ramped_may_ews](./exp/07_ramped_may_ews/): empirical escape rate EWS for a slowly ramped model of ecosystem collapse in [02](./exp/02_escape_ews/);
+- [08_stommel_bif_diag](./exp/08_stommel_bif_diag/): bifurcation diagrams for a 2-dimensional flow-salinity 2-box model for the circulation in the northern part of the Atlantic Ocean [[Stommel 1961]](https://onlinelibrary.wiley.com/doi/abs/10.1111/j.2153-3490.1961.tb00079.x);
+- [09_ramped_stommel_ews](./exp/09_ramped_stommel_ews/): empirical escape rate EWS for the same system in [08](./exp/08_stommel_bif_diag/) but with a slow ramping of the parameter;
+- [10_comparison_ews](./exp/10_comparison_ews/): [06](./exp/06_ramped_SN_ews/) [07](./exp/07_ramped_may_ews/) and [09](./exp/09_ramped_stommel_ews/) with larger number of particles in the simulation;
+- [11_kramers_formula](./exp/11_kramers_formula/): analytical computation of [Kramer's formula](https://courses.physics.ucsd.edu/2018/Fall/physics210b/REFERENCES/Kramers_problem.pdf) at different values of the diffusion D;
+- [12_tikhonov_regularization](./exp/12_tikhonov_regularization/): MLE of a SN normal form for different values of the penalizers of [Tikhonov regularization](https://en.wikipedia.org/wiki/Ridge_regression) for linear least-squares solutions.

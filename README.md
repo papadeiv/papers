@@ -16,18 +16,20 @@ What follows is a list of repositories associated to peer-reviewed work that has
 - [Quadrature of functions with endpoint singular and generalised polynomial behaviour in computational physics](https://github.com/papadeiv/MTQR) (2024, external repository).
 - [The neural network shifted-proper orthogonal decomposition: a machine learning approach for non-linear reduction of hyperbolic equations](https://github.com/papadeiv/NNsPOD) (2022, external repository).
 
+### Submitted 
 <!-- ### Submitted -->
 
-<!-- _Submitted_ projects are works whose manuscripts have been submitted to a journal and are under peer-review. Once accepted they are promoted" to _Published_ repositories. -->
+_Submitted_ projects are works whose manuscripts have been submitted to a journal and are under peer-review. Once accepted they are promoted" to _Published_ repositories. 
+
+- [Likelihood estimation of an interpretable early-warning sign of critical transitions](./2026_phys_a/).
 
 ### In progress
 
 _In progress_ gives a list of repositories whose work is already been typed in a manuscript and close to submission.
 
-- [Likelihood estimation of an interpretable early-warning sign of critical transitions](./2026_phys_a/) (2026, estimated).
-- [Robust numerical inference and early-warnings of tipping points from timeseries](./2026_proc_r_soc_a/) (2026, estimated).
-- [Statistical and numerical analysis of an early-warning signal approximation method based on large deviaton theory](./2027_commun_nonlinear_sci_numer_simul/) (2027, estimated).
-- [A systematic analysis of the dynamics of a model of unified growth](./2027_j_econ_dyn_control/) (2027, estimated).
+- [Dynamics, bifurcations and extensions of models of unified growth](./2027_j_econ_dyn_control/) (Late 2026, estimated).
+- [Optimal, skilfull and interpretable prediction of high-dimensional tipping events](./2026_proc_r_soc_a/) (Late 2026, estimated).
+- [Statistical and numerical analysis of an early-warning signal approximation method based on large deviaton theory](./2027_commun_nonlinear_sci_numer_simul/) (Early 2027, estimated).
 
 ### Preliminary investigation
 
@@ -38,3 +40,17 @@ In _Preliminary investigation_ we find projects that are at the primordial stage
 - [Characterisation of rate-induced tipping on parameteric families of parameter shifts](./preliminary_projects/r_tipping/).
 - [Nonlinear neural reduced manifold reconstruction of parametrised hyperbolic PDEs](./preliminary_projects/nonlinear_pod/).
 - [Just a bunch of uncategorised tests](./preliminary_projects/tests/).
+
+# 👀 Why this repository?
+
+A fair question to ask.
+
+I strongly believe that scientific progress should be as transparent as possible. 
+This, in my opinion, not only comes in the form of [open access](https://en.wikipedia.org/wiki/Open_access) publications but also in the data we collect, the software that we use.
+
+Now more than ever before, the scientific community relies on computational resources, simulations and high-performance scientific computing, not only to validate their hypothesis, but to formulate their theories in an increasingly stronger fashion.
+It is astonishing, to me, that despite this many (many, many, many, many...) peer-reviewed papers that heavily use these tools do not provide nor share the code they used in the production of the manuscript (e.g. in figures).
+
+Not only this is hugely disripectful to developers (and sometimes fellow academics) who invested a considerable amount of time and effort to build these amazing tools we all use (in one way or another) to carry out our scientific investigations, it is also hindering the process of actual peer-review (the one that happens AFTER the paper gets published) while contributing to the ongoing [reproducibility crisis](https://en.wikipedia.org/wiki/Replication_crisis) in science.
+
+I thus think I should not be alone in making these sort of repositories, especially in an age in which text-based large-language models trivialized a lot of technicalities away in setting systems like this one up.
