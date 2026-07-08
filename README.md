@@ -46,11 +46,13 @@ In _Preliminary investigation_ we find projects that are at the primordial stage
 A fair question to ask.
 
 I strongly believe that scientific progress should be as transparent as possible. 
-This, in my opinion, not only comes in the form of [open access](https://en.wikipedia.org/wiki/Open_access) publications but also in the data we collect, the software that we use.
+This, in my opinion, not only comes in the form of [open access](https://en.wikipedia.org/wiki/Open_access) publications but also in the data that we collect and in the software that we use.
 
 Now more than ever before, the scientific community relies on computational resources, simulations and high-performance scientific computing, not only to validate their hypothesis, but to formulate their theories in an increasingly stronger fashion.
-It is astonishing, to me, that despite this many (many, many, many, many...) peer-reviewed papers that heavily use these tools do not provide nor share the code they used in the production of the manuscript (e.g. in figures).
+It is astonishing to me that, despite this, many (many, many, many, many...) peer-reviewed papers that heavily use these tools do not provide nor share the code they used in the production of the manuscript (e.g. in figures).
 
-Not only this is hugely disripectful to developers (and sometimes fellow academics) who invested a considerable amount of time and effort to build these amazing tools we all use (in one way or another) to carry out our scientific investigations, it is also hindering the process of actual peer-review (the one that happens AFTER the paper gets published) while contributing to the ongoing [reproducibility crisis](https://en.wikipedia.org/wiki/Replication_crisis) in science.
+Not only this is hugely disripectful to developers (and sometimes fellow academics) who invested a considerable amount of time and effort to build these amazing tools we all use (in one way or another) to carry out our scientific investigations, but it is also hindering the process of actual peer-review (the one that happens AFTER the paper gets published) while contributing to the ongoing [reproducibility crisis](https://en.wikipedia.org/wiki/Replication_crisis) in science.
 
-I thus think I should not be alone in making these sort of repositories, especially in an age in which text-based large-language models trivialized a lot of technicalities away in setting systems like this one up.
+I thus think I should not be alone in making these sort of repositories, especially in an age in which text-based large-language models trivialized a lot of technicalities away in setting up systems like this one.
+
+So if you are reading this, you find this repository useful, you are a fellow member of the scientific community AND you haven't yet created your own, please consider doing so. You will be providing a great service to the rest of us.

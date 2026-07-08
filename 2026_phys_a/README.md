@@ -10,7 +10,7 @@ As a result, the scientific community has been active in the formulation of gene
 
 ### ✏️📋 Outline
 
-__Collaborators__: [[Lauren Smith]](https://profiles.auckland.ac.nz/lauren-smith) (U. of Auckland, New Zealand) and [[Graham Donovan]](https://profiles.auckland.ac.nz/g-donovan) (U. of Auckland, New Zealand).
+__Collaborators__: [Lauren Smith](https://profiles.auckland.ac.nz/lauren-smith) (U. of Auckland, New Zealand) and [Graham Donovan](https://profiles.auckland.ac.nz/g-donovan) (U. of Auckland, New Zealand).
 
 We introduce an EWS from a well-known framework in statistical mechanics that estimates the rate of escape of overdampled particles from potential wells.
 We show how this novel has a direct interpretation in terms of the likelihood of a critical transition to occur in the near future thereby providing helpful insights to policymakers.
