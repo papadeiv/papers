@@ -437,13 +437,11 @@ end
 # Driver: renders and saves all three plots directly, no pausing/looping
 # ---------------------------------------------------------------------------
 function main(; G0max=0.5, L0max=20.0, regions_to_run=1:6, slice_G0=0.5)
-        #=
         println("Plotting (G0,L0) partition...")
         plot_omega_partition(G0max=10*G0max, L0max=L0max)
 
         println("Plotting combined M2 surface (all regions)...")
         plot_M2_3d(G0max=G0max, L0max=L0max, regions_to_run=regions_to_run, highlight_G0=slice_G0)
-        =#
 
         println("Plotting M2 slice at G0 = $(slice_G0)...")
         @showprogress for (idx, G0) in enumerate(LinRange(0.00, slice_G0, 100)) 

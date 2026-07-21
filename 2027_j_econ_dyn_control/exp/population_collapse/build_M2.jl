@@ -1,28 +1,13 @@
-#=
-plot_M2.jl
-
-Plots (all CairoMakie, all exported as PDF):
-  1) The partition of the (G0, L0) plane into Omega_1 ... Omega_6
-  2) The pair of surfaces A0_lo(G0,L0) and A0_hi(G0,L0) that envelope M2, i.e.
-     M2 = { (G0,L0,A0) : A0_lo(G0,L0) < A0 < A0_hi(G0,L0) }, all regions
-     plotted together in one call (no region-by-region loop)
-  3) A fixed-G0 slice of M2 in the (L0, A0) plane, shaded between the two
-     bounding curves
-
-IMPORTANT: eq:upper alone gives a simple ceiling on A0, but eq:lower is
-implicit in A0 (A0 appears on both sides via z0) and does NOT reduce to a
-simple ceiling -- solving it yields a bounded band (A0_lo, A0_hi), or empty,
-never a floor-at-zero ceiling. See lower_band() below for the derivation.
-This band is then intersected with eq:upper's ceiling to get the final
-per-region envelope.
-
-Structured so each Omega_j still has its own small set of formula functions
-(region formula + classifier check) that plot_M2_3d loops over internally to
-build the combined surfaces -- but there is no interactive stepping/pausing;
-everything renders and saves directly.
-=#
+# ---------------------------------------------------------------------------
+# IMPORTANT: inequality (30) gives an upper bound A0. However inequality (31) 
+# is implicit in A0; solving it yields either an interval (A0_low, A0_high), 
+# or an empty set. The interval is then intersected with the solution of (30) 
+# to get the final surface.
+# ---------------------------------------------------------------------------
 
 using Roots
+using CairoMakie
+using MAT
 
 # ---------------------------------------------------------------------------
 # Parameters (Lagerlof's calibration)
@@ -37,30 +22,29 @@ const γ  = 0.225
 const c̃  = 1.0
 
 # ---------------------------------------------------------------------------
-# Region thresholds (from eq:partition_omega)
+# Partitions of Ω from equations (42)
 # ---------------------------------------------------------------------------
-const G0_thresh  = ρ^2 * τ / (1 - ρ)          # e0 switch
-const L0_thresh1 = ρ / ((1 - ρ) * θ)          # sub-split inside Omega1/Omega2 vs Omega4/Omega5
-const L0_thresh2 = L̂ / θ                      # partition_L0 switch
-
+const G1 = ρ^2 * τ / (1 - ρ)
+const L1 = ρ / ((1 - ρ) * θ)
+const L2 = L̂ / θ
 curve(L0) = (ρ^4 * τ) / ((1 - ρ)^3 * θ^2) / L0^2   # only meaningful for L0 > 0
 
 # ---------------------------------------------------------------------------
-# Classifier: which Omega_j does (G0, L0) belong to?
+# Classifier for Ωj
 # ---------------------------------------------------------------------------
 function classify(G0::Float64, L0::Float64)::Int
-    if G0 < G0_thresh
-        if L0 < L0_thresh1
+    if G0 < G1
+        if L0 < L1
             return 1
-        elseif L0 < L0_thresh2
+        elseif L0 < L2
             return 2
         else
             return 3
         end
     else
-        if L0 < L0_thresh1
+        if L0 < L1
             return G0 < curve(L0) ? 4 : 5
-        elseif L0 < L0_thresh2
+        elseif L0 < L2
             return 5
         else
             return 6
@@ -69,27 +53,28 @@ function classify(G0::Float64, L0::Float64)::Int
 end
 
 # ---------------------------------------------------------------------------
-# Per-region (e0, e1, G1) triples, exactly as derived in eq:sub_partition_1..4
-# (each takes (G0, L0) but some ignore G0 or L0, matching the derivation)
+# Triple of values (e0, e1, G1) in each Ωj as derived in equations (37)~(41) 
 # ---------------------------------------------------------------------------
-region1_e0e1G1(G0, L0) = (0.0, 0.0, τ * ρ * θ * L0)
+region1(G0, L0) = (0.0, 
+                   0.0, 
+                   τ * ρ * θ * L0)
 
-region2_e0e1G1(G0, L0) = (0.0,
-                          τ * (sqrt((1 - ρ) * ρ * θ * L0) - ρ),
-                          τ * ρ * θ * L0)
+region2(G0, L0) = (0.0,
+                   τ * (sqrt((1 - ρ) * ρ * θ * L0) - ρ),
+                   τ * ρ * θ * L0)
 
-region3_e0e1G1(G0, L0) = (0.0,
-                          τ * (sqrt((1 - ρ) * ρ * L̂) - ρ),
-                          τ * ρ * L̂)
+region3(G0, L0) = (0.0,
+                   τ * (sqrt((1 - ρ) * ρ * L̂) - ρ),
+                   τ * ρ * L̂)
 
-function region4_e0e1G1(G0, L0)
+function region4(G0, L0)
     σ0 = sqrt(τ * (1 - ρ) * G0)
     e0 = σ0 - ρ * τ
     G1 = θ * L0 * σ0
     return (e0, 0.0, G1)
 end
 
-function region5_e0e1G1(G0, L0)
+function region5(G0, L0)
     σ0 = sqrt(τ * (1 - ρ) * G0)
     e0 = σ0 - ρ * τ
     G1 = θ * L0 * σ0
@@ -97,7 +82,7 @@ function region5_e0e1G1(G0, L0)
     return (e0, e1, G1)
 end
 
-function region6_e0e1G1(G0, L0)
+function region6(G0, L0)
     σ0 = sqrt(τ * (1 - ρ) * G0)
     e0 = σ0 - ρ * τ
     G1 = L̂ * σ0
@@ -106,102 +91,83 @@ function region6_e0e1G1(G0, L0)
 end
 
 const REGION_FORMULA = Dict(
-    1 => region1_e0e1G1,
-    2 => region2_e0e1G1,
-    3 => region3_e0e1G1,
-    4 => region4_e0e1G1,
-    5 => region5_e0e1G1,
-    6 => region6_e0e1G1,
+    1 => region1,
+    2 => region2,
+    3 => region3,
+    4 => region4,
+    5 => region5,
+    6 => region6,
 )
 
 # ---------------------------------------------------------------------------
-# Shared machinery: eq:upper (closed form) and eq:lower (implicit BAND)
-#
-# IMPORTANT: eq:lower is *not* a simple ceiling on A0. Writing
-#   A0 < U0 * (1 - c_tilde * zeta0inv * (L0/A0)^(1-alpha))
-# and rearranging gives  phi(A0) := A0 + B*A0^-(1-alpha) < U0 , where
-#   B := U0 * c_tilde * zeta0inv * L0^(1-alpha).
-# Since 1-alpha > 0, phi(A0) -> +Inf as A0 -> 0+ AND as A0 -> Inf, with a
-# single interior minimum at A0star = [(1-alpha)*B]^(1/(2-alpha)). So the
-# solution set of eq:lower alone is either EMPTY (if phi(A0star) >= U0) or a
-# genuine bounded interval (A0_lo, A0_hi) straddling A0star. This band must
-# then be intersected with eq:upper's ceiling U1 = gamma*U0.
+# Construction of the surfaces (30) and (31) given triples (e0, e1, G1)
 # ---------------------------------------------------------------------------
 
-# U_j(G0,L0): closed-form eq:upper bound on A0 (U1 = gamma*U0, U0 = bare coefficient)
 function upper_bound(e0, e1, G1, G0, L0)
-    Φ  = c̃ * ((e1 + ρ*τ + G1) / (e1 + ρ*τ))^α          # = c̃ * h1^{-α}
-    U0 = L0 * Φ^(1/(1-α)) / ((τ + e1) * (1 + G1))       # coefficient without gamma
-    return γ * U0, U0
+    h1_inv = ((e1 + ρ*τ + G1) / (e1 + ρ*τ))^α
+    A = L0 * (c̃*h1_inv)^(1/(1-α)) / ((τ + e1) * (1 + G1))
+    return γ * A, A
 end
 
-# Solve eq:lower alone for the (A0_lo, A0_hi) band. Returns (NaN, NaN) if empty.
-function lower_band(e0, e1, G1, G0, L0, U0)
-    ζ0inv = ((e0 + ρ*τ + G0) / (e0 + ρ*τ))^α            # = c̃ / z0 * (A0/L0)^{1-α} coefficient
-    B = U0 * c̃ * ζ0inv * L0^(1-α)
+function lower_band(e0, e1, G1, G0, L0, A)
+    h0_inv = ((e0 + ρ*τ + G0) / (e0 + ρ*τ))^α
+    B = A * c̃ * h0_inv * L0^(1-α)
 
+    # Handle the degenerate case in which the c̃, h0_inv or L0 are negative
     if B <= 0
-        return (0.0, Inf)   # degenerate: condition never binds
+        return (0.0, Inf)
     end
 
+    # Handle the degenerate case in which (31) is not satisfied (empty region)
     A0star = (B * (1-α))^(1/(2-α))
     φ(A0)  = A0 + B * A0^(-(1-α))
     φmin   = φ(A0star)
-
-    if φmin >= U0
-        return (NaN, NaN)   # eq:lower is never satisfiable here -> region empty
+    if φmin >= A 
+        return (NaN, NaN)
     end
 
-    g(A0) = φ(A0) - U0
+    # Find the root for the lower branch
+    g(A0) = φ(A0) - A 
+    A0_low = find_zero(g, (1e-10, A0star), Bisection())
 
-    # Lower root: bracket (eps, A0star). g(eps) > 0 (phi -> +Inf), g(A0star) < 0.
-    A0_lo = find_zero(g, (1e-10, A0star), Bisection())
-
-    # Upper root: bracket (A0star, hi), expanding hi until g flips positive.
-    hi = max(10*A0star, 10*U0, 1.0)
-    while g(hi) < 0
-        hi *= 10
+    # Find the root for the upper branch
+    high = max(10*A0star, 10*A, 1.0)
+    while g(high) < 0
+        high *= 10
     end
-    A0_hi = find_zero(g, (A0star, hi), Bisection())
+    A0_high = find_zero(g, (A0star, high), Bisection())
 
-    return (A0_lo, A0_hi)
+    return (A0_low, A0_high)
 end
 
-# z0-validity window: eq:restricted_optimum's second branch only applies for
-#   c_tilde <= z0 < c_tilde/(1-gamma).
-# Since z0(A0) = zeta0(e0,G0) * (A0/L0)^(1-alpha) = (A0/L0)^(1-alpha) / zeta0inv,
-# solving both endpoints for A0 gives:
-#   A0_zmin = L0 * (c_tilde * zeta0inv)^(1/(1-alpha))
-#   A0_zmax = L0 * (c_tilde * zeta0inv / (1-gamma))^(1/(1-alpha))
+# Impose subsistence condition to derive A0 
 function z0_window(e0, G0, L0)
-    ζ0inv = ((e0 + ρ*τ + G0) / (e0 + ρ*τ))^α
-    A0_zmin = L0 * (c̃ * ζ0inv)^(1/(1-α))
-    A0_zmax = L0 * (c̃ * ζ0inv / (1-γ))^(1/(1-α))
+    h0_inv = ((e0 + ρ*τ + G0) / (e0 + ρ*τ))^α
+    A0_zmin = L0 * (c̃ * h0_inv)^(1/(1-α))
+    A0_zmax = L0 * (c̃ * h0_inv / (1-γ))^(1/(1-α))
     return A0_zmin, A0_zmax
 end
 
-# Combine eq:upper and eq:lower into the final (A0_lo, A0_hi) band for region j.
-# Returns (NaN, NaN) if outside region j's domain, or if the combined band is empty.
+# Interset the result from (30) and (31) to compute M_2^{(j)}
 function region_A0_band(j::Int, G0::Float64, L0::Float64)
     if classify(G0, L0) != j
         return (NaN, NaN)
     end
     e0, e1, G1 = REGION_FORMULA[j](G0, L0)
     U1, U0 = upper_bound(e0, e1, G1, G0, L0)
-    A0_lo, A0_hi = lower_band(e0, e1, G1, G0, L0, U0)
-    isnan(A0_lo) && return (NaN, NaN)
+    A0_low, A0_high = lower_band(e0, e1, G1, G0, L0, U0)
+    isnan(A0_low) && return (NaN, NaN)
 
-    A0_hi_final = min(A0_hi, U1)
-    A0_lo >= A0_hi_final && return (NaN, NaN)   # eq:upper cuts the band away entirely
+    A0_high_final = min(A0_high, U1)
+    A0_low >= A0_high_final && return (NaN, NaN)
 
-    # Enforce the z0-validity window (branch 2 of eq:restricted_optimum only
-    # applies while c_tilde <= z0 < c_tilde/(1-gamma)).
+    # Enforce the subsistence condition 
     A0_zmin, A0_zmax = z0_window(e0, G0, L0)
-    A0_lo_final = max(A0_lo, A0_zmin)
-    A0_hi_final = min(A0_hi_final, A0_zmax)
-    A0_lo_final >= A0_hi_final && return (NaN, NaN)
+    A0_low_final = max(A0_low, A0_zmin)
+    A0_high_final = min(A0_high_final, A0_zmax)
+    A0_low_final >= A0_high_final && return (NaN, NaN)
 
-    return (A0_lo_final, A0_hi_final)
+    return (A0_low_final, A0_high_final)
 end
 
 # Band using whichever region actually applies at (G0,L0), plus the region index.
@@ -209,29 +175,28 @@ function A0band_at(G0::Float64, L0::Float64)
     j = classify(G0, L0)
     e0, e1, G1 = REGION_FORMULA[j](G0, L0)
     U1, U0 = upper_bound(e0, e1, G1, G0, L0)
-    A0_lo, A0_hi = lower_band(e0, e1, G1, G0, L0, U0)
-    if isnan(A0_lo)
+    A0_low, A0_high = lower_band(e0, e1, G1, G0, L0, U0)
+    if isnan(A0_low)
         return (NaN, NaN, j)
     end
-    A0_hi_final = min(A0_hi, U1)
-    if A0_lo >= A0_hi_final
+    A0_high_final = min(A0_high, U1)
+    if A0_low >= A0_high_final
         return (NaN, NaN, j)
     end
 
     A0_zmin, A0_zmax = z0_window(e0, G0, L0)
-    A0_lo_final = max(A0_lo, A0_zmin)
-    A0_hi_final = min(A0_hi_final, A0_zmax)
-    if A0_lo_final >= A0_hi_final
+    A0_low_final = max(A0_low, A0_zmin)
+    A0_high_final = min(A0_high_final, A0_zmax)
+    if A0_low_final >= A0_high_final
         return (NaN, NaN, j)
     end
 
-    return (A0_lo_final, A0_hi_final, j)
+    return (A0_low_final, A0_high_final, j)
 end
 
 # ---------------------------------------------------------------------------
-# PLOT 1: (G0, L0) partition into Omega_1 ... Omega_6  (CairoMakie)
+# Plot the partition of ℝ2≥0 into the covering of Ωj
 # ---------------------------------------------------------------------------
-using CairoMakie
 function plot_omega_partition(; G0max=5.0, L0max=20.0, n=600, savepath="./results/omega_partition.pdf")
     G0s = range(0, G0max, length=n)
     L0s = range(1e-6, L0max, length=n)   # avoid L0=0 in curve()
@@ -243,12 +208,12 @@ function plot_omega_partition(; G0max=5.0, L0max=20.0, n=600, savepath="./result
     hm = heatmap!(ax, L0s, G0s, transpose(Z), colormap=:tab10, colorrange=(1,6))
 
     # Boundary lines (solid black)
-    vlines!(ax, [L0_thresh1], color=:black, linewidth=2)
-    vlines!(ax, [L0_thresh2], color=:black, linewidth=2)
-    hlines!(ax, [G0_thresh], color=:black, linewidth=2)
+    vlines!(ax, [L1], color=:black, linewidth=2)
+    vlines!(ax, [L2], color=:black, linewidth=2)
+    hlines!(ax, [G1], color=:black, linewidth=2)
 
     # Curved boundary G0 = curve(L0), only where it lies in view and L0 < L0_thresh1
-    Lc = range(1e-6, L0_thresh1, length=300)
+    Lc = range(1e-6, L1, length=300)
     Gc = [curve(l) for l in Lc]
     lines!(ax, Lc, Gc, color=:black, linewidth=2)
 
@@ -259,11 +224,8 @@ function plot_omega_partition(; G0max=5.0, L0max=20.0, n=600, savepath="./result
 end
 
 # ---------------------------------------------------------------------------
-# PLOT 2: 3D surfaces of A0_lo(G0,L0) and A0_hi(G0,L0), the pair that envelopes
-# M2. Both surfaces drawn per region (semi-transparent upper, solid lower),
-# all regions combined in one call, saved as PDF.
+# Plot the boundary of M2
 # ---------------------------------------------------------------------------
-using CairoMakie
 function plot_M2_3d(; G0max=5.0, L0max=20.0, n=600, regions_to_run=1:6,
                      savepath="./results/M2_surface.png", surface_alpha=0.05,
                      wire_stride=10, wire_alpha=0.00,
@@ -277,8 +239,6 @@ function plot_M2_3d(; G0max=5.0, L0max=20.0, n=600, regions_to_run=1:6,
 
     colors = Dict(1=>:red, 2=>:orange, 3=>:gold, 4=>:green, 5=>:blue, 6=>:purple)
 
-    # Coarser index subset for the wireframe overlay, so it reads as a grid
-    # rather than a dense mesh of lines on top of the (already fine) surface.
     wire_idx_G0 = 1:wire_stride:length(G0s)
     wire_idx_L0 = 1:wire_stride:length(L0s)
 
@@ -296,27 +256,18 @@ function plot_M2_3d(; G0max=5.0, L0max=20.0, n=600, regions_to_run=1:6,
             continue
         end
 
-        # Transparent fills for both the lower and upper surfaces.
         surface!(ax, G0s, L0s, A0_lo, color=fill((colors[j], surface_alpha), size(A0_lo)),
                  nan_color=:transparent)
         surface!(ax, G0s, L0s, A0_hi, color=fill((colors[j], surface_alpha), size(A0_hi)),
                  nan_color=:transparent)
 
-        # Wireframe overlay on top of each, on a coarser grid, for shape legibility.
         wireframe!(ax, G0s[wire_idx_G0], L0s[wire_idx_L0], A0_lo[wire_idx_G0, wire_idx_L0],
-                   color=(#=colors[j]=#:black, wire_alpha), linewidth=1)
+                   color=(:black, wire_alpha), linewidth=1)
         wireframe!(ax, G0s[wire_idx_G0], L0s[wire_idx_L0], A0_hi[wire_idx_G0, wire_idx_L0],
-                   color=(#=colors[j]=#:black, wire_alpha), linewidth=1)
+                   color=(:black, wire_alpha), linewidth=1)
     end
 
-    # ---------------------------------------------------------------------
-    # Highlight: the slice of M2 at G0 = highlight_G0, drawn fully opaque.
-    # Built as a thin vertical "ribbon" surface -- two rows at (essentially)
-    # the same G0 value, with z = A0_lo(L0) on the first row and z = A0_hi(L0)
-    # on the second, so the strip in between traces exactly the plane's
-    # intersection with M2. Segmented by region (color + gaps at empty spots),
-    # same logic as plot_M2_slice.
-    # ---------------------------------------------------------------------
+    # SLice at Lagerlof's G0=0.048
     if highlight_G0 !== nothing
         highlight_eps === nothing && (highlight_eps = 1e-4 * max(G0max, 1.0))
 
@@ -356,15 +307,8 @@ function plot_M2_3d(; G0max=5.0, L0max=20.0, n=600, regions_to_run=1:6,
 end
 
 # ---------------------------------------------------------------------------
-# PLOT 3: fixed-G0 slice of M2 in the (L0, A0) plane (CairoMakie)
-#
-# For a given G0, sweeps L0 and computes (A0_lo(L0), A0_hi(L0)), the band that
-# envelopes M2 at that (G0,L0). Colored by which Omega_j applies at each L0,
-# so region transitions along the slice are visible; vertical dashed lines
-# mark where classify() switches. Points where the band is empty (NaN) are
-# simply not shaded.
+# Plot the the projection onto (A0,L0)-plane for fixed G0
 # ---------------------------------------------------------------------------
-using CairoMakie
 function plot_M2_slice(G0::Float64; L0max=20.0, n=2000, savepath="./results/M2_slice_G0_$(G0).pdf")
     L0s   = collect(range(1e-6, L0max, length=n))
     A0lo  = Vector{Float64}(undef, n)
@@ -384,9 +328,6 @@ function plot_M2_slice(G0::Float64; L0max=20.0, n=2000, savepath="./results/M2_s
     ax = Axis(fig[1,1], xlabel="L0", ylabel="A0",
               title="Slice of M2 at G0 = $(G0)")
 
-    # Shade the band between A0_lo and A0_hi, segment by segment so each
-    # segment can carry its own region color; skip segments where the band
-    # is empty (NaN).
     switch_idx = findall(i -> i > 1 && js[i] != js[i-1], eachindex(js))
     seg_starts = vcat(1, switch_idx)
     seg_ends   = vcat(switch_idx .- 1, n)
@@ -401,7 +342,6 @@ function plot_M2_slice(G0::Float64; L0max=20.0, n=2000, savepath="./results/M2_s
         lines!(ax, L0s[idx], A0hi[idx], color=colors[j], linewidth=4)
     end
 
-    # Mark region-transition boundaries with dashed vertical lines
     for i in switch_idx
         vlines!(ax, [L0s[i]], color=:black, linestyle=:dash, linewidth=2)
     end
@@ -413,18 +353,51 @@ function plot_M2_slice(G0::Float64; L0max=20.0, n=2000, savepath="./results/M2_s
 end
 
 # ---------------------------------------------------------------------------
-# Driver: renders and saves all three plots directly, no pausing/looping
+# Export the M2 boundaries (A0_lo and A0_hi) at a fixed G0 to .mat, for import
+# in MATLAB. Sweeps L0 exactly as plot_M2_slice does, and writes:
+#   G0      -- scalar, the fixed G0 value
+#   L0      -- vector, the L0 grid
+#   A0_lo   -- vector, lower branch of the M2 boundary (NaN where empty)
+#   A0_hi   -- vector, upper branch of the M2 boundary (NaN where empty)
+#   region  -- vector of Int, which Omega_j applies at each L0 (for reference)
+# ---------------------------------------------------------------------------
+function export_M2_slice_mat(G0::Float64; L0max=20.0, n=2000,
+                              savepath="./results/M2_slice_G0_$(G0).mat")
+    L0s  = collect(range(1e-6, L0max, length=n))
+    A0lo = Vector{Float64}(undef, n)
+    A0hi = Vector{Float64}(undef, n)
+    js   = Vector{Int}(undef, n)
+
+    for (i, L0) in enumerate(L0s)
+        lo, hi, j = A0band_at(G0, L0)
+        A0lo[i] = lo
+        A0hi[i] = hi
+        js[i]   = j
+    end
+
+    matwrite(savepath, Dict(
+        "G0"      => G0,
+        "L0"      => L0s,
+        "A0_low"  => A0lo,
+        "A0_high" => A0hi,
+        "region"  => js,
+    ))
+end
+
+# ---------------------------------------------------------------------------
+# Driver: main script
 # ---------------------------------------------------------------------------
 function main(; G0max=0.5, L0max=20.0, regions_to_run=1:6, slice_G0=0.048)
-    println("Plotting (G0,L0) partition...")
+    println("Plotting ∪_j Ωj")
     plot_omega_partition(G0max=10*G0max, L0max=L0max)
 
-    println("Plotting combined M2 surface (all regions)...")
+    println("Plotting ∂M2")
     plot_M2_3d(G0max=G0max, L0max=L0max, regions_to_run=regions_to_run,
                highlight_G0=slice_G0)
 
-    println("Plotting M2 slice at G0 = $(slice_G0)...")
+    println("Plotting and exporting Π_G0(M2) (G0 = $(slice_G0))")
     plot_M2_slice(slice_G0; L0max=L0max)
+    export_M2_slice_mat(slice_G0; L0max=L0max)
 end
 
 # Execute the script
